@@ -4213,3 +4213,682 @@
 [13-Nov-2025 17:29:12 UTC] [2025-11-13T17:29:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (284.89ms)
 [13-Nov-2025 17:29:12 UTC] [2025-11-13T17:29:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (239.63ms)
 [13-Nov-2025 17:29:13 UTC] [2025-11-13T17:29:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (679.82ms)
+[13-Nov-2025 17:30:12 UTC] [2025-11-13T17:30:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (255.27ms)
+[13-Nov-2025 17:30:13 UTC] [2025-11-13T17:30:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (577.53ms)
+[13-Nov-2025 17:30:13 UTC] [2025-11-13T17:30:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (218.61ms)
+[13-Nov-2025 17:31:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 17:31:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 17:31:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 17:31:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 17:31:12 UTC] [2025-11-13T17:31:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (2.17ms)
+[13-Nov-2025 17:31:12 UTC] [2025-11-13T17:31:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (295.63ms)
+[13-Nov-2025 17:31:13 UTC] [2025-11-13T17:31:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (573.36ms)
+[13-Nov-2025 17:31:13 UTC] [2025-11-13T17:31:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (212.17ms)
+[13-Nov-2025 17:32:12 UTC] [2025-11-13T17:32:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (652.87ms)
+[13-Nov-2025 17:32:13 UTC] [2025-11-13T17:32:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.24ms)
+[13-Nov-2025 17:32:13 UTC] [2025-11-13T17:32:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (211.09ms)
+[13-Nov-2025 17:33:12 UTC] [2025-11-13T17:33:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (252.26ms)
+[13-Nov-2025 17:33:13 UTC] [2025-11-13T17:33:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (568.26ms)
+[13-Nov-2025 17:33:13 UTC] [2025-11-13T17:33:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (213.54ms)
+[13-Nov-2025 17:34:12 UTC] [2025-11-13T17:34:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (248.20ms)
+[13-Nov-2025 17:34:12 UTC] [2025-11-13T17:34:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.98ms)
+[13-Nov-2025 17:34:13 UTC] [2025-11-13T17:34:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.53ms)
+[13-Nov-2025 17:35:12 UTC] [2025-11-13T17:35:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (275.01ms)
+[13-Nov-2025 17:35:12 UTC] [2025-11-13T17:35:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.07ms)
+[13-Nov-2025 17:35:13 UTC] [2025-11-13T17:35:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.26ms)
+[13-Nov-2025 17:36:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 17:36:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 17:36:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 17:36:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 17:36:12 UTC] [2025-11-13T17:36:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.39ms)
+[13-Nov-2025 17:36:12 UTC] [2025-11-13T17:36:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (249.12ms)
+[13-Nov-2025 17:36:12 UTC] [2025-11-13T17:36:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.30ms)
+[13-Nov-2025 17:36:13 UTC] [2025-11-13T17:36:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (577.23ms)
+[13-Nov-2025 17:37:12 UTC] [2025-11-13T17:37:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (285.59ms)
+[13-Nov-2025 17:37:12 UTC] [2025-11-13T17:37:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (223.43ms)
+[13-Nov-2025 17:37:13 UTC] [2025-11-13T17:37:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (649.91ms)
+[13-Nov-2025 17:38:12 UTC] [2025-11-13T17:38:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (606.05ms)
+[13-Nov-2025 17:38:13 UTC] [2025-11-13T17:38:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.27ms)
+[13-Nov-2025 17:38:13 UTC] [2025-11-13T17:38:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.35ms)
+[13-Nov-2025 17:39:12 UTC] [2025-11-13T17:39:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (261.80ms)
+[13-Nov-2025 17:39:13 UTC] [2025-11-13T17:39:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (565.66ms)
+[13-Nov-2025 17:39:13 UTC] [2025-11-13T17:39:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.58ms)
+[13-Nov-2025 17:40:12 UTC] [2025-11-13T17:40:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (258.16ms)
+[13-Nov-2025 17:40:12 UTC] [2025-11-13T17:40:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (214.84ms)
+[13-Nov-2025 17:40:13 UTC] [2025-11-13T17:40:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (569.66ms)
+[13-Nov-2025 17:41:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 17:41:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 17:41:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 17:41:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 17:41:12 UTC] [2025-11-13T17:41:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (2.60ms)
+[13-Nov-2025 17:41:12 UTC] [2025-11-13T17:41:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (331.30ms)
+[13-Nov-2025 17:41:12 UTC] [2025-11-13T17:41:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (215.43ms)
+[13-Nov-2025 17:41:13 UTC] [2025-11-13T17:41:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.32ms)
+[13-Nov-2025 17:42:12 UTC] [2025-11-13T17:42:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (253.86ms)
+[13-Nov-2025 17:42:13 UTC] [2025-11-13T17:42:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (573.23ms)
+[13-Nov-2025 17:42:13 UTC] [2025-11-13T17:42:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.73ms)
+[13-Nov-2025 17:43:12 UTC] [2025-11-13T17:43:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (252.61ms)
+[13-Nov-2025 17:43:13 UTC] [2025-11-13T17:43:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (564.82ms)
+[13-Nov-2025 17:43:13 UTC] [2025-11-13T17:43:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.81ms)
+[13-Nov-2025 17:44:12 UTC] [2025-11-13T17:44:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (649.36ms)
+[13-Nov-2025 17:44:13 UTC] [2025-11-13T17:44:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.73ms)
+[13-Nov-2025 17:44:13 UTC] [2025-11-13T17:44:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.41ms)
+[13-Nov-2025 17:45:12 UTC] [2025-11-13T17:45:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (253.91ms)
+[13-Nov-2025 17:45:13 UTC] [2025-11-13T17:45:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.06ms)
+[13-Nov-2025 17:45:13 UTC] [2025-11-13T17:45:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (211.39ms)
+[13-Nov-2025 17:46:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 17:46:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 17:46:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 17:46:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 17:46:12 UTC] [2025-11-13T17:46:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.63ms)
+[13-Nov-2025 17:46:12 UTC] [2025-11-13T17:46:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (249.30ms)
+[13-Nov-2025 17:46:12 UTC] [2025-11-13T17:46:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.71ms)
+[13-Nov-2025 17:46:13 UTC] [2025-11-13T17:46:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (639.58ms)
+[13-Nov-2025 17:47:12 UTC] [2025-11-13T17:47:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (294.80ms)
+[13-Nov-2025 17:47:12 UTC] [2025-11-13T17:47:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (214.35ms)
+[13-Nov-2025 17:47:13 UTC] [2025-11-13T17:47:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (570.05ms)
+[13-Nov-2025 17:48:12 UTC] [2025-11-13T17:48:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (253.39ms)
+[13-Nov-2025 17:48:13 UTC] [2025-11-13T17:48:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (570.59ms)
+[13-Nov-2025 17:48:13 UTC] [2025-11-13T17:48:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (211.07ms)
+[13-Nov-2025 17:49:12 UTC] [2025-11-13T17:49:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (332.92ms)
+[13-Nov-2025 17:49:13 UTC] [2025-11-13T17:49:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.79ms)
+[13-Nov-2025 17:49:13 UTC] [2025-11-13T17:49:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.71ms)
+[13-Nov-2025 17:50:12 UTC] [2025-11-13T17:50:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (256.75ms)
+[13-Nov-2025 17:50:12 UTC] [2025-11-13T17:50:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.15ms)
+[13-Nov-2025 17:50:13 UTC] [2025-11-13T17:50:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.05ms)
+[13-Nov-2025 17:51:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 17:51:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 17:51:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 17:51:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 17:51:12 UTC] [2025-11-13T17:51:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.89ms)
+[13-Nov-2025 17:51:12 UTC] [2025-11-13T17:51:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (621.35ms)
+[13-Nov-2025 17:51:13 UTC] [2025-11-13T17:51:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.31ms)
+[13-Nov-2025 17:51:13 UTC] [2025-11-13T17:51:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.19ms)
+[13-Nov-2025 17:52:12 UTC] [2025-11-13T17:52:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (295.92ms)
+[13-Nov-2025 17:52:12 UTC] [2025-11-13T17:52:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.38ms)
+[13-Nov-2025 17:52:13 UTC] [2025-11-13T17:52:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.06ms)
+[13-Nov-2025 17:53:12 UTC] [2025-11-13T17:53:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (270.09ms)
+[13-Nov-2025 17:53:12 UTC] [2025-11-13T17:53:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (212.14ms)
+[13-Nov-2025 17:53:13 UTC] [2025-11-13T17:53:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (560.69ms)
+[13-Nov-2025 17:54:12 UTC] [2025-11-13T17:54:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (246.85ms)
+[13-Nov-2025 17:54:13 UTC] [2025-11-13T17:54:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.68ms)
+[13-Nov-2025 17:54:13 UTC] [2025-11-13T17:54:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.78ms)
+[13-Nov-2025 17:55:12 UTC] [2025-11-13T17:55:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (285.14ms)
+[13-Nov-2025 17:55:12 UTC] [2025-11-13T17:55:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.20ms)
+[13-Nov-2025 17:55:13 UTC] [2025-11-13T17:55:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (565.50ms)
+[13-Nov-2025 17:56:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 17:56:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 17:56:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 17:56:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 17:56:12 UTC] [2025-11-13T17:56:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.42ms)
+[13-Nov-2025 17:56:12 UTC] [2025-11-13T17:56:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (638.73ms)
+[13-Nov-2025 17:56:13 UTC] [2025-11-13T17:56:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.19ms)
+[13-Nov-2025 17:56:13 UTC] [2025-11-13T17:56:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.36ms)
+[13-Nov-2025 17:57:12 UTC] [2025-11-13T17:57:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (278.69ms)
+[13-Nov-2025 17:57:12 UTC] [2025-11-13T17:57:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (211.21ms)
+[13-Nov-2025 17:57:13 UTC] [2025-11-13T17:57:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (568.88ms)
+[13-Nov-2025 17:58:12 UTC] [2025-11-13T17:58:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (629.97ms)
+[13-Nov-2025 17:58:13 UTC] [2025-11-13T17:58:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (207.55ms)
+[13-Nov-2025 17:58:13 UTC] [2025-11-13T17:58:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (207.54ms)
+[13-Nov-2025 17:59:12 UTC] [2025-11-13T17:59:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (294.76ms)
+[13-Nov-2025 17:59:12 UTC] [2025-11-13T17:59:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.71ms)
+[13-Nov-2025 17:59:13 UTC] [2025-11-13T17:59:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (565.84ms)
+[13-Nov-2025 18:00:12 UTC] [2025-11-13T18:00:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (251.09ms)
+[13-Nov-2025 18:00:13 UTC] [2025-11-13T18:00:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (565.60ms)
+[13-Nov-2025 18:00:13 UTC] [2025-11-13T18:00:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.36ms)
+[13-Nov-2025 18:01:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 18:01:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 18:01:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 18:01:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 18:01:12 UTC] [2025-11-13T18:01:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (2.09ms)
+[13-Nov-2025 18:01:12 UTC] [2025-11-13T18:01:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (268.59ms)
+[13-Nov-2025 18:01:13 UTC] [2025-11-13T18:01:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (647.12ms)
+[13-Nov-2025 18:01:13 UTC] [2025-11-13T18:01:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (257.79ms)
+[13-Nov-2025 18:02:12 UTC] [2025-11-13T18:02:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (248.91ms)
+[13-Nov-2025 18:02:12 UTC] [2025-11-13T18:02:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.92ms)
+[13-Nov-2025 18:02:13 UTC] [2025-11-13T18:02:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (595.47ms)
+[13-Nov-2025 18:03:12 UTC] [2025-11-13T18:03:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (262.78ms)
+[13-Nov-2025 18:03:12 UTC] [2025-11-13T18:03:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (229.47ms)
+[13-Nov-2025 18:03:13 UTC] [2025-11-13T18:03:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (679.80ms)
+[13-Nov-2025 18:04:12 UTC] [2025-11-13T18:04:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (286.83ms)
+[13-Nov-2025 18:04:13 UTC] [2025-11-13T18:04:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.92ms)
+[13-Nov-2025 18:04:13 UTC] [2025-11-13T18:04:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (224.58ms)
+[13-Nov-2025 18:05:12 UTC] [2025-11-13T18:05:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (613.62ms)
+[13-Nov-2025 18:05:13 UTC] [2025-11-13T18:05:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.74ms)
+[13-Nov-2025 18:05:13 UTC] [2025-11-13T18:05:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.23ms)
+[13-Nov-2025 18:06:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 18:06:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 18:06:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 18:06:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 18:06:12 UTC] [2025-11-13T18:06:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (2.06ms)
+[13-Nov-2025 18:06:12 UTC] [2025-11-13T18:06:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (311.60ms)
+[13-Nov-2025 18:06:13 UTC] [2025-11-13T18:06:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (570.04ms)
+[13-Nov-2025 18:06:13 UTC] [2025-11-13T18:06:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.27ms)
+[13-Nov-2025 18:07:12 UTC] [2025-11-13T18:07:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (606.14ms)
+[13-Nov-2025 18:07:13 UTC] [2025-11-13T18:07:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.02ms)
+[13-Nov-2025 18:07:13 UTC] [2025-11-13T18:07:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.55ms)
+[13-Nov-2025 18:08:12 UTC] [2025-11-13T18:08:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (262.01ms)
+[13-Nov-2025 18:08:12 UTC] [2025-11-13T18:08:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.97ms)
+[13-Nov-2025 18:08:13 UTC] [2025-11-13T18:08:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.52ms)
+[13-Nov-2025 18:09:12 UTC] [2025-11-13T18:09:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (236.83ms)
+[13-Nov-2025 18:09:13 UTC] [2025-11-13T18:09:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.96ms)
+[13-Nov-2025 18:09:13 UTC] [2025-11-13T18:09:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.56ms)
+[13-Nov-2025 18:10:12 UTC] [2025-11-13T18:10:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (265.31ms)
+[13-Nov-2025 18:10:12 UTC] [2025-11-13T18:10:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.06ms)
+[13-Nov-2025 18:10:13 UTC] [2025-11-13T18:10:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.43ms)
+[13-Nov-2025 18:11:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 18:11:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 18:11:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 18:11:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 18:11:12 UTC] [2025-11-13T18:11:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.38ms)
+[13-Nov-2025 18:11:12 UTC] [2025-11-13T18:11:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (245.84ms)
+[13-Nov-2025 18:11:12 UTC] [2025-11-13T18:11:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.60ms)
+[13-Nov-2025 18:11:13 UTC] [2025-11-13T18:11:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (565.40ms)
+[13-Nov-2025 18:12:12 UTC] [2025-11-13T18:12:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (287.31ms)
+[13-Nov-2025 18:12:12 UTC] [2025-11-13T18:12:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.44ms)
+[13-Nov-2025 18:12:13 UTC] [2025-11-13T18:12:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (568.86ms)
+[13-Nov-2025 18:13:12 UTC] [2025-11-13T18:13:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (251.64ms)
+[13-Nov-2025 18:13:12 UTC] [2025-11-13T18:13:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.34ms)
+[13-Nov-2025 18:13:13 UTC] [2025-11-13T18:13:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (578.99ms)
+[13-Nov-2025 18:14:12 UTC] [2025-11-13T18:14:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (255.40ms)
+[13-Nov-2025 18:14:12 UTC] [2025-11-13T18:14:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.33ms)
+[13-Nov-2025 18:14:13 UTC] [2025-11-13T18:14:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.04ms)
+[13-Nov-2025 18:15:12 UTC] [2025-11-13T18:15:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (324.93ms)
+[13-Nov-2025 18:15:12 UTC] [2025-11-13T18:15:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.28ms)
+[13-Nov-2025 18:15:13 UTC] [2025-11-13T18:15:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (564.92ms)
+[13-Nov-2025 18:16:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 18:16:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 18:16:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 18:16:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 18:16:12 UTC] [2025-11-13T18:16:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.43ms)
+[13-Nov-2025 18:16:12 UTC] [2025-11-13T18:16:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (251.73ms)
+[13-Nov-2025 18:16:13 UTC] [2025-11-13T18:16:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (565.91ms)
+[13-Nov-2025 18:16:13 UTC] [2025-11-13T18:16:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.18ms)
+[13-Nov-2025 18:17:12 UTC] [2025-11-13T18:17:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (631.38ms)
+[13-Nov-2025 18:17:13 UTC] [2025-11-13T18:17:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.85ms)
+[13-Nov-2025 18:17:13 UTC] [2025-11-13T18:17:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.49ms)
+[13-Nov-2025 18:18:12 UTC] [2025-11-13T18:18:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (260.32ms)
+[13-Nov-2025 18:18:12 UTC] [2025-11-13T18:18:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.89ms)
+[13-Nov-2025 18:18:13 UTC] [2025-11-13T18:18:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (569.04ms)
+[13-Nov-2025 18:19:12 UTC] [2025-11-13T18:19:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (651.74ms)
+[13-Nov-2025 18:19:13 UTC] [2025-11-13T18:19:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.47ms)
+[13-Nov-2025 18:19:13 UTC] [2025-11-13T18:19:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.82ms)
+[13-Nov-2025 18:20:12 UTC] [2025-11-13T18:20:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (273.53ms)
+[13-Nov-2025 18:20:12 UTC] [2025-11-13T18:20:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.76ms)
+[13-Nov-2025 18:20:13 UTC] [2025-11-13T18:20:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.10ms)
+[13-Nov-2025 18:21:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 18:21:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 18:21:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 18:21:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 18:21:12 UTC] [2025-11-13T18:21:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.38ms)
+[13-Nov-2025 18:21:12 UTC] [2025-11-13T18:21:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (246.69ms)
+[13-Nov-2025 18:21:12 UTC] [2025-11-13T18:21:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.50ms)
+[13-Nov-2025 18:21:13 UTC] [2025-11-13T18:21:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.27ms)
+[13-Nov-2025 18:22:12 UTC] [2025-11-13T18:22:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (266.83ms)
+[13-Nov-2025 18:22:12 UTC] [2025-11-13T18:22:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (213.76ms)
+[13-Nov-2025 18:22:13 UTC] [2025-11-13T18:22:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (568.19ms)
+[13-Nov-2025 18:23:12 UTC] [2025-11-13T18:23:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (244.64ms)
+[13-Nov-2025 18:23:12 UTC] [2025-11-13T18:23:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (211.29ms)
+[13-Nov-2025 18:23:13 UTC] [2025-11-13T18:23:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.78ms)
+[13-Nov-2025 18:24:12 UTC] [2025-11-13T18:24:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (326.62ms)
+[13-Nov-2025 18:24:13 UTC] [2025-11-13T18:24:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.64ms)
+[13-Nov-2025 18:24:13 UTC] [2025-11-13T18:24:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.95ms)
+[13-Nov-2025 18:25:12 UTC] [2025-11-13T18:25:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (260.95ms)
+[13-Nov-2025 18:25:13 UTC] [2025-11-13T18:25:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.35ms)
+[13-Nov-2025 18:25:13 UTC] [2025-11-13T18:25:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.00ms)
+[13-Nov-2025 18:26:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 18:26:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 18:26:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 18:26:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 18:26:12 UTC] [2025-11-13T18:26:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.40ms)
+[13-Nov-2025 18:26:12 UTC] [2025-11-13T18:26:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (271.63ms)
+[13-Nov-2025 18:26:12 UTC] [2025-11-13T18:26:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.92ms)
+[13-Nov-2025 18:26:13 UTC] [2025-11-13T18:26:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.04ms)
+[13-Nov-2025 18:27:12 UTC] [2025-11-13T18:27:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (261.76ms)
+[13-Nov-2025 18:27:12 UTC] [2025-11-13T18:27:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.61ms)
+[13-Nov-2025 18:27:13 UTC] [2025-11-13T18:27:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.24ms)
+[13-Nov-2025 18:28:12 UTC] [2025-11-13T18:28:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (305.68ms)
+[13-Nov-2025 18:28:12 UTC] [2025-11-13T18:28:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.11ms)
+[13-Nov-2025 18:28:13 UTC] [2025-11-13T18:28:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (565.83ms)
+[13-Nov-2025 18:29:12 UTC] [2025-11-13T18:29:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (244.87ms)
+[13-Nov-2025 18:29:12 UTC] [2025-11-13T18:29:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.27ms)
+[13-Nov-2025 18:29:13 UTC] [2025-11-13T18:29:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.56ms)
+[13-Nov-2025 18:30:12 UTC] [2025-11-13T18:30:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (619.72ms)
+[13-Nov-2025 18:30:13 UTC] [2025-11-13T18:30:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.18ms)
+[13-Nov-2025 18:30:13 UTC] [2025-11-13T18:30:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.63ms)
+[13-Nov-2025 18:31:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 18:31:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 18:31:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 18:31:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 18:31:12 UTC] [2025-11-13T18:31:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (2.56ms)
+[13-Nov-2025 18:31:12 UTC] [2025-11-13T18:31:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (251.72ms)
+[13-Nov-2025 18:31:12 UTC] [2025-11-13T18:31:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.79ms)
+[13-Nov-2025 18:31:13 UTC] [2025-11-13T18:31:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (565.53ms)
+[13-Nov-2025 18:32:12 UTC] [2025-11-13T18:32:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (337.25ms)
+[13-Nov-2025 18:32:12 UTC] [2025-11-13T18:32:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.29ms)
+[13-Nov-2025 18:32:13 UTC] [2025-11-13T18:32:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (565.97ms)
+[13-Nov-2025 18:33:12 UTC] [2025-11-13T18:33:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (253.29ms)
+[13-Nov-2025 18:33:12 UTC] [2025-11-13T18:33:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.31ms)
+[13-Nov-2025 18:33:13 UTC] [2025-11-13T18:33:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.42ms)
+[13-Nov-2025 18:34:12 UTC] [2025-11-13T18:34:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (266.95ms)
+[13-Nov-2025 18:34:12 UTC] [2025-11-13T18:34:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.11ms)
+[13-Nov-2025 18:34:13 UTC] [2025-11-13T18:34:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (675.81ms)
+[13-Nov-2025 18:35:12 UTC] [2025-11-13T18:35:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (621.32ms)
+[13-Nov-2025 18:35:13 UTC] [2025-11-13T18:35:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.56ms)
+[13-Nov-2025 18:35:13 UTC] [2025-11-13T18:35:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (233.74ms)
+[13-Nov-2025 18:36:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 18:36:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 18:36:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 18:36:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 18:36:12 UTC] [2025-11-13T18:36:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.41ms)
+[13-Nov-2025 18:36:12 UTC] [2025-11-13T18:36:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (262.15ms)
+[13-Nov-2025 18:36:13 UTC] [2025-11-13T18:36:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.75ms)
+[13-Nov-2025 18:36:13 UTC] [2025-11-13T18:36:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.39ms)
+[13-Nov-2025 18:37:12 UTC] [2025-11-13T18:37:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (628.61ms)
+[13-Nov-2025 18:37:13 UTC] [2025-11-13T18:37:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.17ms)
+[13-Nov-2025 18:37:13 UTC] [2025-11-13T18:37:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.67ms)
+[13-Nov-2025 18:38:12 UTC] [2025-11-13T18:38:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (256.33ms)
+[13-Nov-2025 18:38:13 UTC] [2025-11-13T18:38:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.25ms)
+[13-Nov-2025 18:38:13 UTC] [2025-11-13T18:38:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (211.06ms)
+[13-Nov-2025 18:39:12 UTC] [2025-11-13T18:39:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (253.42ms)
+[13-Nov-2025 18:39:12 UTC] [2025-11-13T18:39:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.14ms)
+[13-Nov-2025 18:39:13 UTC] [2025-11-13T18:39:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.42ms)
+[13-Nov-2025 18:40:12 UTC] [2025-11-13T18:40:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (271.27ms)
+[13-Nov-2025 18:40:12 UTC] [2025-11-13T18:40:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (230.90ms)
+[13-Nov-2025 18:40:13 UTC] [2025-11-13T18:40:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (664.11ms)
+[13-Nov-2025 18:41:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 18:41:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 18:41:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 18:41:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 18:41:12 UTC] [2025-11-13T18:41:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.39ms)
+[13-Nov-2025 18:41:12 UTC] [2025-11-13T18:41:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (635.18ms)
+[13-Nov-2025 18:41:13 UTC] [2025-11-13T18:41:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.40ms)
+[13-Nov-2025 18:41:13 UTC] [2025-11-13T18:41:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.74ms)
+[13-Nov-2025 18:42:12 UTC] [2025-11-13T18:42:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (250.29ms)
+[13-Nov-2025 18:42:12 UTC] [2025-11-13T18:42:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.56ms)
+[13-Nov-2025 18:42:13 UTC] [2025-11-13T18:42:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.74ms)
+[13-Nov-2025 18:43:12 UTC] [2025-11-13T18:43:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (268.06ms)
+[13-Nov-2025 18:43:13 UTC] [2025-11-13T18:43:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (569.28ms)
+[13-Nov-2025 18:43:13 UTC] [2025-11-13T18:43:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.79ms)
+[13-Nov-2025 18:44:12 UTC] [2025-11-13T18:44:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (254.46ms)
+[13-Nov-2025 18:44:12 UTC] [2025-11-13T18:44:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.26ms)
+[13-Nov-2025 18:44:13 UTC] [2025-11-13T18:44:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.98ms)
+[13-Nov-2025 18:45:12 UTC] [2025-11-13T18:45:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (261.89ms)
+[13-Nov-2025 18:45:12 UTC] [2025-11-13T18:45:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.27ms)
+[13-Nov-2025 18:45:13 UTC] [2025-11-13T18:45:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.32ms)
+[13-Nov-2025 18:46:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 18:46:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 18:46:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 18:46:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 18:46:12 UTC] [2025-11-13T18:46:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.38ms)
+[13-Nov-2025 18:46:12 UTC] [2025-11-13T18:46:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (251.22ms)
+[13-Nov-2025 18:46:13 UTC] [2025-11-13T18:46:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.19ms)
+[13-Nov-2025 18:46:13 UTC] [2025-11-13T18:46:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.61ms)
+[13-Nov-2025 18:47:12 UTC] [2025-11-13T18:47:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (623.81ms)
+[13-Nov-2025 18:47:13 UTC] [2025-11-13T18:47:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.41ms)
+[13-Nov-2025 18:47:13 UTC] [2025-11-13T18:47:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.44ms)
+[13-Nov-2025 18:48:12 UTC] [2025-11-13T18:48:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (250.76ms)
+[13-Nov-2025 18:48:12 UTC] [2025-11-13T18:48:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.07ms)
+[13-Nov-2025 18:48:13 UTC] [2025-11-13T18:48:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.22ms)
+[13-Nov-2025 18:49:12 UTC] [2025-11-13T18:49:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (308.88ms)
+[13-Nov-2025 18:49:13 UTC] [2025-11-13T18:49:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.52ms)
+[13-Nov-2025 18:49:13 UTC] [2025-11-13T18:49:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.18ms)
+[13-Nov-2025 18:50:12 UTC] [2025-11-13T18:50:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (251.80ms)
+[13-Nov-2025 18:50:13 UTC] [2025-11-13T18:50:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.37ms)
+[13-Nov-2025 18:50:13 UTC] [2025-11-13T18:50:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.09ms)
+[13-Nov-2025 18:51:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 18:51:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 18:51:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 18:51:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 18:51:12 UTC] [2025-11-13T18:51:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.46ms)
+[13-Nov-2025 18:51:12 UTC] [2025-11-13T18:51:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (256.73ms)
+[13-Nov-2025 18:51:13 UTC] [2025-11-13T18:51:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.62ms)
+[13-Nov-2025 18:51:13 UTC] [2025-11-13T18:51:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.93ms)
+[13-Nov-2025 18:52:12 UTC] [2025-11-13T18:52:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (253.62ms)
+[13-Nov-2025 18:52:12 UTC] [2025-11-13T18:52:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.35ms)
+[13-Nov-2025 18:52:13 UTC] [2025-11-13T18:52:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (577.26ms)
+[13-Nov-2025 18:53:12 UTC] [2025-11-13T18:53:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (615.24ms)
+[13-Nov-2025 18:53:13 UTC] [2025-11-13T18:53:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.60ms)
+[13-Nov-2025 18:53:13 UTC] [2025-11-13T18:53:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.39ms)
+[13-Nov-2025 18:54:12 UTC] [2025-11-13T18:54:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (609.35ms)
+[13-Nov-2025 18:54:13 UTC] [2025-11-13T18:54:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.17ms)
+[13-Nov-2025 18:54:13 UTC] [2025-11-13T18:54:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.41ms)
+[13-Nov-2025 18:55:12 UTC] [2025-11-13T18:55:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (325.66ms)
+[13-Nov-2025 18:55:12 UTC] [2025-11-13T18:55:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.61ms)
+[13-Nov-2025 18:55:13 UTC] [2025-11-13T18:55:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.89ms)
+[13-Nov-2025 18:56:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 18:56:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 18:56:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 18:56:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 18:56:12 UTC] [2025-11-13T18:56:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.40ms)
+[13-Nov-2025 18:56:12 UTC] [2025-11-13T18:56:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (260.00ms)
+[13-Nov-2025 18:56:12 UTC] [2025-11-13T18:56:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.50ms)
+[13-Nov-2025 18:56:13 UTC] [2025-11-13T18:56:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.96ms)
+[13-Nov-2025 18:57:12 UTC] [2025-11-13T18:57:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (261.05ms)
+[13-Nov-2025 18:57:13 UTC] [2025-11-13T18:57:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.56ms)
+[13-Nov-2025 18:57:13 UTC] [2025-11-13T18:57:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (216.47ms)
+[13-Nov-2025 18:58:12 UTC] [2025-11-13T18:58:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (669.73ms)
+[13-Nov-2025 18:58:13 UTC] [2025-11-13T18:58:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.19ms)
+[13-Nov-2025 18:58:13 UTC] [2025-11-13T18:58:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.15ms)
+[13-Nov-2025 18:59:12 UTC] [2025-11-13T18:59:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (618.73ms)
+[13-Nov-2025 18:59:13 UTC] [2025-11-13T18:59:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.72ms)
+[13-Nov-2025 18:59:13 UTC] [2025-11-13T18:59:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.76ms)
+[13-Nov-2025 19:00:12 UTC] [2025-11-13T19:00:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (244.05ms)
+[13-Nov-2025 19:00:12 UTC] [2025-11-13T19:00:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.72ms)
+[13-Nov-2025 19:00:13 UTC] [2025-11-13T19:00:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.37ms)
+[13-Nov-2025 19:01:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 19:01:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 19:01:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 19:01:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 19:01:12 UTC] [2025-11-13T19:01:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.39ms)
+[13-Nov-2025 19:01:12 UTC] [2025-11-13T19:01:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (267.05ms)
+[13-Nov-2025 19:01:12 UTC] [2025-11-13T19:01:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.95ms)
+[13-Nov-2025 19:01:13 UTC] [2025-11-13T19:01:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.96ms)
+[13-Nov-2025 19:02:12 UTC] [2025-11-13T19:02:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (244.36ms)
+[13-Nov-2025 19:02:12 UTC] [2025-11-13T19:02:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.07ms)
+[13-Nov-2025 19:02:13 UTC] [2025-11-13T19:02:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.51ms)
+[13-Nov-2025 19:03:12 UTC] [2025-11-13T19:03:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (260.30ms)
+[13-Nov-2025 19:03:13 UTC] [2025-11-13T19:03:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (568.39ms)
+[13-Nov-2025 19:03:13 UTC] [2025-11-13T19:03:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.42ms)
+[13-Nov-2025 19:04:12 UTC] [2025-11-13T19:04:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (261.31ms)
+[13-Nov-2025 19:04:12 UTC] [2025-11-13T19:04:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (211.50ms)
+[13-Nov-2025 19:04:13 UTC] [2025-11-13T19:04:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (581.22ms)
+[13-Nov-2025 19:05:12 UTC] [2025-11-13T19:05:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (316.93ms)
+[13-Nov-2025 19:05:12 UTC] [2025-11-13T19:05:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.31ms)
+[13-Nov-2025 19:05:13 UTC] [2025-11-13T19:05:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (599.12ms)
+[13-Nov-2025 19:06:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 19:06:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 19:06:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 19:06:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 19:06:12 UTC] [2025-11-13T19:06:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.37ms)
+[13-Nov-2025 19:06:12 UTC] [2025-11-13T19:06:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (251.61ms)
+[13-Nov-2025 19:06:12 UTC] [2025-11-13T19:06:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.76ms)
+[13-Nov-2025 19:06:13 UTC] [2025-11-13T19:06:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.07ms)
+[13-Nov-2025 19:07:12 UTC] [2025-11-13T19:07:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (314.12ms)
+[13-Nov-2025 19:07:13 UTC] [2025-11-13T19:07:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.27ms)
+[13-Nov-2025 19:07:13 UTC] [2025-11-13T19:07:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.00ms)
+[13-Nov-2025 19:08:12 UTC] [2025-11-13T19:08:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (248.00ms)
+[13-Nov-2025 19:08:13 UTC] [2025-11-13T19:08:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.40ms)
+[13-Nov-2025 19:08:13 UTC] [2025-11-13T19:08:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.79ms)
+[13-Nov-2025 19:09:12 UTC] [2025-11-13T19:09:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (253.78ms)
+[13-Nov-2025 19:09:12 UTC] [2025-11-13T19:09:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.96ms)
+[13-Nov-2025 19:09:13 UTC] [2025-11-13T19:09:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.77ms)
+[13-Nov-2025 19:10:12 UTC] [2025-11-13T19:10:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (650.67ms)
+[13-Nov-2025 19:10:13 UTC] [2025-11-13T19:10:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.79ms)
+[13-Nov-2025 19:10:13 UTC] [2025-11-13T19:10:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.30ms)
+[13-Nov-2025 19:11:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 19:11:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 19:11:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 19:11:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 19:11:12 UTC] [2025-11-13T19:11:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.38ms)
+[13-Nov-2025 19:11:12 UTC] [2025-11-13T19:11:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (257.16ms)
+[13-Nov-2025 19:11:13 UTC] [2025-11-13T19:11:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.19ms)
+[13-Nov-2025 19:11:13 UTC] [2025-11-13T19:11:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.30ms)
+[13-Nov-2025 19:12:12 UTC] [2025-11-13T19:12:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (250.53ms)
+[13-Nov-2025 19:12:12 UTC] [2025-11-13T19:12:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.63ms)
+[13-Nov-2025 19:12:13 UTC] [2025-11-13T19:12:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (568.83ms)
+[13-Nov-2025 19:13:12 UTC] [2025-11-13T19:13:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (257.45ms)
+[13-Nov-2025 19:13:13 UTC] [2025-11-13T19:13:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.30ms)
+[13-Nov-2025 19:13:13 UTC] [2025-11-13T19:13:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.33ms)
+[13-Nov-2025 19:14:12 UTC] [2025-11-13T19:14:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (251.62ms)
+[13-Nov-2025 19:14:12 UTC] [2025-11-13T19:14:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.04ms)
+[13-Nov-2025 19:14:13 UTC] [2025-11-13T19:14:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.44ms)
+[13-Nov-2025 19:15:12 UTC] [2025-11-13T19:15:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (327.06ms)
+[13-Nov-2025 19:15:13 UTC] [2025-11-13T19:15:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.82ms)
+[13-Nov-2025 19:15:13 UTC] [2025-11-13T19:15:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.08ms)
+[13-Nov-2025 19:16:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 19:16:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 19:16:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 19:16:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 19:16:12 UTC] [2025-11-13T19:16:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.65ms)
+[13-Nov-2025 19:16:12 UTC] [2025-11-13T19:16:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (607.85ms)
+[13-Nov-2025 19:16:13 UTC] [2025-11-13T19:16:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (212.02ms)
+[13-Nov-2025 19:16:13 UTC] [2025-11-13T19:16:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.26ms)
+[13-Nov-2025 19:17:12 UTC] [2025-11-13T19:17:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (269.95ms)
+[13-Nov-2025 19:17:13 UTC] [2025-11-13T19:17:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.46ms)
+[13-Nov-2025 19:17:13 UTC] [2025-11-13T19:17:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (214.49ms)
+[13-Nov-2025 19:18:12 UTC] [2025-11-13T19:18:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (248.44ms)
+[13-Nov-2025 19:18:12 UTC] [2025-11-13T19:18:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.28ms)
+[13-Nov-2025 19:18:13 UTC] [2025-11-13T19:18:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (568.72ms)
+[13-Nov-2025 19:19:12 UTC] [2025-11-13T19:19:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (286.98ms)
+[13-Nov-2025 19:19:12 UTC] [2025-11-13T19:19:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (258.43ms)
+[13-Nov-2025 19:19:13 UTC] [2025-11-13T19:19:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (616.45ms)
+[13-Nov-2025 19:20:12 UTC] [2025-11-13T19:20:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (635.43ms)
+[13-Nov-2025 19:20:13 UTC] [2025-11-13T19:20:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.32ms)
+[13-Nov-2025 19:20:13 UTC] [2025-11-13T19:20:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.72ms)
+[13-Nov-2025 19:21:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 19:21:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 19:21:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 19:21:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 19:21:12 UTC] [2025-11-13T19:21:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.40ms)
+[13-Nov-2025 19:21:12 UTC] [2025-11-13T19:21:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (254.93ms)
+[13-Nov-2025 19:21:12 UTC] [2025-11-13T19:21:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.64ms)
+[13-Nov-2025 19:21:13 UTC] [2025-11-13T19:21:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (766.83ms)
+[13-Nov-2025 19:22:12 UTC] [2025-11-13T19:22:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (637.62ms)
+[13-Nov-2025 19:22:13 UTC] [2025-11-13T19:22:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.56ms)
+[13-Nov-2025 19:22:13 UTC] [2025-11-13T19:22:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.42ms)
+[13-Nov-2025 19:23:12 UTC] [2025-11-13T19:23:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (620.95ms)
+[13-Nov-2025 19:23:13 UTC] [2025-11-13T19:23:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.68ms)
+[13-Nov-2025 19:23:13 UTC] [2025-11-13T19:23:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.26ms)
+[13-Nov-2025 19:24:12 UTC] [2025-11-13T19:24:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (281.19ms)
+[13-Nov-2025 19:24:12 UTC] [2025-11-13T19:24:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.10ms)
+[13-Nov-2025 19:24:13 UTC] [2025-11-13T19:24:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.52ms)
+[13-Nov-2025 19:25:12 UTC] [2025-11-13T19:25:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (236.79ms)
+[13-Nov-2025 19:25:13 UTC] [2025-11-13T19:25:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (564.17ms)
+[13-Nov-2025 19:25:13 UTC] [2025-11-13T19:25:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.09ms)
+[13-Nov-2025 19:26:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 19:26:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 19:26:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 19:26:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 19:26:12 UTC] [2025-11-13T19:26:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.44ms)
+[13-Nov-2025 19:26:12 UTC] [2025-11-13T19:26:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (255.47ms)
+[13-Nov-2025 19:26:13 UTC] [2025-11-13T19:26:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.06ms)
+[13-Nov-2025 19:26:13 UTC] [2025-11-13T19:26:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.29ms)
+[13-Nov-2025 19:27:12 UTC] [2025-11-13T19:27:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (589.80ms)
+[13-Nov-2025 19:27:13 UTC] [2025-11-13T19:27:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (207.10ms)
+[13-Nov-2025 19:27:13 UTC] [2025-11-13T19:27:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (206.58ms)
+[13-Nov-2025 19:28:12 UTC] [2025-11-13T19:28:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (240.59ms)
+[13-Nov-2025 19:28:12 UTC] [2025-11-13T19:28:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.86ms)
+[13-Nov-2025 19:28:13 UTC] [2025-11-13T19:28:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (563.92ms)
+[13-Nov-2025 19:29:12 UTC] [2025-11-13T19:29:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (242.78ms)
+[13-Nov-2025 19:29:12 UTC] [2025-11-13T19:29:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (207.95ms)
+[13-Nov-2025 19:29:13 UTC] [2025-11-13T19:29:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (561.68ms)
+[13-Nov-2025 19:30:12 UTC] [2025-11-13T19:30:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (245.65ms)
+[13-Nov-2025 19:30:13 UTC] [2025-11-13T19:30:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (563.91ms)
+[13-Nov-2025 19:30:13 UTC] [2025-11-13T19:30:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (208.68ms)
+[13-Nov-2025 19:31:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 19:31:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 19:31:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 19:31:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 19:31:12 UTC] [2025-11-13T19:31:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.93ms)
+[13-Nov-2025 19:31:12 UTC] [2025-11-13T19:31:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (243.49ms)
+[13-Nov-2025 19:31:12 UTC] [2025-11-13T19:31:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (222.75ms)
+[13-Nov-2025 19:31:13 UTC] [2025-11-13T19:31:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (572.57ms)
+[13-Nov-2025 19:32:12 UTC] [2025-11-13T19:32:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (259.64ms)
+[13-Nov-2025 19:32:12 UTC] [2025-11-13T19:32:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.26ms)
+[13-Nov-2025 19:32:13 UTC] [2025-11-13T19:32:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (565.44ms)
+[13-Nov-2025 19:33:12 UTC] [2025-11-13T19:33:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (255.70ms)
+[13-Nov-2025 19:33:13 UTC] [2025-11-13T19:33:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (584.93ms)
+[13-Nov-2025 19:33:13 UTC] [2025-11-13T19:33:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.76ms)
+[13-Nov-2025 19:34:12 UTC] [2025-11-13T19:34:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (259.82ms)
+[13-Nov-2025 19:34:12 UTC] [2025-11-13T19:34:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.31ms)
+[13-Nov-2025 19:34:13 UTC] [2025-11-13T19:34:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (601.22ms)
+[13-Nov-2025 19:35:12 UTC] [2025-11-13T19:35:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (609.24ms)
+[13-Nov-2025 19:35:13 UTC] [2025-11-13T19:35:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (213.88ms)
+[13-Nov-2025 19:35:13 UTC] [2025-11-13T19:35:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (247.37ms)
+[13-Nov-2025 19:36:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 19:36:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 19:36:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 19:36:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 19:36:12 UTC] [2025-11-13T19:36:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.64ms)
+[13-Nov-2025 19:36:12 UTC] [2025-11-13T19:36:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (260.32ms)
+[13-Nov-2025 19:36:12 UTC] [2025-11-13T19:36:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.65ms)
+[13-Nov-2025 19:36:13 UTC] [2025-11-13T19:36:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (568.51ms)
+[13-Nov-2025 19:37:12 UTC] [2025-11-13T19:37:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (258.27ms)
+[13-Nov-2025 19:37:13 UTC] [2025-11-13T19:37:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.62ms)
+[13-Nov-2025 19:37:13 UTC] [2025-11-13T19:37:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.50ms)
+[13-Nov-2025 19:38:12 UTC] [2025-11-13T19:38:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (250.75ms)
+[13-Nov-2025 19:38:13 UTC] [2025-11-13T19:38:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (565.77ms)
+[13-Nov-2025 19:38:13 UTC] [2025-11-13T19:38:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.17ms)
+[13-Nov-2025 19:39:12 UTC] [2025-11-13T19:39:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (609.30ms)
+[13-Nov-2025 19:39:13 UTC] [2025-11-13T19:39:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.05ms)
+[13-Nov-2025 19:39:13 UTC] [2025-11-13T19:39:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.92ms)
+[13-Nov-2025 19:40:12 UTC] [2025-11-13T19:40:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (287.28ms)
+[13-Nov-2025 19:40:13 UTC] [2025-11-13T19:40:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.94ms)
+[13-Nov-2025 19:40:13 UTC] [2025-11-13T19:40:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (211.12ms)
+[13-Nov-2025 19:41:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 19:41:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 19:41:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 19:41:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 19:41:12 UTC] [2025-11-13T19:41:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.97ms)
+[13-Nov-2025 19:41:12 UTC] [2025-11-13T19:41:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (249.66ms)
+[13-Nov-2025 19:41:13 UTC] [2025-11-13T19:41:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (567.85ms)
+[13-Nov-2025 19:41:13 UTC] [2025-11-13T19:41:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.58ms)
+[13-Nov-2025 19:42:12 UTC] [2025-11-13T19:42:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (610.36ms)
+[13-Nov-2025 19:42:13 UTC] [2025-11-13T19:42:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.63ms)
+[13-Nov-2025 19:42:13 UTC] [2025-11-13T19:42:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.60ms)
+[13-Nov-2025 19:43:12 UTC] [2025-11-13T19:43:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (281.56ms)
+[13-Nov-2025 19:43:13 UTC] [2025-11-13T19:43:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (791.05ms)
+[13-Nov-2025 19:43:13 UTC] [2025-11-13T19:43:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (229.77ms)
+[13-Nov-2025 19:44:12 UTC] [2025-11-13T19:44:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (257.61ms)
+[13-Nov-2025 19:44:13 UTC] [2025-11-13T19:44:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (571.11ms)
+[13-Nov-2025 19:44:13 UTC] [2025-11-13T19:44:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (249.59ms)
+[13-Nov-2025 19:45:12 UTC] [2025-11-13T19:45:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (246.31ms)
+[13-Nov-2025 19:45:12 UTC] [2025-11-13T19:45:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (210.47ms)
+[13-Nov-2025 19:45:13 UTC] [2025-11-13T19:45:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (569.00ms)
+[13-Nov-2025 19:46:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 19:46:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 19:46:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 19:46:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 19:46:12 UTC] [2025-11-13T19:46:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.38ms)
+[13-Nov-2025 19:46:12 UTC] [2025-11-13T19:46:12+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (628.57ms)
+[13-Nov-2025 19:46:13 UTC] [2025-11-13T19:46:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.74ms)
+[13-Nov-2025 19:46:13 UTC] [2025-11-13T19:46:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.36ms)
+[13-Nov-2025 19:47:12 UTC] [2025-11-13T19:47:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (243.65ms)
+[13-Nov-2025 19:47:13 UTC] [2025-11-13T19:47:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (572.29ms)
+[13-Nov-2025 19:47:13 UTC] [2025-11-13T19:47:13+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (240.13ms)
+[13-Nov-2025 19:48:12 UTC] [2025-11-13T19:48:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (258.02ms)
+[13-Nov-2025 19:48:12 UTC] [2025-11-13T19:48:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (211.89ms)
+[13-Nov-2025 19:48:13 UTC] [2025-11-13T19:48:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (570.01ms)
+[13-Nov-2025 19:49:12 UTC] [2025-11-13T19:49:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (252.93ms)
+[13-Nov-2025 19:49:12 UTC] [2025-11-13T19:49:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.55ms)
+[13-Nov-2025 19:49:13 UTC] [2025-11-13T19:49:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (566.40ms)
+[13-Nov-2025 19:50:12 UTC] [2025-11-13T19:50:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (267.27ms)
+[13-Nov-2025 19:50:12 UTC] [2025-11-13T19:50:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (209.28ms)
+[13-Nov-2025 19:50:13 UTC] [2025-11-13T19:50:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (565.99ms)
+[13-Nov-2025 19:51:12 UTC] [AUTH][HEARTBEAT] start
+[13-Nov-2025 19:51:12 UTC] [AUTH][HEARTBEAT] user_id=0
+[13-Nov-2025 19:51:12 UTC] [AUTH][HEARTBEAT] missing user_id attribute
+[13-Nov-2025 19:51:12 UTC] [AUTH][HEARTBEAT] end
+[13-Nov-2025 19:51:12 UTC] [2025-11-13T19:51:12+00:00] POST http://127.0.0.1:8000/auth/heartbeat – 204 (1.47ms)
+[13-Nov-2025 19:51:12 UTC] [2025-11-13T19:51:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (256.04ms)
+[13-Nov-2025 19:51:12 UTC] [2025-11-13T19:51:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (211.68ms)
+[13-Nov-2025 19:51:13 UTC] [2025-11-13T19:51:13+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (822.46ms)
+[13-Nov-2025 21:00:02 UTC] [2025-11-13T21:00:02+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (405.13ms)
+[13-Nov-2025 21:00:02 UTC] [2025-11-13T21:00:02+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (199.44ms)
+[13-Nov-2025 21:00:02 UTC] [2025-11-13T21:00:02+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (248.67ms)
+[13-Nov-2025 21:00:03 UTC] [2025-11-13T21:00:03+00:00] GET http://127.0.0.1:8000/auth/me – 200 (402.45ms)
+[13-Nov-2025 21:00:03 UTC] [2025-11-13T21:00:03+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (218.05ms)
+[13-Nov-2025 21:00:33 UTC] [2025-11-13T21:00:33+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (301.41ms)
+[13-Nov-2025 21:00:52 UTC] [2025-11-13T21:00:52+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (252.46ms)
+[13-Nov-2025 21:00:52 UTC] [2025-11-13T21:00:52+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (189.95ms)
+[13-Nov-2025 21:00:53 UTC] [2025-11-13T21:00:53+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (244.26ms)
+[13-Nov-2025 21:00:53 UTC] [2025-11-13T21:00:53+00:00] GET http://127.0.0.1:8000/auth/me – 200 (390.86ms)
+[13-Nov-2025 21:00:53 UTC] [2025-11-13T21:00:53+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (218.34ms)
+[13-Nov-2025 21:01:24 UTC] [2025-11-13T21:01:24+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (274.23ms)
+[13-Nov-2025 21:01:53 UTC] [2025-11-13T21:01:53+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (240.31ms)
+[13-Nov-2025 21:02:23 UTC] [2025-11-13T21:02:23+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (247.40ms)
+[13-Nov-2025 21:02:54 UTC] [2025-11-13T21:02:54+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (263.83ms)
+[13-Nov-2025 21:03:24 UTC] [2025-11-13T21:03:24+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (264.16ms)
+[13-Nov-2025 21:03:54 UTC] [2025-11-13T21:03:54+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (272.00ms)
+[13-Nov-2025 21:05:12 UTC] [2025-11-13T21:05:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (318.25ms)
+[13-Nov-2025 21:06:12 UTC] [2025-11-13T21:06:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (248.45ms)
+[13-Nov-2025 21:07:12 UTC] [2025-11-13T21:07:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (289.50ms)
+[13-Nov-2025 21:08:12 UTC] [2025-11-13T21:08:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (309.63ms)
+[13-Nov-2025 21:09:12 UTC] [2025-11-13T21:09:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (314.10ms)
+[13-Nov-2025 21:10:12 UTC] [2025-11-13T21:10:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (346.61ms)
+[13-Nov-2025 21:11:12 UTC] [2025-11-13T21:11:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (327.20ms)
+[13-Nov-2025 21:12:12 UTC] [2025-11-13T21:12:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (294.63ms)
+[13-Nov-2025 21:13:12 UTC] [2025-11-13T21:13:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (321.32ms)
+[13-Nov-2025 21:14:12 UTC] [2025-11-13T21:14:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (361.17ms)
+[13-Nov-2025 21:15:12 UTC] [2025-11-13T21:15:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (317.13ms)
+[13-Nov-2025 21:16:12 UTC] [2025-11-13T21:16:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (359.29ms)
+[13-Nov-2025 21:17:12 UTC] [2025-11-13T21:17:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (249.23ms)
+[13-Nov-2025 21:18:12 UTC] [2025-11-13T21:18:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (252.45ms)
+[13-Nov-2025 21:19:12 UTC] [2025-11-13T21:19:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (261.17ms)
+[13-Nov-2025 21:19:57 UTC] [2025-11-13T21:19:57+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (258.55ms)
+[13-Nov-2025 21:20:24 UTC] [2025-11-13T21:20:24+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (332.40ms)
+[13-Nov-2025 21:20:54 UTC] [2025-11-13T21:20:54+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (253.49ms)
+[13-Nov-2025 21:21:47 UTC] [2025-11-13T21:21:47+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (260.14ms)
+[13-Nov-2025 21:21:54 UTC] [2025-11-13T21:21:54+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (307.35ms)
+[13-Nov-2025 21:22:24 UTC] [2025-11-13T21:22:24+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (256.47ms)
+[13-Nov-2025 21:22:54 UTC] [2025-11-13T21:22:54+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (256.71ms)
+[13-Nov-2025 21:23:24 UTC] [2025-11-13T21:23:24+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (252.80ms)
+[13-Nov-2025 21:23:54 UTC] [2025-11-13T21:23:54+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (247.56ms)
+[13-Nov-2025 21:25:12 UTC] [2025-11-13T21:25:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (248.61ms)
+[13-Nov-2025 21:26:12 UTC] [2025-11-13T21:26:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (256.31ms)
+[13-Nov-2025 21:27:12 UTC] [2025-11-13T21:27:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (324.70ms)
+[13-Nov-2025 21:28:12 UTC] [2025-11-13T21:28:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (269.93ms)
+[13-Nov-2025 21:29:12 UTC] [2025-11-13T21:29:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (290.25ms)
+[13-Nov-2025 21:30:12 UTC] [2025-11-13T21:30:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (255.16ms)
+[13-Nov-2025 21:31:12 UTC] [2025-11-13T21:31:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (257.96ms)
+[13-Nov-2025 21:32:12 UTC] [2025-11-13T21:32:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (249.89ms)
+[13-Nov-2025 21:33:12 UTC] [2025-11-13T21:33:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (247.64ms)
+[13-Nov-2025 21:34:12 UTC] [2025-11-13T21:34:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (247.71ms)
+[13-Nov-2025 21:34:51 UTC] [2025-11-13T21:34:51+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (340.55ms)
+[13-Nov-2025 21:35:12 UTC] [2025-11-13T21:35:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (250.89ms)
+[13-Nov-2025 21:36:12 UTC] [2025-11-13T21:36:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (255.04ms)
+[13-Nov-2025 21:36:48 UTC] [2025-11-13T21:36:48+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (249.21ms)
+[13-Nov-2025 21:36:54 UTC] [2025-11-13T21:36:54+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (255.79ms)
+[13-Nov-2025 21:37:24 UTC] [2025-11-13T21:37:24+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (306.50ms)
+[13-Nov-2025 21:38:12 UTC] [2025-11-13T21:38:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (271.86ms)
+[13-Nov-2025 21:39:12 UTC] [2025-11-13T21:39:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (259.23ms)
+[13-Nov-2025 21:40:12 UTC] [2025-11-13T21:40:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (269.66ms)
+[13-Nov-2025 21:41:12 UTC] [2025-11-13T21:41:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (278.72ms)
+[13-Nov-2025 21:42:12 UTC] [2025-11-13T21:42:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (302.69ms)
+[13-Nov-2025 21:43:12 UTC] [2025-11-13T21:43:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (314.05ms)
+[13-Nov-2025 21:44:12 UTC] [2025-11-13T21:44:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (256.66ms)
+[13-Nov-2025 21:45:02 UTC] [2025-11-13T21:45:02+00:00] GET http://127.0.0.1:8000/me/conversations?page=1&perPage=8 – 200 (563.19ms)
+[13-Nov-2025 21:45:02 UTC] [2025-11-13T21:45:02+00:00] GET http://127.0.0.1:8000/me – 200 (415.75ms)
+[13-Nov-2025 21:45:02 UTC] [2025-11-13T21:45:02+00:00] GET http://127.0.0.1:8000/me – 200 (388.54ms)
+[13-Nov-2025 21:45:03 UTC] [ACCESS][MY_LIST] start
+[13-Nov-2025 21:45:03 UTC] [ACCESS][AUTH] user_id attribute=1
+[13-Nov-2025 21:45:03 UTC] [ACCESS][MY_LIST] actor id=1
+[13-Nov-2025 21:45:03 UTC] [ACCESS][MY_LIST] candidate projects count=11
+[13-Nov-2025 21:45:03 UTC] [ACCESS][MY_LIST] result groups count=2
+[13-Nov-2025 21:45:03 UTC] [2025-11-13T21:45:03+00:00] GET http://127.0.0.1:8000/me/access/requests – 200 (279.52ms)
+[13-Nov-2025 21:45:03 UTC] [ACCESS][INV_LIST] start
+[13-Nov-2025 21:45:03 UTC] [ACCESS][AUTH] user_id attribute=1
+[13-Nov-2025 21:45:03 UTC] [ACCESS][INV_LIST] investor id=1
+[13-Nov-2025 21:45:03 UTC] [ACCESS][INV_LIST] allRequests count=2
+[13-Nov-2025 21:45:03 UTC] [ACCESS][INV_LIST] projects_investor count=0
+[13-Nov-2025 21:45:03 UTC] [ACCESS][INV_LIST] candidate projects count=0
+[13-Nov-2025 21:45:03 UTC] [ACCESS][INV_LIST] result items count=0
+[13-Nov-2025 21:45:03 UTC] [2025-11-13T21:45:03+00:00] GET http://127.0.0.1:8000/me/access/projects – 200 (378.27ms)
+[13-Nov-2025 21:45:03 UTC] [PROJECT][CREATE] Authorization header="Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NjMwMDA1MTIsIm5iZiI6MTc2MzAwMDUwNywiZXhwIjoxNzYzMTczMzEyLCJzdWIiOjEsInZlciI6MX0.8C4z-upCDjYYSwa_ZcvHDX7W00aJW5sf1Dg0nBfIulw"
+[13-Nov-2025 21:45:03 UTC] [FAVORITES][LIST] user ok id=1 email=jorge@monkeys.cloud
+[13-Nov-2025 21:45:03 UTC] [FAVORITES][LIST] params page=1 perPage=12 offset=0 includeUnpublished=no
+[13-Nov-2025 21:45:03 UTC] [FAVORITES][LIST] filter: status=published
+[13-Nov-2025 21:45:03 UTC] [FAVORITES][LIST] total=2
+[13-Nov-2025 21:45:03 UTC] [FAVORITES][LIST] page rows fetched=2
+[13-Nov-2025 21:45:04 UTC] [FAVORITES][LIST] hydrated ok=2 miss=0
+[13-Nov-2025 21:45:04 UTC] [2025-11-13T21:45:04+00:00] GET http://127.0.0.1:8000/me/favorites?page=1&perPage=12 – 200 (427.04ms)
+[13-Nov-2025 21:45:04 UTC] [MYPROJECTS][LIST] user ok id=1 email=jorge@monkeys.cloud
+[13-Nov-2025 21:45:04 UTC] [MYPROJECTS][LIST] params page=1 perPage=12 offset=0 includeContributed=yes includeUnpublished=yes sort=recent
+[13-Nov-2025 21:45:04 UTC] [MYPROJECTS][LIST] filter: status any (include drafts)
+[13-Nov-2025 21:45:04 UTC] [MYPROJECTS][LIST] total=11
+[13-Nov-2025 21:45:04 UTC] [MYPROJECTS][LIST] page rows fetched=11
+[13-Nov-2025 21:45:04 UTC] [MYPROJECTS][LIST] hydrated ok=11 miss=0
+[13-Nov-2025 21:45:04 UTC] [2025-11-13T21:45:04+00:00] GET http://127.0.0.1:8000/me/projects?page=1&perPage=12&includeContributed=1&includeUnpublished=1&sort=recent – 200 (545.07ms)
+[13-Nov-2025 21:45:04 UTC] [2025-11-13T21:45:04+00:00] GET http://127.0.0.1:8000/me/plans?perPage=8&includeStripe=0 – 200 (270.02ms)
+[13-Nov-2025 21:45:05 UTC] [2025-11-13T21:45:05+00:00] GET http://127.0.0.1:8000/me/conversations?page=1&perPage=8 – 200 (496.96ms)
+[13-Nov-2025 21:45:06 UTC] [2025-11-13T21:45:06+00:00] GET http://127.0.0.1:8000/me/conversations?page=1&perPage=8 – 200 (503.13ms)
+[13-Nov-2025 21:45:06 UTC] [2025-11-13T21:45:06+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (570.63ms)
+[13-Nov-2025 21:45:07 UTC] [2025-11-13T21:45:07+00:00] GET http://127.0.0.1:8000/me/conversations?page=1&perPage=8 – 200 (523.02ms)
+[13-Nov-2025 21:45:07 UTC] [2025-11-13T21:45:07+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (601.29ms)
+[13-Nov-2025 21:45:10 UTC] [2025-11-13T21:45:10+00:00] GET http://127.0.0.1:8000/plans?page=1&perPage=24&includeStripe=1 – 200 (2,265.75ms)
+[13-Nov-2025 21:45:12 UTC] [2025-11-13T21:45:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (299.52ms)
+[13-Nov-2025 21:45:14 UTC] [2025-11-13T21:45:14+00:00] GET http://127.0.0.1:8000/plans/5?includeStripe=1 – 200 (946.09ms)
+[13-Nov-2025 21:45:15 UTC] [2025-11-13T21:45:15+00:00] GET http://127.0.0.1:8000/plans/5?includeStripe=1 – 200 (954.60ms)
+[13-Nov-2025 21:45:30 UTC] [2025-11-13T21:45:30+00:00] GET http://127.0.0.1:8000/plans?page=1&perPage=24&includeStripe=1 – 200 (2,093.52ms)
+[13-Nov-2025 21:45:32 UTC] [2025-11-13T21:45:32+00:00] GET http://127.0.0.1:8000/plans?page=1&perPage=24&includeStripe=1 – 200 (2,048.09ms)

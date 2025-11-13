@@ -1050,4 +1050,90 @@ final class PlanController
         ], 200);
     }
 
+    /**
+     * DELETE /plans/{id}
+     */
+    #[Route(methods: 'DELETE', path: '/plans/{id}')]
+    public function delete(ServerRequestInterface $request): JsonResponse
+    {
+        // --- Auth ---
+        $uid = (int) $request->getAttribute('user_id', 0);
+        if ($uid <= 0) {
+            throw new RuntimeException('Unauthorized', 401);
+        }
+
+        // --- Plan id ---
+        $id = (int) $request->getAttribute('id');
+        if ($id <= 0) {
+            throw new RuntimeException('Invalid plan id', 400);
+        }
+
+        /** @var Plan|null $plan */
+        $plan = $this->plans->find($id);
+        if (!$plan) {
+            throw new RuntimeException('Plan not found', 404);
+        }
+
+        // Optional: block deletion if in use
+        // if (count($plan->getProjects()) > 0) {
+        //     throw new RuntimeException('Cannot delete a plan that has attached projects', 400);
+        // }
+        // if (count($plan->getUsers()) > 0) {
+        //     throw new RuntimeException('Cannot delete a plan that has buyers attached', 400);
+        // }
+
+        // --- Stripe: disable associated price/product (best-effort) ---
+        $this->disableStripeForPlan($plan);
+
+        // --- Local deletion ---
+        $this->plans->delete($plan);
+
+        return new JsonResponse(['ok' => true], 200);
+    }
+
+    /**
+     * Mark Stripe price/product as inactive for a given plan (best-effort).
+     */
+    private function disableStripeForPlan(Plan $plan): void
+    {
+        $priceId   = $plan->getStripe_price_id();
+        $productId = $plan->getStripe_product_id();
+
+        if (!$priceId && !$productId) {
+            return;
+        }
+
+        $client = $this->stripeClient();
+        if (!$client) {
+            // Stripe not configured; nothing else we can do
+            error_log('[PLAN][STRIPE_DISABLE] Stripe client unavailable');
+            return;
+        }
+
+        // Disable price
+        if ($priceId) {
+            try {
+                $client->prices->update($priceId, [
+                    'active' => false,
+                ]);
+            } catch (\Throwable $e) {
+                // Non-fatal: log and continue
+                error_log('[PLAN][STRIPE_DISABLE] price disable failed: ' . $e->getMessage());
+            }
+        }
+
+        // Disable product
+        if ($productId) {
+            try {
+                $client->products->update($productId, [
+                    'active' => false,
+                ]);
+            } catch (\Throwable $e) {
+                // Non-fatal as well
+                error_log('[PLAN][STRIPE_DISABLE] product disable failed: ' . $e->getMessage());
+            }
+        }
+    }
+
+
 }
