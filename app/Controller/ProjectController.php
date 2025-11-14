@@ -55,55 +55,38 @@ final class ProjectController
     #[Route(methods: 'POST', path: '/projects')]
     public function create(ServerRequestInterface $request): JsonResponse
     {
-        error_log('[PROJECT][CREATE] init');
-
         try {
-            // 1) Auth
-            $authHeader = $request->getHeaderLine('Authorization');
-            error_log('[PROJECT][CREATE] Authorization header="' . $authHeader . '"');
 
             $userId = (int)$request->getAttribute('user_id', 0);
-            error_log('[PROJECT][CREATE] user_id attr=' . $userId);
 
             if ($userId <= 0) {
-                error_log('[PROJECT][CREATE][ERR] unauthorized: missing/invalid user_id');
                 throw new RuntimeException('Unauthorized', 401);
             }
 
             /** @var ?User $author */
             $author = $this->users->find($userId);
             if (!$author) {
-                error_log('[PROJECT][CREATE][ERR] unauthorized: user not found in DB');
                 throw new RuntimeException('Unauthorized', 401);
             }
-            error_log('[PROJECT][CREATE] author ok id=' . $author->getId());
 
             // 2) Parse body
             $parsedBody = $request->getParsedBody();
             $isMultipart = is_array($parsedBody) && isset($parsedBody['data']);
-            error_log('[PROJECT][CREATE] body isMultipart=' . ($isMultipart ? 'yes' : 'no'));
 
             if ($isMultipart) {
                 $rawDataField = (string)$parsedBody['data'];
-                error_log('[PROJECT][CREATE] multipart data len=' . strlen($rawDataField));
                 $data = json_decode($rawDataField, true, 512, JSON_THROW_ON_ERROR);
             } else {
                 $rawBody = (string)$request->getBody();
-                error_log('[PROJECT][CREATE] rawBody len=' . strlen($rawBody));
                 $data = json_decode($rawBody, true, 512, JSON_THROW_ON_ERROR);
             }
             if (!is_array($data)) { $data = []; }
 
-            // Log required keys we expect
-            error_log('[PROJECT][CREATE] keys in $data: ' . implode(',', array_keys($data ?? [])));
-
             // Required
             $name    = isset($data['name']) ? trim((string)$data['name']) : '';
             $tagline = isset($data['tagline']) ? trim((string)$data['tagline']) : '';
-            error_log('[PROJECT][CREATE] name="' . $name . '" taglineLen=' . strlen($tagline));
 
             if ($name === '' || $tagline === '') {
-                error_log('[PROJECT][CREATE][ERR] missing required name/tagline');
                 throw new RuntimeException('Project name and tagline are required', 400);
             }
 
@@ -176,9 +159,7 @@ final class ProjectController
                         $tmp = new \DateTimeImmutable($foundedRaw, new \DateTimeZone('UTC'));
                         $founded = new \DateTimeImmutable($tmp->format('Y-m-d'), new \DateTimeZone('UTC'));
                     }
-                    error_log('[PROJECT][CREATE] founded ok=' . $founded->format('c'));
                 } catch (\Throwable $e) {
-                    error_log('[PROJECT][CREATE][ERR] invalid founded date: ' . $e->getMessage());
                     throw new \RuntimeException('Invalid founded date format', 400);
                 }
             }
@@ -188,9 +169,7 @@ final class ProjectController
             if ($previousRoundDateRaw !== null && $previousRoundDateRaw !== '') {
                 try {
                     $previousRoundDate = new \DateTimeImmutable($previousRoundDateRaw, new \DateTimeZone('UTC'));
-                    error_log('[PROJECT][CREATE] previousRoundDate ok=' . $previousRoundDate->format('c'));
                 } catch (\Throwable $e) {
-                    error_log('[PROJECT][CREATE][ERR] invalid previousRoundDate: ' . $e->getMessage());
                     throw new \RuntimeException('Invalid previous round date format', 400);
                 }
             }
@@ -251,7 +230,6 @@ final class ProjectController
             ));
 
             // 3) Build entity
-            error_log('[PROJECT][CREATE] building Project entity');
             $project = new Project();
             $project
                 ->setName($name)
@@ -285,17 +263,12 @@ final class ProjectController
             // 4) Hash
             $hash = bin2hex(random_bytes(16));
             $project->setHash($hash);
-            error_log('[PROJECT][CREATE] assigned hash=' . $hash);
 
             // 5) Save project first
-            error_log('[PROJECT][CREATE] saving project (pre-media)...');
             $this->projects->save($project);
-            error_log('[PROJECT][CREATE] saved project id=' . $project->getId());
 
             // 6) Media uploads
-            error_log('[PROJECT][CREATE] processing media uploads...');
             $this->processMediaUploads($request, $project, $author);
-            error_log('[PROJECT][CREATE] media uploads done');
 
             // 6.1) Attach contributors (after we have a project ID)
             if (!empty($candidateContribIds)) {
@@ -308,9 +281,7 @@ final class ProjectController
             }
 
             // 7) Save again with media + relations
-            error_log('[PROJECT][CREATE] saving project (post-media)...');
             $this->projects->save($project);
-            error_log('[PROJECT][CREATE] final save ok');
 
             // Ensure author relation is set (kept as in your existing code).
             $this->projects->attachRelation($project, 'users', $author->getId());
@@ -643,31 +614,22 @@ final class ProjectController
      */
     private function processMediaUploads(ServerRequestInterface $request, Project $project, User $user): void
     {
-        $this->logUploadLimits();
-
         $uploadedFiles = $request->getUploadedFiles();
 
         if (empty($uploadedFiles)) {
-            error_log('[PROJECT][MEDIA] no uploaded files');
             return;
         }
-
-        error_log('[PROJECT][MEDIA] uploaded keys=' . implode(',', array_keys($uploadedFiles)));
-        // Uncomment for one-time deep inspection:
-        // error_log('[PROJECT][MEDIA] uploadedFiles(full)=' . print_r($uploadedFiles, true));
 
         $mediaRepo = $this->repos->getRepository(Media::class);
 
         // --- Single-file slots (robust to arrays & multi-file shape) ---
         foreach (['logo', 'banner', 'pitchDeck'] as $slot) {
             if (!array_key_exists($slot, $uploadedFiles)) {
-                error_log("[PROJECT][MEDIA][$slot] no file in request");
                 continue;
             }
 
             $expanded = $this->expandFileArray($uploadedFiles[$slot]);
             if (empty($expanded)) {
-                error_log("[PROJECT][MEDIA][$slot] empty after expand");
                 continue;
             }
 
@@ -676,25 +638,13 @@ final class ProjectController
 
             $norm = $this->normalizeUploadedFile($picked);
             if ((int)$norm['error'] === UPLOAD_ERR_INI_SIZE) {
-                error_log(sprintf(
-                    '[PROJECT][MEDIA][%s] rejected: exceeds upload_max_filesize. size=%s name=%s',
-                    $slot ?? 'gallery',
-                    (string)($norm['size'] ?? 'unknown'),
-                    $norm['clientName'] ?? 'unknown'
-                ));
                 continue;
             }
             if ((int)$norm['error'] === UPLOAD_ERR_FORM_SIZE) {
-                error_log(sprintf(
-                    '[PROJECT][MEDIA][%s] rejected: exceeds MAX_FILE_SIZE form limit. name=%s',
-                    $slot ?? 'gallery',
-                    $norm['clientName'] ?? 'unknown'
-                ));
                 continue;
             }
 
             if ((int)$norm['error'] !== UPLOAD_ERR_OK) {
-                error_log("[PROJECT][MEDIA][$slot] skipping due to upload error {$norm['error']}");
                 continue;
             }
 
@@ -708,7 +658,6 @@ final class ProjectController
             };
 
             $mediaRepo->save($media);
-            error_log("[PROJECT][MEDIA][$slot] saved media id=" . $media->getId());
 
             // Link Project -> Media
             match ($slot) {
@@ -725,34 +674,23 @@ final class ProjectController
         if (!empty($galleryItems)) {
             foreach ($galleryItems as $i => $item) {
                 $norm = $this->normalizeUploadedFile($item);
-                error_log("[PROJECT][MEDIA][gallery][$i] file name={$norm['clientName']} err={$norm['error']}");
 
                 if ((int)$norm['error'] !== UPLOAD_ERR_OK) {
-                    error_log("[PROJECT][MEDIA][gallery][$i] skipping due to upload error {$norm['error']}");
                     continue;
                 }
 
                 $media = $this->createMediaFromNormalizedFile($norm, $user);
                 $media->setProjectGallery($project);
                 $mediaRepo->save($media);
-                error_log("[PROJECT][MEDIA][gallery][$i] saved media id=" . $media->getId());
 
                 $project->addMedia($media);
             }
-        } else {
-            error_log('[PROJECT][MEDIA][gallery] none after expand');
         }
     }
 
     private function serializeProject(Project $project): array
     {
         $author   = $project->getAuthor();
-        $authorId = $author?->getId() ?? 0;
-
-        error_log('[PROJECT][SHOW] gallery count=' . count($project->getMediaGallery()));
-        foreach ($project->getMediaGallery() as $gm) {
-            error_log('[PROJECT][SHOW] gallery item id=' . $gm->getId() . ' url=' . $gm->getUrl());
-        }
 
         // Build contributors (exclude owner, unique by id)
         $contributors       = $this->fetchContributors($project);
@@ -831,13 +769,8 @@ final class ProjectController
      * Return contributors (excluding the author) using the join table.
      * Robust against lazy-loading on GET.
      *
-     * @return array<array{id:int, fullName:?string, email:?string}>
-     */
-    /**
-     * Return contributors (excluding the author) using the join table.
-     * Robust against lazy-loading on GET.
-     *
      * @return array<array{id:int, fullName:?string, email:?string, picture:?array, founderHash:?string}>
+     * @throws \ReflectionException
      */
     private function fetchContributors(Project $project): array
     {
@@ -872,21 +805,6 @@ final class ProjectController
         return $out;
     }
 
-
-    /**
-     * Convenience: flat email list from fetchContributors()
-     *
-     * @return string[]
-     */
-    private function fetchContributorEmails(Project $project): array
-    {
-        $rows = $this->fetchContributors($project);
-        $emails = array_values(array_unique(array_filter(array_map(
-            static fn(array $r) => $r['email'] ?? null,
-            $rows
-        ))));
-        return $emails;
-    }
 
     /**
      * Small helper to avoid leaking full Media object.
@@ -929,20 +847,16 @@ final class ProjectController
         $absolutePath = $uploadDir . '/' . $finalName;
         $publicUrl    = '/uploads/' . $finalName;
 
-        error_log('[PROJECT][MEDIA][MOVE] saving "' . $clientFilename . '" -> ' . $absolutePath);
-
         // If we got a PSR-7 UploadedFile we can just ->moveTo()
         if ($norm['psr'] instanceof UploadedFileInterface) {
             try {
                 $norm['psr']->moveTo($absolutePath);
             } catch (\Throwable $e) {
-                error_log('[PROJECT][MEDIA][MOVE][ERR] moveTo failed: ' . $e->getMessage());
                 throw $e;
             }
         } else {
             // fallback: plain PHP tmp file copy
             if (!isset($norm['tmpPath']) || !is_readable($norm['tmpPath'])) {
-                error_log('[PROJECT][MEDIA][MOVE][ERR] tmpPath missing/unreadable');
                 throw new RuntimeException('Upload tmp file missing', 500);
             }
             if (!@move_uploaded_file($norm['tmpPath'], $absolutePath)) {
@@ -950,7 +864,6 @@ final class ProjectController
                 // fallback to rename/copy
                 if (!@rename($norm['tmpPath'], $absolutePath)) {
                     if (!@copy($norm['tmpPath'], $absolutePath)) {
-                        error_log('[PROJECT][MEDIA][MOVE][ERR] could not move tmp file');
                         throw new RuntimeException('Failed to write uploaded file', 500);
                     }
                 }
@@ -966,8 +879,6 @@ final class ProjectController
             ->setCreated(new DateTimeImmutable('now', new \DateTimeZone('UTC')))
             ->setAuthorUser($user)
             ->setHash($mediaHash);
-
-        error_log('[PROJECT][MEDIA][MOVE] media created hash=' . $mediaHash . ' url=' . $publicUrl);
 
         return $media;
     }
@@ -1071,19 +982,6 @@ final class ProjectController
         return $num;
     }
 
-    private function logUploadLimits(): void
-    {
-        $umf = $this->iniBytes('upload_max_filesize');
-        $pms = $this->iniBytes('post_max_size');
-        $mfu = ini_get('max_file_uploads');
-        error_log(sprintf(
-            '[PROJECT][MEDIA][LIMITS] upload_max_filesize=%s post_max_size=%s max_file_uploads=%s',
-            $umf !== null ? $umf . 'B' : 'null',
-            $pms !== null ? $pms . 'B' : 'null',
-            $mfu !== false ? $mfu : 'false'
-        ));
-    }
-
     #[Route(methods: 'GET', path: '/profiles/{hash}/projects')]
     public function listByProfileHash(ServerRequestInterface $request): JsonResponse
     {
@@ -1092,14 +990,14 @@ final class ProjectController
             throw new RuntimeException('Invalid profile identifier', 400);
         }
 
-        /** @var \App\Entity\Founder|null $f */
+        /** @var Founder|null $f */
         $f = $this->founders->findOneBy(['hash' => $hash]);
 
         $owner = null;
         if ($f && $f->getUser()) {
             $owner = $f->getUser();
         } else {
-            /** @var \App\Entity\Investor|null $i */
+            /** @var Investor|null $i */
             $i = $this->investors->findOneBy(['hash' => $hash]);
             if ($i && method_exists($i, 'getUser') && $i->getUser()) {
                 $owner = $i->getUser();
@@ -1578,13 +1476,13 @@ final class ProjectController
         // - persist invitation rows (email, project_id, inviter_id, token, expires_at)
         // - enqueue mail job
         // - return true on success
-        error_log('[INVITE][NOOP] inviter='.$inviter->getId().' project='.$project->getId().' emails='.json_encode($emails));
         return false;
     }
 
     /**
      * Best-effort founder hash lookup for a given user.
      * Tries the relation first, then falls back to a direct query.
+     * @throws \ReflectionException
      */
     private function founderHashByUserId(int $userId): ?string
     {
@@ -1636,21 +1534,16 @@ final class ProjectController
     {
 
         try {
-            $authHeader = $request->getHeaderLine('Authorization');
-            error_log('[PROJECT][CREATE] Authorization header="' . $authHeader . '"');
             // --- Auth ---
             $uid = (int) $request->getAttribute('user_id', 0);
 
             /** @var User|null $me */
             $me = $this->users->find($uid);
             if (!$me) {
-                error_log('[FAVORITES][LIST][ERR] unauthorized (user not found)');
                 throw new \RuntimeException('Unauthorized', 401);
             }
             // Use the actual user id so WHERE uf.user_id = ? is correct
             $uid = (int) $me->getId();
-
-            error_log(sprintf('[FAVORITES][LIST] user ok id=%d email=%s', $me->getId(), (string) $me->getEmail()));
 
             // --- pagination + flags ---
             $q = $request->getQueryParams();
@@ -1661,9 +1554,6 @@ final class ProjectController
             $offset  = ($page - 1) * $perPage;
             $includeUnpublished = ((string)($q['includeUnpublished'] ?? '0')) === '1';
 
-            error_log(sprintf('[FAVORITES][LIST] params page=%d perPage=%d offset=%d includeUnpublished=%s',
-                $page, $perPage, $offset, $includeUnpublished ? 'yes' : 'no'));
-
             // --- Base query over favorites join table ---
             $base = (clone $this->users->qb)
                 ->from('favorite_project', 'uf')
@@ -1672,18 +1562,13 @@ final class ProjectController
 
             if (!$includeUnpublished) {
                 $base->andWhere('p.status', '=', 'published');
-                error_log('[FAVORITES][LIST] filter: status=published');
-            } else {
-                error_log('[FAVORITES][LIST] filter: status any (include drafts)');
             }
 
             // Totals
             $total = 0;
             try {
                 $total = $base->duplicate()->count();
-                error_log(sprintf('[FAVORITES][LIST] total=%d', $total));
             } catch (\Throwable $e) {
-                error_log('[FAVORITES][LIST][ERR] count() failed: ' . $e->getMessage());
                 $total = 0;
             }
             $pages = (int) max(1, (int) ceil($total / max(1, $perPage)));
@@ -1697,9 +1582,7 @@ final class ProjectController
             $idRows = [];
             try {
                 $idRows = $qPage->fetchAll();
-                error_log(sprintf('[FAVORITES][LIST] page rows fetched=%d', is_array($idRows) ? count($idRows) : -1));
             } catch (\Throwable $e) {
-                error_log('[FAVORITES][LIST][ERR] fetchAll failed: ' . $e->getMessage());
                 $idRows = [];
             }
 
@@ -1710,7 +1593,6 @@ final class ProjectController
                 $pid = isset($r['id']) ? (int)$r['id'] : 0;
                 if ($pid <= 0) {
                     $hydrMiss++;
-                    error_log(sprintf('[FAVORITES][LIST][ROW%d] invalid pid (row=%s)', $idx, json_encode($r)));
                     continue;
                 }
 
@@ -1718,7 +1600,6 @@ final class ProjectController
                 $p = $this->projects->find($pid);
                 if (!$p instanceof Project) {
                     $hydrMiss++;
-                    error_log(sprintf('[FAVORITES][LIST][ROW%d] project not found for pid=%d', $idx, $pid));
                     continue;
                 }
 
@@ -1727,7 +1608,6 @@ final class ProjectController
                 $items[] = $row;
                 $hydrOk++;
             }
-            error_log(sprintf('[FAVORITES][LIST] hydrated ok=%d miss=%d', $hydrOk, $hydrMiss));
 
             $payload = [
                 'page'    => $page,
@@ -1740,7 +1620,6 @@ final class ProjectController
             return new JsonResponse($payload, 200);
 
         } catch (\Throwable $e) {
-            error_log('[FAVORITES][LIST][FATAL] ' . get_class($e) . ' ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine());
             throw $e;
         }
     }
@@ -1765,11 +1644,9 @@ final class ProjectController
             /** @var User|null $me */
             $me = $this->users->find($uid);
             if (!$me) {
-                error_log('[MYPROJECTS][LIST][ERR] unauthorized (user not found)');
                 throw new \RuntimeException('Unauthorized', 401);
             }
             $uid = (int) $me->getId();
-            error_log(sprintf('[MYPROJECTS][LIST] user ok id=%d email=%s', $uid, (string)$me->getEmail()));
 
             // --- pagination + flags ---
             $q = $request->getQueryParams();
@@ -1788,11 +1665,6 @@ final class ProjectController
                 default => 'COALESCE(p.publishDate, p.updateDate, p.id) DESC, p.id DESC',
             };
 
-            error_log(sprintf(
-                '[MYPROJECTS][LIST] params page=%d perPage=%d offset=%d includeContributed=%s includeUnpublished=%s sort=%s',
-                $page, $perPage, $offset, $includeContributed ? 'yes' : 'no', $includeUnpublished ? 'yes' : 'no', $sort
-            ));
-
             // --- base query (author or contributor) ---
             $base = (clone $this->projects->qb)
                 ->from('project', 'p')
@@ -1809,9 +1681,6 @@ final class ProjectController
 
             if (!$includeUnpublished) {
                 $base->andWhere('p.status', '=', 'published');
-                error_log('[MYPROJECTS][LIST] filter: status=published');
-            } else {
-                error_log('[MYPROJECTS][LIST] filter: status any (include drafts)');
             }
 
             // --- stage filter (CSV) ---
@@ -1819,7 +1688,6 @@ final class ProjectController
                 $stages = array_values(array_filter(array_map('trim', explode(',', (string)$q['stage']))));
                 if ($stages) {
                     $base->whereIn('p.stage', $stages);
-                    error_log('[MYPROJECTS][LIST] filter: stages=' . json_encode($stages));
                 }
             }
 
@@ -1829,7 +1697,6 @@ final class ProjectController
                 if ($cats) {
                     $place = implode(' OR ', array_fill(0, count($cats), 'JSON_SEARCH(p.category, "one", ?) IS NOT NULL'));
                     $base->whereRaw('(' . $place . ')', $cats);
-                    error_log('[MYPROJECTS][LIST] filter: categories=' . json_encode($cats));
                 }
             }
 
@@ -1838,20 +1705,17 @@ final class ProjectController
             if ($country !== '') {
                 $like = '%' . mb_strtolower($country) . '%';
                 $base->whereRaw('(LOWER(JSON_UNQUOTE(JSON_EXTRACT(p.location, "$.country"))) LIKE ? OR LOWER(p.location) LIKE ?)', [$like, $like]);
-                error_log('[MYPROJECTS][LIST] filter: country=' . $country);
             }
 
             $state = trim((string)($q['state'] ?? ''));
             if ($state !== '') {
                 $like = '%' . mb_strtolower($state) . '%';
                 $base->whereRaw('(LOWER(JSON_UNQUOTE(JSON_EXTRACT(p.location, "$.state"))) LIKE ? OR LOWER(p.location) LIKE ?)', [$like, $like]);
-                error_log('[MYPROJECTS][LIST] filter: state=' . $state);
             }
 
             $iso2 = strtoupper(trim((string)($q['iso2'] ?? '')));
             if ($iso2 !== '' && strlen($iso2) === 2) {
                 $base->whereRaw('(UPPER(JSON_UNQUOTE(JSON_EXTRACT(p.location, "$.iso2"))) = ? OR UPPER(p.location) LIKE ?)', [$iso2, '%'.$iso2.'%']);
-                error_log('[MYPROJECTS][LIST] filter: iso2=' . $iso2);
             }
 
             $loc = trim((string)($q['loc'] ?? ''));
@@ -1864,7 +1728,6 @@ final class ProjectController
                     . 'LOWER(p.location) LIKE ?'
                     . ')', [$like, $like, $like, $like]
                 );
-                error_log('[MYPROJECTS][LIST] filter: loc~' . $loc);
             }
 
             // --- text search (words ANDed; each word ORs across fields) in ONE raw clause per "q" ---
@@ -1899,7 +1762,6 @@ final class ProjectController
                     }
 
                     $base->whereRaw('(' . implode(' AND ', $andClauses) . ')', $params);
-                    error_log('[MYPROJECTS][LIST] filter: q=' . $needle . ' words=' . count($words));
                 }
             }
 
@@ -1915,7 +1777,6 @@ final class ProjectController
             $row   = $stmt->fetch(\PDO::FETCH_ASSOC);
             $total = (int)($row['cnt'] ?? 0);
             $pages = (int) max(1, (int) ceil($total / max(1, $perPage)));
-            error_log(sprintf('[MYPROJECTS][LIST] total=%d', $total));
 
             // --- page ids ---
             $qPage = $base->duplicate()
@@ -1928,9 +1789,7 @@ final class ProjectController
             $idRows = [];
             try {
                 $idRows = $qPage->fetchAll();
-                error_log(sprintf('[MYPROJECTS][LIST] page rows fetched=%d', is_array($idRows) ? count($idRows) : -1));
             } catch (\Throwable $e) {
-                error_log('[MYPROJECTS][LIST][ERR] fetchAll failed: ' . $e->getMessage());
                 $idRows = [];
             }
 
@@ -1941,7 +1800,6 @@ final class ProjectController
                 $pid = isset($r['id']) ? (int)$r['id'] : 0;
                 if ($pid <= 0) {
                     $hydrMiss++;
-                    error_log(sprintf('[MYPROJECTS][LIST][ROW%d] invalid pid (row=%s)', $idx, json_encode($r)));
                     continue;
                 }
 
@@ -1949,7 +1807,6 @@ final class ProjectController
                 $p = $this->projects->find($pid);
                 if (!$p instanceof Project) {
                     $hydrMiss++;
-                    error_log(sprintf('[MYPROJECTS][LIST][ROW%d] project not found pid=%d', $idx, $pid));
                     continue;
                 }
 
@@ -1959,7 +1816,6 @@ final class ProjectController
                 $items[] = $row;
                 $hydrOk++;
             }
-            error_log(sprintf('[MYPROJECTS][LIST] hydrated ok=%d miss=%d', $hydrOk, $hydrMiss));
 
             return new JsonResponse([
                 'page'    => $page,
@@ -1970,7 +1826,6 @@ final class ProjectController
             ], 200);
 
         } catch (\Throwable $e) {
-            error_log('[MYPROJECTS][LIST][FATAL] ' . get_class($e) . ' ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine());
             throw $e;
         }
     }
@@ -2001,6 +1856,7 @@ final class ProjectController
      * Query params:
      *  - includeContributed=1|0   (default 1)
      *  - includeUnpublished=1|0   (default 0 -> published only)
+     * @throws \ReflectionException
      */
     #[Route(methods: 'GET', path: '/me/projects/keys')]
     public function listMyProjectKeys(ServerRequestInterface $request): JsonResponse
@@ -2010,11 +1866,9 @@ final class ProjectController
         /** @var User|null $me */
         $me = $this->users->find($uid);
         if (!$me) {
-            error_log('[MYPROJECTS][KEYS][ERR] unauthorized (user not found)');
             throw new \RuntimeException('Unauthorized', 401);
         }
         $uid = (int) $me->getId();
-        error_log(sprintf('[MYPROJECTS][KEYS] user ok id=%d email=%s', $uid, (string)$me->getEmail()));
 
         // --- Flags ---
         $q = $request->getQueryParams();
@@ -2049,7 +1903,6 @@ final class ProjectController
         try {
             $rows = $qb->fetchAll();
         } catch (\Throwable $e) {
-            error_log('[MYPROJECTS][KEYS][ERR] fetchAll failed: ' . $e->getMessage());
             $rows = [];
         }
 
@@ -2105,25 +1958,16 @@ final class ProjectController
     #[Route(methods: 'GET', path: '/admin/projects')]
     public function adminList(ServerRequestInterface $request): JsonResponse
     {
-        $t0 = microtime(true);
-        $reqId = bin2hex(random_bytes(4));
-        $log = static function(string $msg) use ($reqId): void {
-            error_log("[ADMIN/PROJECTS][$reqId] $msg");
-        };
 
         try {
             // --- Auth (comment out if intentionally open) ---
-            $log('start');
             $this->requireAdmin($request);
-            $log('admin verified');
         } catch (\Throwable $e) {
-            $log('ADMIN CHECK FAILED: ' . $e->getMessage());
             throw $e; // keep existing behavior; comment this line if you want to proceed without auth
         }
 
         try {
             $q = $request->getQueryParams();
-            $log('query params: ' . @json_encode($q));
 
             // pagination
             $page = max(1, (int)($q['page'] ?? 1));
@@ -2132,15 +1976,12 @@ final class ProjectController
             if ($perPage > 100) $perPage = 100;
             $offset = ($page - 1) * $perPage;
 
-            $log("pagination resolved: page=$page perPage=$perPage offset=$offset");
-
             // sort
             $sort = strtolower((string)($q['sort'] ?? 'recent'));
             $orderExpr = match ($sort) {
                 'boost' => 'COALESCE(p.superBoostDate, p.boostDate, p.publishDate, p.updateDate, p.id) DESC, p.id DESC',
                 default => 'COALESCE(p.publishDate, p.updateDate, p.id) DESC, p.id DESC',
             };
-            $log("sort resolved: sort={$sort} orderExpr={$orderExpr}");
 
             $base = (clone $this->projects->qb)->from('project', 'p');
 
@@ -2150,7 +1991,6 @@ final class ProjectController
                 $statuses = array_values(array_filter(array_map('trim', explode(',', (string)$q['status'])), function($s) use ($allowed){
                     return in_array($s, $allowed, true);
                 }));
-                $log('status filter: ' . @json_encode($statuses));
                 if ($statuses) {
                     $base->whereIn('p.status', $statuses);
                 }
@@ -2159,7 +1999,6 @@ final class ProjectController
             // author filter
             if (!empty($q['authorId'])) {
                 $authorId = (int) $q['authorId'];
-                $log("authorId filter: $authorId");
                 if ($authorId > 0) {
                     $base->andWhere('p.author_id', '=', $authorId);
                 }
@@ -2168,7 +2007,6 @@ final class ProjectController
             // boost filters
             $boosted   = strtolower((string)($q['boosted'] ?? 'include')); // include|exclude|only
             $superOnly = ((string)($q['superOnly'] ?? '0')) === '1';
-            $log("boost filters: boosted={$boosted} superOnly=" . ($superOnly ? '1' : '0'));
             if ($superOnly) {
                 $base->whereRaw('COALESCE(p.superBoost, 0) = 1');
             } else {
@@ -2182,7 +2020,6 @@ final class ProjectController
             // stage filter (CSV)
             if (!empty($q['stage'])) {
                 $stages = array_values(array_filter(array_map('trim', explode(',', (string)$q['stage']))));
-                $log('stage filter: ' . @json_encode($stages));
                 if ($stages) {
                     $base->whereIn('p.stage', $stages);
                 }
@@ -2191,7 +2028,6 @@ final class ProjectController
             // category filter (CSV) — JSON array match
             if (!empty($q['category'])) {
                 $cats = array_values(array_filter(array_map('trim', explode(',', (string)$q['category']))));
-                $log('category filter: ' . @json_encode($cats));
                 if ($cats) {
                     $base->whereGroup(function($g) use ($cats) {
                         foreach ($cats as $i => $c) {
@@ -2207,7 +2043,6 @@ final class ProjectController
             $state   = trim((string)($q['state']   ?? ''));
             $iso2    = strtoupper(trim((string)($q['iso2'] ?? '')));
             $loc     = trim((string)($q['loc']     ?? ''));
-            $log("location filters: country='{$country}' state='{$state}' iso2='{$iso2}' loc='{$loc}'");
 
             if ($country !== '') {
                 $like = '%' . mb_strtolower($country) . '%';
@@ -2235,7 +2070,6 @@ final class ProjectController
             if (!empty($q['q'])) {
                 $needle = trim((string)$q['q']);
                 $words = array_values(array_filter(preg_split('/\s+/', mb_strtolower($needle)) ?: []));
-                $log('text search needle: ' . $needle . ' words: ' . @json_encode($words));
                 if ($words) {
                     $fields = [
                         'LOWER(p.name)','LOWER(p.tagline)','LOWER(p.elevatorPitch)',
@@ -2260,14 +2094,11 @@ final class ProjectController
             $total = 0;
             try {
                 $total = $base->duplicate()->count();
-                $log("count() returned: {$total}");
             } catch (\Throwable $e) {
-                $log('ERROR during count(): ' . $e->getMessage());
                 throw $e;
             }
 
             $pages = (int) max(1, (int) ceil($total / max(1, $perPage)));
-            $log("pages resolved: {$pages}");
 
             // page ids
             $idRows = [];
@@ -2279,9 +2110,7 @@ final class ProjectController
                     ->limit($perPage)
                     ->offset($offset)
                     ->fetchAll();
-                $log('idRows fetched, count=' . count($idRows));
             } catch (\Throwable $e) {
-                $log('ERROR during idRows query: ' . $e->getMessage());
                 throw $e;
             }
 
@@ -2291,13 +2120,11 @@ final class ProjectController
                 $iter++;
                 $pid = (int)($r['id'] ?? 0);
                 if ($pid <= 0) {
-                    $log("skip row {$iter}: invalid id");
                     continue;
                 }
                 try {
                     $p = $this->projects->find($pid);
                 } catch (\Throwable $e) {
-                    $log("ERROR find({$pid}): " . $e->getMessage());
                     continue;
                 }
 
@@ -2313,15 +2140,9 @@ final class ProjectController
                         $row['boost']       = $p->getBoost() ?? false;
                         $items[] = $row;
                     } catch (\Throwable $e) {
-                        $log("ERROR summarize/serialize id={$pid}: " . $e->getMessage());
                     }
-                } else {
-                    $log("WARN: find({$pid}) did not return Project");
                 }
             }
-
-            $elapsed = number_format((microtime(true) - $t0) * 1000, 2);
-            $log("success: items=" . count($items) . " total={$total} page={$page} perPage={$perPage} pages={$pages} in {$elapsed}ms");
 
             return new JsonResponse([
                 'page'    => $page,
@@ -2331,18 +2152,6 @@ final class ProjectController
                 'items'   => $items,
             ], 200);
         } catch (\Throwable $e) {
-            $elapsed = number_format((microtime(true) - $t0) * 1000, 2);
-            $log('FATAL: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine() . " ({$elapsed}ms)");
-            // Optional: include a trimmed trace top frame to aid debugging
-            $trace = $e->getTrace();
-            if (!empty($trace[0])) {
-                $top = $trace[0];
-                $log('TRACE[0]: ' . @json_encode([
-                        'file' => $top['file'] ?? null,
-                        'line' => $top['line'] ?? null,
-                        'func' => ($top['class'] ?? '') . ($top['type'] ?? '') . ($top['function'] ?? ''),
-                    ]));
-            }
             throw $e;
         }
     }
@@ -2359,48 +2168,34 @@ final class ProjectController
     #[Route(methods: 'POST', path: '/admin/projects/{id}')]
     public function adminUpdate(ServerRequestInterface $request): JsonResponse
     {
-        $logp = '[ADMIN][PROJECTS][UPDATE]';
-        error_log("$logp start");
 
         /** @var User $admin */
         $admin = $this->requireAdmin($request);
-        error_log("$logp admin id=" . (string)($admin->getId() ?? 0));
 
         $id = (int) $request->getAttribute('id');
-        error_log("$logp route id attr=" . $id);
 
         if ($id <= 0) {
-            error_log("$logp invalid id");
             throw new RuntimeException('Invalid project id', 400);
         }
 
         /** @var Project|null $project */
         $project = $this->projects->find($id);
         if (!$project) {
-            error_log("$logp project not found id=$id");
             throw new RuntimeException('Project not found', 404);
         }
-
-        $ct = $request->getHeaderLine('Content-Type');
-        error_log("$logp content-type='$ct'");
 
         // parse body (json or multipart)
         $parsed = $request->getParsedBody();
         $isMultipart = is_array($parsed) && array_key_exists('data', $parsed);
-        error_log("$logp isMultipart=" . ($isMultipart ? '1' : '0'));
 
         $raw = $isMultipart ? (string)($parsed['data'] ?? '') : (string)$request->getBody();
-        error_log("$logp raw length=" . strlen($raw));
 
         try {
             $data = $raw !== '' ? json_decode($raw, true, 512, JSON_THROW_ON_ERROR) : [];
         } catch (\Throwable $e) {
-            error_log("$logp json_decode error: " . $e->getMessage());
             throw new RuntimeException('Invalid JSON', 400);
         }
         if (!is_array($data)) { $data = []; }
-
-        error_log("$logp decoded keys=" . implode(',', array_keys($data)));
 
         $trimOrNull = static fn($v) => (isset($v) && trim((string)$v) !== '') ? trim((string)$v) : null;
         $truthy = static fn($v): bool => ($v === true || $v === 1 || $v === '1' || $v === 'true' || $v === 'on');
@@ -2413,17 +2208,9 @@ final class ProjectController
                     try {
                         $val = $trimOrNull($data[$k]);
                         $project->$setter($val);
-                        if ($k !== 'elevatorPitch' && $k !== 'solution' && $k !== 'problemStatement') {
-                            error_log("$logp set:$k='" . (is_string($val) ? mb_substr($val,0,120) : (string)$val) . "'");
-                        } else {
-                            error_log("$logp set:$k len=" . strlen((string)$val));
-                        }
                     } catch (\Throwable $e) {
-                        error_log("$logp ERROR setting $k: " . $e->getMessage());
                         throw $e;
                     }
-                } else {
-                    error_log("$logp WARN no setter for $k");
                 }
             }
         }
@@ -2432,22 +2219,18 @@ final class ProjectController
         if (array_key_exists('category', $data)) {
             $v = is_array($data['category']) ? $data['category'] : null;
             $project->setCategory($v);
-            error_log("$logp set:category count=" . (is_array($v) ? count($v) : 0));
         }
         if (array_key_exists('urls', $data)) {
             $v = is_array($data['urls']) ? $data['urls'] : null;
             $project->setUrls($v);
-            error_log("$logp set:urls count=" . (is_array($v) ? count($v) : 0));
         }
         if (array_key_exists('social', $data)) {
             $v = is_array($data['social']) ? $data['social'] : null;
             $project->setSocial($v);
-            error_log("$logp set:social keys=" . (is_array($v) ? implode(',', array_keys($v)) : ''));
         }
         if (array_key_exists('location', $data)) {
             $v = is_array($data['location']) ? $data['location'] : null;
             $project->setLocation($v);
-            error_log("$logp set:location=" . json_encode($v));
         }
 
         // numbers
@@ -2458,13 +2241,9 @@ final class ProjectController
                     try {
                         $v = ($data[$k] !== null && $data[$k] !== '') ? (int)$data[$k] : null;
                         $project->$setter($v);
-                        error_log("$logp set:$k=" . var_export($v, true));
                     } catch (\Throwable $e) {
-                        error_log("$logp ERROR setting number $k: " . $e->getMessage());
                         throw $e;
                     }
-                } else {
-                    error_log("$logp WARN no setter for number $k");
                 }
             }
         }
@@ -2485,32 +2264,27 @@ final class ProjectController
                     }
                 }
                 $project->setFounded($founded);
-                error_log("$logp set:founded=" . ($founded ? $founded->format('Y-m-d') : 'null'));
             } catch (\Throwable $e) {
-                error_log("$logp ERROR parsing founded '$foundedRaw': " . $e->getMessage());
                 throw $e;
             }
         }
 
         // previousRoundDate & publishDate override (ISO8601)
-        $parseIso = static function (?string $raw) use ($logp): ?\DateTimeImmutable {
+        $parseIso = static function (?string $raw): ?\DateTimeImmutable {
             if (!$raw) return null;
             try {
                 return new \DateTimeImmutable($raw, new \DateTimeZone('UTC'));
             } catch (\Throwable $e) {
-                error_log("$logp ERROR parseIso('$raw'): " . $e->getMessage());
                 throw $e;
             }
         };
         if (array_key_exists('previousRoundDate', $data)) {
             $rawPrev = $trimOrNull($data['previousRoundDate']);
             $project->setPreviousRoundDate($parseIso($rawPrev));
-            error_log("$logp set:previousRoundDate=" . ($project->getPreviousRoundDate()?->format(DATE_ATOM) ?? 'null'));
         }
         if (array_key_exists('publishDate', $data)) {
             $rawPub = $trimOrNull($data['publishDate']);
             $project->setPublishDate($parseIso($rawPub));
-            error_log("$logp set:publishDate=" . ($project->getPublishDate()?->format(DATE_ATOM) ?? 'null'));
         }
 
         // status (admin can set any of these)
@@ -2518,90 +2292,68 @@ final class ProjectController
             $statusRaw = strtolower((string)$data['status']);
             $allowed = ['draft','pending_review','published','rejected','archived'];
             if (!in_array($statusRaw, $allowed, true)) {
-                error_log("$logp invalid status '$statusRaw'");
                 throw new RuntimeException('Invalid status', 400);
             }
             $project->setStatus($statusRaw);
-            error_log("$logp set:status=$statusRaw");
         }
 
         // boost/superBoost flags + dates
         if (array_key_exists('boost', $data)) {
             $flag = $truthy($data['boost']);
             $project->setBoost($flag);
-            error_log("$logp set:boost=" . ($flag ? '1' : '0'));
             if ($project->getBoost() && !$project->getBoostDate()) {
                 $project->setBoostDate(new \DateTimeImmutable('now', new \DateTimeZone('UTC')));
-                error_log("$logp auto-set:boostDate=" . $project->getBoostDate()?->format(DATE_ATOM));
             }
         }
         if (array_key_exists('boostDate', $data)) {
             $raw = $trimOrNull($data['boostDate']);
             $project->setBoostDate($parseIso($raw));
-            error_log("$logp set:boostDate=" . ($project->getBoostDate()?->format(DATE_ATOM) ?? 'null'));
         }
 
         if (array_key_exists('superBoost', $data)) {
             $flag = $truthy($data['superBoost']);
             $project->setSuperBoost($flag);
-            error_log("$logp set:superBoost=" . ($flag ? '1' : '0'));
             if ($project->getSuperBoost() && !$project->getSuperBoostDate()) {
                 $project->setSuperBoostDate(new \DateTimeImmutable('now', new \DateTimeZone('UTC')));
-                error_log("$logp auto-set:superBoostDate=" . $project->getSuperBoostDate()?->format(DATE_ATOM));
             }
         }
         if (array_key_exists('superBoostDate', $data)) {
             $raw = $trimOrNull($data['superBoostDate']);
             $project->setSuperBoostDate($parseIso($raw));
-            error_log("$logp set:superBoostDate=" . ($project->getSuperBoostDate()?->format(DATE_ATOM) ?? 'null'));
         }
 
         // optional media removals
         if (($data['removeLogo'] ?? null) !== null && $truthy($data['removeLogo'])) {
             $project->removeLogo();
-            error_log("$logp removed:logo");
         }
         if (($data['removeBanner'] ?? null) !== null && $truthy($data['removeBanner'])) {
             $project->removeBanner();
-            error_log("$logp removed:banner");
         }
         if (($data['removePitchDeck'] ?? null) !== null && $truthy($data['removePitchDeck'])) {
             $project->removePitchDeck();
-            error_log("$logp removed:pitchDeck");
         }
 
         // save base fields before media
         try {
             $project->setUpdateDate(new \DateTimeImmutable('now', new \DateTimeZone('UTC')));
             $this->projects->save($project);
-            error_log("$logp saved base fields");
         } catch (\Throwable $e) {
-            error_log("$logp ERROR saving base fields: " . $e->getMessage());
             throw $e;
         }
 
         // media uploads (if multipart)
         if ($isMultipart) {
             try {
-                // Quick visibility into uploaded files (may vary by PSR-7 implementation)
-                $uploaded = $request->getUploadedFiles();
-                error_log("$logp uploaded keys=" . implode(',', array_keys($uploaded)));
-
                 $this->processMediaUploads($request, $project, $admin);
-                error_log("$logp processMediaUploads ok");
             } catch (RandomException $e) {
-                error_log("$logp RandomException media: " . $e->getMessage());
                 throw $e;
             } catch (\Throwable $e) {
-                error_log("$logp ERROR media upload: " . $e->getMessage());
                 throw $e;
             }
 
             try {
                 $this->projects->save($project);
-                error_log("$logp saved after media");
             } catch (\Throwable $e) {
-                error_log("$logp ERROR saving after media: " . $e->getMessage());
                 throw $e;
             }
         }
@@ -2609,16 +2361,13 @@ final class ProjectController
         // (optional) change author
         if (isset($data['authorId'])) {
             $newAuthorId = (int) $data['authorId'];
-            error_log("$logp incoming authorId=$newAuthorId");
             if ($newAuthorId > 0) {
                 /** @var User|null $newAuthor */
                 $newAuthor = $this->users->find($newAuthorId);
                 if ($newAuthor instanceof User) {
                     $project->setAuthor($newAuthor);
                     $this->projects->save($project);
-                    error_log("$logp author set to userId=$newAuthorId");
                 } else {
-                    error_log("$logp authorId not found ($newAuthorId)");
                     throw new RuntimeException('authorId not found', 400);
                 }
             }
@@ -2635,9 +2384,6 @@ final class ProjectController
         $replaceIds = $asIntIds($data['contributors'] ?? null);
         $addIds     = $asIntIds($data['addContributors'] ?? null);
         $removeIds  = $asIntIds($data['removeContributors'] ?? null);
-
-        error_log("$logp contributors replace=" . json_encode($replaceIds) . " add=" . json_encode($addIds) . " remove=" . json_encode($removeIds));
-
         $authorId = (int)($project->getAuthor()?->getId() ?? 0);
 
         try {
@@ -2654,7 +2400,6 @@ final class ProjectController
                         $this->projects->attachRelation($project, 'users', $u->getId());
                     }
                 }
-                error_log("$logp contributors replaced (author preserved id=$authorId)");
             } else {
                 foreach ($addIds as $cid) {
                     if ($cid === $authorId) continue;
@@ -2667,10 +2412,8 @@ final class ProjectController
                     if ($cid === $authorId) continue;
                     $this->projects->detachRelation($project, 'users', $cid);
                 }
-                error_log("$logp contributors add/remove done (author preserved id=$authorId)");
             }
         } catch (\Throwable $e) {
-            error_log("$logp ERROR updating contributors: " . $e->getMessage());
             throw $e;
         }
 
@@ -2678,17 +2421,18 @@ final class ProjectController
         try {
             $project->setUpdateDate(new \DateTimeImmutable('now', new \DateTimeZone('UTC')));
             $this->projects->save($project);
-            error_log("$logp final save ok id=$id");
         } catch (\Throwable $e) {
-            error_log("$logp ERROR on final save: " . $e->getMessage());
             throw $e;
         }
 
         $resp = $this->serializeProject($project);
-        error_log("$logp done; returning 200 with name='" . ($resp['name'] ?? '') . "'");
         return new JsonResponse($resp, 200);
     }
 
+    /**
+     * @throws \ReflectionException
+     * @throws \JsonException
+     */
     #[Route(methods: 'DELETE', path: '/projects/{hash}')]
     public function deleteByHash(ServerRequestInterface $request): JsonResponse
     {
@@ -2723,6 +2467,10 @@ final class ProjectController
         return new JsonResponse(null, 204);
     }
 
+    /**
+     * @throws \ReflectionException
+     * @throws \JsonException
+     */
     #[Route(methods: 'DELETE', path: '/admin/projects/{id}')]
     public function adminDelete(ServerRequestInterface $request): JsonResponse
     {
@@ -2756,8 +2504,6 @@ final class ProjectController
             throw new RuntimeException('Invalid project', 400);
         }
 
-        error_log(sprintf('[PROJECT][DELETE] start id=%d hash=%s', $pid, (string)$project->getHash()));
-
         $qb = $this->projects->qb;
         $mediaRepo = $this->repos->getRepository(Media::class);
 
@@ -2789,26 +2535,24 @@ final class ProjectController
                 'banner_id'     => null,
                 'pitch_deck_id' => null,
             ]);
-            error_log('[PROJECT][DELETE] project FKs nulled (logo/banner/pitchDeck)');
         } catch (\Throwable $e) {
-            error_log('[PROJECT][DELETE][WARN] failed to null project FKs: ' . $e->getMessage());
+            throw $e;
         }
 
         // 4) Delete media physical files + rows
         foreach ($mediaToDelete as $m) {
-            try { $this->deleteMediaFileIfLocal($m); } catch (\Throwable $e) { error_log('[PROJECT][DELETE][WARN] file unlink failed: ' . $e->getMessage()); }
             try {
                 if (method_exists($mediaRepo, 'delete')) { /** @phpstan-ignore-next-line */ $mediaRepo->delete($m); }
                 elseif (method_exists($mediaRepo, 'remove')) { /** @phpstan-ignore-next-line */ $mediaRepo->remove($m); }
                 else { (clone $qb)->where('id', '=', (int)$m->getId())->delete('media'); }
             } catch (\Throwable $e) {
-                error_log('[PROJECT][DELETE][WARN] media delete failed: ' . $e->getMessage());
+                throw $e;
             }
         }
 
         // 5) Safety: wipe any lingering gallery rows by correct FK (media.projectGallery_id)
-        try { (clone $qb)->where('projectGallery_id', '=', $pid)->delete('media'); error_log('[PROJECT][DELETE] residual gallery media cleared by FK'); }
-        catch (\Throwable $e) { error_log('[PROJECT][DELETE][WARN] residual gallery media clear failed: ' . $e->getMessage()); }
+        try { (clone $qb)->where('projectGallery_id', '=', $pid)->delete('media'); }
+        catch (\Throwable $e) { throw $e; }
 
         // 6) Hard delete the project row (double-tap by id then by hash)
         try {
@@ -2818,9 +2562,7 @@ final class ProjectController
             if ($h2 !== '') {
                 (clone $qb)->where('hash', '=', $h2)->delete('project');
             }
-            error_log('[PROJECT][DELETE] project row deleted id=' . $pid);
         } catch (\Throwable $e) {
-            error_log('[PROJECT][DELETE][FATAL] project delete failed: ' . $e->getMessage());
             throw $e;
         }
 
@@ -2837,12 +2579,8 @@ final class ProjectController
         }
 
         // 8) Evict identity-map / caches if your repos expose such methods
-        try { method_exists($this->projects, 'detach') && $this->projects->detach($project); } catch (\Throwable $e) {}
         try { method_exists($this->projects, 'clear') && $this->projects->clear(); } catch (\Throwable $e) {}
         try { method_exists($mediaRepo, 'clear') && $mediaRepo->clear(); } catch (\Throwable $e) {}
-        try { method_exists($this->repos, 'clearAll') && $this->repos->clearAll(); } catch (\Throwable $e) {}
-
-        error_log('[PROJECT][DELETE] done id=' . $pid);
     }
 
 }

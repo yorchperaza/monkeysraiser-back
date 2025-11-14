@@ -4892,3 +4892,185 @@
 [13-Nov-2025 21:45:15 UTC] [2025-11-13T21:45:15+00:00] GET http://127.0.0.1:8000/plans/5?includeStripe=1 – 200 (954.60ms)
 [13-Nov-2025 21:45:30 UTC] [2025-11-13T21:45:30+00:00] GET http://127.0.0.1:8000/plans?page=1&perPage=24&includeStripe=1 – 200 (2,093.52ms)
 [13-Nov-2025 21:45:32 UTC] [2025-11-13T21:45:32+00:00] GET http://127.0.0.1:8000/plans?page=1&perPage=24&includeStripe=1 – 200 (2,048.09ms)
+[13-Nov-2025 21:46:12 UTC] [2025-11-13T21:46:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (273.28ms)
+[13-Nov-2025 21:46:49 UTC] [2025-11-13T21:46:49+00:00] GET http://127.0.0.1:8000/plans?page=1&perPage=24&includeStripe=1 – 200 (2,005.30ms)
+[13-Nov-2025 21:46:49 UTC] [2025-11-13T21:46:49+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (268.38ms)
+[13-Nov-2025 21:46:50 UTC] [2025-11-13T21:46:50+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (191.47ms)
+[13-Nov-2025 21:46:50 UTC] [2025-11-13T21:46:50+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (245.13ms)
+[13-Nov-2025 21:46:50 UTC] [2025-11-13T21:46:50+00:00] GET http://127.0.0.1:8000/auth/me – 200 (389.12ms)
+[13-Nov-2025 21:46:50 UTC] [2025-11-13T21:46:50+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (212.13ms)
+[13-Nov-2025 21:47:21 UTC] [2025-11-13T21:47:21+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (257.56ms)
+[13-Nov-2025 21:47:51 UTC] [2025-11-13T21:47:51+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (241.81ms)
+[13-Nov-2025 21:48:08 UTC] [2025-11-13T21:48:08+00:00] GET http://127.0.0.1:8000/plans?page=1&perPage=24&includeStripe=1 – 200 (2,070.02ms)
+[13-Nov-2025 21:48:21 UTC] [2025-11-13T21:48:21+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (272.79ms)
+[13-Nov-2025 21:48:51 UTC] [2025-11-13T21:48:51+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (248.91ms)
+[13-Nov-2025 21:49:21 UTC] [2025-11-13T21:49:21+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (262.10ms)
+[13-Nov-2025 21:49:51 UTC] [2025-11-13T21:49:51+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (247.57ms)
+[13-Nov-2025 21:51:12 UTC] [2025-11-13T21:51:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (249.68ms)
+[13-Nov-2025 21:52:12 UTC] [2025-11-13T21:52:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (252.40ms)
+[13-Nov-2025 21:53:12 UTC] [2025-11-13T21:53:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (335.33ms)
+[13-Nov-2025 21:54:12 UTC] [2025-11-13T21:54:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (246.37ms)
+[13-Nov-2025 21:55:12 UTC] [2025-11-13T21:55:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (324.16ms)
+[13-Nov-2025 21:56:12 UTC] [2025-11-13T21:56:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (289.59ms)
+[13-Nov-2025 21:57:12 UTC] [2025-11-13T21:57:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (312.86ms)
+[13-Nov-2025 21:58:12 UTC] [2025-11-13T21:58:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (322.10ms)
+[13-Nov-2025 21:59:12 UTC] [2025-11-13T21:59:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (328.02ms)
+[13-Nov-2025 22:00:12 UTC] [2025-11-13T22:00:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (253.70ms)
+[13-Nov-2025 22:01:12 UTC] [2025-11-13T22:01:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (256.31ms)
+[13-Nov-2025 22:02:12 UTC] [2025-11-13T22:02:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (277.29ms)
+[13-Nov-2025 22:03:12 UTC] [2025-11-13T22:03:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (317.45ms)
+[13-Nov-2025 22:04:12 UTC] [2025-11-13T22:04:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (303.37ms)
+[13-Nov-2025 22:05:12 UTC] [2025-11-13T22:05:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (256.51ms)
+[13-Nov-2025 22:06:12 UTC] [2025-11-13T22:06:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (258.49ms)
+[13-Nov-2025 22:07:12 UTC] [2025-11-13T22:07:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (249.96ms)
+[13-Nov-2025 22:08:12 UTC] [2025-11-13T22:08:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (297.18ms)
+[13-Nov-2025 22:09:12 UTC] [2025-11-13T22:09:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (250.18ms)
+[13-Nov-2025 22:10:12 UTC] [2025-11-13T22:10:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (289.77ms)
+[13-Nov-2025 22:11:12 UTC] [2025-11-13T22:11:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (249.23ms)
+[13-Nov-2025 22:12:12 UTC] [2025-11-13T22:12:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (278.07ms)
+[13-Nov-2025 22:13:12 UTC] [2025-11-13T22:13:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (253.80ms)
+[13-Nov-2025 22:14:12 UTC] [2025-11-13T22:14:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (287.22ms)
+[13-Nov-2025 22:15:12 UTC] [2025-11-13T22:15:12+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (277.62ms)
+[13-Nov-2025 22:15:29 UTC] [2025-11-13T22:15:29+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (258.79ms)
+[13-Nov-2025 22:15:30 UTC] [2025-11-13T22:15:30+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (199.55ms)
+[13-Nov-2025 22:15:30 UTC] [2025-11-13T22:15:30+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (245.25ms)
+[13-Nov-2025 22:15:30 UTC] [2025-11-13T22:15:30+00:00] GET http://127.0.0.1:8000/auth/me – 200 (415.02ms)
+[13-Nov-2025 22:15:31 UTC] [2025-11-13T22:15:31+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (229.96ms)
+[13-Nov-2025 22:15:57 UTC] [2025-11-13T22:15:57+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (290.22ms)
+[13-Nov-2025 22:15:57 UTC] [2025-11-13T22:15:57+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (210.75ms)
+[13-Nov-2025 22:15:58 UTC] [2025-11-13T22:15:58+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (243.76ms)
+[13-Nov-2025 22:15:58 UTC] [2025-11-13T22:15:58+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (219.29ms)
+[13-Nov-2025 22:15:58 UTC] [2025-11-13T22:15:58+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (189.40ms)
+[13-Nov-2025 22:15:58 UTC] [2025-11-13T22:15:58+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (240.31ms)
+[13-Nov-2025 22:16:23 UTC] [2025-11-13T22:16:23+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (1,147.26ms)
+[13-Nov-2025 22:16:24 UTC] [2025-11-13T22:16:24+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (689.57ms)
+[13-Nov-2025 22:16:24 UTC] [2025-11-13T22:16:24+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (315.63ms)
+[13-Nov-2025 22:16:24 UTC] [2025-11-13T22:16:24+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (202.37ms)
+[13-Nov-2025 22:16:25 UTC] [2025-11-13T22:16:25+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (201.68ms)
+[13-Nov-2025 22:16:25 UTC] [2025-11-13T22:16:25+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (243.58ms)
+[13-Nov-2025 22:16:26 UTC] [2025-11-13T22:16:26+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (239.42ms)
+[13-Nov-2025 22:16:26 UTC] [2025-11-13T22:16:26+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (187.32ms)
+[13-Nov-2025 22:16:26 UTC] [2025-11-13T22:16:26+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (249.51ms)
+[13-Nov-2025 22:16:26 UTC] [2025-11-13T22:16:26+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (204.11ms)
+[13-Nov-2025 22:16:26 UTC] [2025-11-13T22:16:26+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (194.41ms)
+[13-Nov-2025 22:16:27 UTC] [2025-11-13T22:16:27+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (239.87ms)
+[13-Nov-2025 22:16:33 UTC] [2025-11-13T22:16:33+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (1,101.20ms)
+[13-Nov-2025 22:16:34 UTC] [2025-11-13T22:16:34+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (534.86ms)
+[13-Nov-2025 22:16:35 UTC] [2025-11-13T22:16:35+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (676.44ms)
+[13-Nov-2025 22:16:35 UTC] [2025-11-13T22:16:35+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (254.46ms)
+[13-Nov-2025 22:16:35 UTC] [2025-11-13T22:16:35+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (232.38ms)
+[13-Nov-2025 22:16:36 UTC] [2025-11-13T22:16:36+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (833.86ms)
+[13-Nov-2025 22:17:14 UTC] [2025-11-13T22:17:14+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (264.25ms)
+[13-Nov-2025 22:17:14 UTC] [2025-11-13T22:17:14+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (212.42ms)
+[13-Nov-2025 22:17:14 UTC] [2025-11-13T22:17:14+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (260.79ms)
+[13-Nov-2025 22:17:14 UTC] [2025-11-13T22:17:14+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (224.29ms)
+[13-Nov-2025 22:17:15 UTC] [2025-11-13T22:17:15+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (191.45ms)
+[13-Nov-2025 22:17:15 UTC] [2025-11-13T22:17:15+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (241.75ms)
+[13-Nov-2025 22:18:29 UTC] [2025-11-13T22:18:29+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (245.40ms)
+[13-Nov-2025 22:18:30 UTC] [2025-11-13T22:18:30+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (188.50ms)
+[13-Nov-2025 22:18:30 UTC] [2025-11-13T22:18:30+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (256.24ms)
+[13-Nov-2025 22:18:30 UTC] [2025-11-13T22:18:30+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (196.90ms)
+[13-Nov-2025 22:18:30 UTC] [2025-11-13T22:18:30+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (187.37ms)
+[13-Nov-2025 22:18:31 UTC] [2025-11-13T22:18:31+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (242.39ms)
+[13-Nov-2025 22:23:52 UTC] [2025-11-13T22:23:52+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (240.01ms)
+[13-Nov-2025 22:23:53 UTC] [2025-11-13T22:23:53+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (187.49ms)
+[13-Nov-2025 22:23:53 UTC] [2025-11-13T22:23:53+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (260.43ms)
+[13-Nov-2025 22:25:53 UTC] [2025-11-13T22:25:53+00:00] GET http://127.0.0.1:8000/projects/superboosted?limit=2 – 200 (240.16ms)
+[13-Nov-2025 22:25:53 UTC] [2025-11-13T22:25:53+00:00] GET http://127.0.0.1:8000/projects/boosted?limit=8 – 200 (193.40ms)
+[13-Nov-2025 22:25:53 UTC] [2025-11-13T22:25:53+00:00] GET http://127.0.0.1:8000/projects?sort=recent&perPage=12 – 200 (287.18ms)
+[13-Nov-2025 22:44:29 UTC] [ADMIN/USER_ID] 0
+[13-Nov-2025 22:44:29 UTC] [ADMIN/USER_ID] 0
+[13-Nov-2025 22:44:31 UTC] [ADMIN/USER_ID] 0
+[13-Nov-2025 22:44:31 UTC] [ADMIN/USER_ID] 0
+[13-Nov-2025 22:44:46 UTC] [2025-11-13T22:44:46+00:00] POST http://127.0.0.1:8000/auth/login – 200 (885.83ms)
+[13-Nov-2025 22:44:47 UTC] [2025-11-13T22:44:47+00:00] GET http://127.0.0.1:8000/me/conversations?page=1&perPage=8 – 200 (519.96ms)
+[13-Nov-2025 22:44:47 UTC] [2025-11-13T22:44:47+00:00] GET http://127.0.0.1:8000/me – 200 (415.43ms)
+[13-Nov-2025 22:44:48 UTC] [2025-11-13T22:44:48+00:00] GET http://127.0.0.1:8000/me – 200 (834.78ms)
+[13-Nov-2025 22:44:48 UTC] [ACCESS][MY_LIST] start
+[13-Nov-2025 22:44:48 UTC] [ACCESS][AUTH] user_id attribute=1
+[13-Nov-2025 22:44:48 UTC] [ACCESS][MY_LIST] actor id=1
+[13-Nov-2025 22:44:48 UTC] [ACCESS][MY_LIST] candidate projects count=11
+[13-Nov-2025 22:44:48 UTC] [ACCESS][MY_LIST] result groups count=2
+[13-Nov-2025 22:44:48 UTC] [2025-11-13T22:44:48+00:00] GET http://127.0.0.1:8000/me/access/requests – 200 (236.11ms)
+[13-Nov-2025 22:44:48 UTC] [ACCESS][INV_LIST] start
+[13-Nov-2025 22:44:48 UTC] [ACCESS][AUTH] user_id attribute=1
+[13-Nov-2025 22:44:49 UTC] [ACCESS][INV_LIST] investor id=1
+[13-Nov-2025 22:44:49 UTC] [ACCESS][INV_LIST] allRequests count=2
+[13-Nov-2025 22:44:49 UTC] [ACCESS][INV_LIST] projects_investor count=0
+[13-Nov-2025 22:44:49 UTC] [ACCESS][INV_LIST] candidate projects count=0
+[13-Nov-2025 22:44:49 UTC] [ACCESS][INV_LIST] result items count=0
+[13-Nov-2025 22:44:49 UTC] [2025-11-13T22:44:49+00:00] GET http://127.0.0.1:8000/me/access/projects – 200 (354.98ms)
+[13-Nov-2025 22:44:49 UTC] [2025-11-13T22:44:49+00:00] GET http://127.0.0.1:8000/me/favorites?page=1&perPage=12 – 200 (440.77ms)
+[13-Nov-2025 22:44:50 UTC] [2025-11-13T22:44:50+00:00] GET http://127.0.0.1:8000/me/projects?page=1&perPage=12&includeContributed=1&includeUnpublished=1&sort=recent – 200 (534.87ms)
+[13-Nov-2025 22:44:50 UTC] [2025-11-13T22:44:50+00:00] GET http://127.0.0.1:8000/me/plans?perPage=8&includeStripe=0 – 200 (263.84ms)
+[13-Nov-2025 22:44:51 UTC] [2025-11-13T22:44:51+00:00] GET http://127.0.0.1:8000/me/conversations?page=1&perPage=8 – 200 (541.97ms)
+[13-Nov-2025 22:44:51 UTC] [2025-11-13T22:44:51+00:00] GET http://127.0.0.1:8000/me/conversations?page=1&perPage=8 – 200 (694.84ms)
+[13-Nov-2025 22:44:53 UTC] [2025-11-13T22:44:53+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (1,347.50ms)
+[13-Nov-2025 22:44:53 UTC] [2025-11-13T22:44:53+00:00] GET http://127.0.0.1:8000/me – 200 (447.89ms)
+[13-Nov-2025 22:44:53 UTC] [ADMIN/USER_ID] 1
+[13-Nov-2025 22:44:54 UTC] [2025-11-13T22:44:54+00:00] GET http://127.0.0.1:8000/admin/projects?page=1&perPage=24&sort=boost – 200 (640.37ms)
+[13-Nov-2025 22:44:54 UTC] [2025-11-13T22:44:54+00:00] GET http://127.0.0.1:8000/me/conversations?page=1&perPage=8 – 200 (582.46ms)
+[13-Nov-2025 22:44:55 UTC] [2025-11-13T22:44:55+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (577.75ms)
+[13-Nov-2025 22:44:56 UTC] [2025-11-13T22:44:56+00:00] GET http://127.0.0.1:8000/me – 200 (466.56ms)
+[13-Nov-2025 22:44:56 UTC] [ADMIN/USER_ID] 1
+[13-Nov-2025 22:44:57 UTC] [2025-11-13T22:44:57+00:00] GET http://127.0.0.1:8000/admin/projects?page=1&perPage=24&sort=boost – 200 (632.30ms)
+[13-Nov-2025 22:45:25 UTC] [2025-11-13T22:45:25+00:00] GET http://127.0.0.1:8000/me – 200 (521.65ms)
+[13-Nov-2025 22:45:25 UTC] [ADMIN/USER_ID] 1
+[13-Nov-2025 22:45:26 UTC] [2025-11-13T22:45:26+00:00] GET http://127.0.0.1:8000/admin/projects?page=1&perPage=24&sort=boost – 200 (633.70ms)
+[13-Nov-2025 22:45:40 UTC] [2025-11-13T22:45:40+00:00] GET http://127.0.0.1:8000/me – 200 (466.66ms)
+[13-Nov-2025 22:45:40 UTC] [ADMIN/USER_ID] 1
+[13-Nov-2025 22:45:41 UTC] [2025-11-13T22:45:41+00:00] GET http://127.0.0.1:8000/admin/projects?page=1&perPage=24&sort=boost – 200 (630.11ms)
+[13-Nov-2025 22:45:45 UTC] [2025-11-13T22:45:45+00:00] GET http://127.0.0.1:8000/projects/b3740215ad5bc2fe5762979886f6df97 – 200 (464.46ms)
+[13-Nov-2025 22:45:46 UTC] [2025-11-13T22:45:46+00:00] GET http://127.0.0.1:8000/projects/b3740215ad5bc2fe5762979886f6df97 – 200 (483.78ms)
+[13-Nov-2025 22:45:46 UTC] [2025-11-13T22:45:46+00:00] GET http://127.0.0.1:8000/projects/b3740215ad5bc2fe5762979886f6df97 – 200 (396.28ms)
+[13-Nov-2025 22:45:47 UTC] [2025-11-13T22:45:47+00:00] GET http://127.0.0.1:8000/projects/b3740215ad5bc2fe5762979886f6df97/comment-groups?page=1&perPage=20 – 200 (412.20ms)
+[13-Nov-2025 22:45:48 UTC] [ADMIN/USER_ID] 1
+[13-Nov-2025 22:45:49 UTC] [2025-11-13T22:45:49+00:00] POST http://127.0.0.1:8000/admin/projects/19 – 200 (457.59ms)
+[13-Nov-2025 22:45:49 UTC] [2025-11-13T22:45:49+00:00] GET http://127.0.0.1:8000/projects/b3740215ad5bc2fe5762979886f6df97 – 200 (385.67ms)
+[13-Nov-2025 22:45:57 UTC] [2025-11-13T22:45:57+00:00] GET http://127.0.0.1:8000/projects/b3740215ad5bc2fe5762979886f6df97 – 200 (457.14ms)
+[13-Nov-2025 22:45:57 UTC] [2025-11-13T22:45:57+00:00] GET http://127.0.0.1:8000/auth/me – 200 (385.09ms)
+[13-Nov-2025 22:45:57 UTC] [2025-11-13T22:45:57+00:00] GET http://127.0.0.1:8000/projects/b3740215ad5bc2fe5762979886f6df97 – 200 (406.47ms)
+[13-Nov-2025 22:45:58 UTC] [2025-11-13T22:45:58+00:00] GET http://127.0.0.1:8000/projects/b3740215ad5bc2fe5762979886f6df97/favorite – 200 (387.71ms)
+[13-Nov-2025 22:45:58 UTC] [2025-11-13T22:45:58+00:00] GET http://127.0.0.1:8000/me – 200 (382.66ms)
+[13-Nov-2025 22:45:58 UTC] [ACCESS][MY] start
+[13-Nov-2025 22:45:58 UTC] [ACCESS][AUTH] user_id attribute=1
+[13-Nov-2025 22:45:58 UTC] [ACCESS][MY] user id=1
+[13-Nov-2025 22:45:58 UTC] [ACCESS][PROJECT] incoming hash="b3740215ad5bc2fe5762979886f6df97" len=32
+[13-Nov-2025 22:45:59 UTC] [ACCESS][PROJECT] resolved project id=19
+[13-Nov-2025 22:45:59 UTC] [ACCESS][MY] project id=19 hash=b3740215ad5bc2fe5762979886f6df97
+[13-Nov-2025 22:45:59 UTC] [ACCESS][HAS] user 1 has NO project access
+[13-Nov-2025 22:45:59 UTC] [ACCESS][FIND] findLatestRequest investor=1 project=19
+[13-Nov-2025 22:45:59 UTC] [ACCESS][FIND] no previous request found
+[13-Nov-2025 22:45:59 UTC] [ACCESS][MY] status=none hasAccess=0
+[13-Nov-2025 22:45:59 UTC] [2025-11-13T22:45:59+00:00] GET http://127.0.0.1:8000/projects/b3740215ad5bc2fe5762979886f6df97/access/me – 200 (394.78ms)
+[13-Nov-2025 22:45:59 UTC] [2025-11-13T22:45:59+00:00] GET http://127.0.0.1:8000/auth/me – 200 (385.33ms)
+[13-Nov-2025 22:45:59 UTC] [2025-11-13T22:45:59+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (212.92ms)
+[13-Nov-2025 22:46:00 UTC] [2025-11-13T22:46:00+00:00] GET http://127.0.0.1:8000/me/messages/unread-count – 200 (213.19ms)
+[13-Nov-2025 22:46:01 UTC] [2025-11-13T22:46:01+00:00] GET http://127.0.0.1:8000/projects/b3740215ad5bc2fe5762979886f6df97 – 200 (443.87ms)
+[13-Nov-2025 22:46:02 UTC] [2025-11-13T22:46:02+00:00] GET http://127.0.0.1:8000/projects/b3740215ad5bc2fe5762979886f6df97 – 200 (491.90ms)
+[13-Nov-2025 22:46:02 UTC] [2025-11-13T22:46:02+00:00] GET http://127.0.0.1:8000/projects/b3740215ad5bc2fe5762979886f6df97/comment-groups?page=1&perPage=20 – 200 (429.17ms)
+[14-Nov-2025 00:53:54 UTC] [2025-11-14T00:53:54+00:00] POST http://127.0.0.1:8000/auth/login – 200 (913.94ms)
+[14-Nov-2025 00:53:55 UTC] [2025-11-14T00:53:55+00:00] GET http://127.0.0.1:8000/me/conversations?page=1&perPage=8 – 200 (546.10ms)
+[14-Nov-2025 00:53:55 UTC] [2025-11-14T00:53:55+00:00] GET http://127.0.0.1:8000/me – 200 (396.51ms)
+[14-Nov-2025 00:53:56 UTC] [2025-11-14T00:53:56+00:00] GET http://127.0.0.1:8000/me – 200 (383.29ms)
+[14-Nov-2025 00:53:56 UTC] [ACCESS][MY_LIST] start
+[14-Nov-2025 00:53:56 UTC] [ACCESS][AUTH] user_id attribute=1
+[14-Nov-2025 00:53:56 UTC] [ACCESS][MY_LIST] actor id=1
+[14-Nov-2025 00:53:56 UTC] [ACCESS][MY_LIST] candidate projects count=11
+[14-Nov-2025 00:53:56 UTC] [ACCESS][MY_LIST] result groups count=2
+[14-Nov-2025 00:53:56 UTC] [2025-11-14T00:53:56+00:00] GET http://127.0.0.1:8000/me/access/requests – 200 (259.77ms)
+[14-Nov-2025 00:53:56 UTC] [ACCESS][INV_LIST] start
+[14-Nov-2025 00:53:56 UTC] [ACCESS][AUTH] user_id attribute=1
+[14-Nov-2025 00:53:56 UTC] [ACCESS][INV_LIST] investor id=1
+[14-Nov-2025 00:53:56 UTC] [ACCESS][INV_LIST] allRequests count=2
+[14-Nov-2025 00:53:56 UTC] [ACCESS][INV_LIST] projects_investor count=0
+[14-Nov-2025 00:53:56 UTC] [ACCESS][INV_LIST] candidate projects count=0
+[14-Nov-2025 00:53:56 UTC] [ACCESS][INV_LIST] result items count=0
+[14-Nov-2025 00:53:56 UTC] [2025-11-14T00:53:56+00:00] GET http://127.0.0.1:8000/me/access/projects – 200 (415.98ms)
+[14-Nov-2025 00:53:57 UTC] [2025-11-14T00:53:57+00:00] GET http://127.0.0.1:8000/me/favorites?page=1&perPage=12 – 200 (556.01ms)
+[14-Nov-2025 00:53:58 UTC] [2025-11-14T00:53:58+00:00] GET http://127.0.0.1:8000/me/projects?page=1&perPage=12&includeContributed=1&includeUnpublished=1&sort=recent – 200 (545.45ms)
+[14-Nov-2025 00:53:58 UTC] [2025-11-14T00:53:58+00:00] GET http://127.0.0.1:8000/me/plans?perPage=8&includeStripe=0 – 200 (270.51ms)
+[14-Nov-2025 00:53:58 UTC] [2025-11-14T00:53:58+00:00] GET http://127.0.0.1:8000/me/conversations?page=1&perPage=8 – 200 (497.46ms)
+[14-Nov-2025 00:53:59 UTC] [2025-11-14T00:53:59+00:00] GET http://127.0.0.1:8000/me/conversations?page=1&perPage=8 – 200 (497.41ms)
+[14-Nov-2025 00:53:59 UTC] [2025-11-14T00:53:59+00:00] GET http://127.0.0.1:8000/conversations/4203bb40caca70e278f32ba1ae340e00/messages – 200 (572.82ms)
+[14-Nov-2025 00:54:00 UTC] [2025-11-14T00:54:00+00:00] GET http://127.0.0.1:8000/me/conversations?page=1&perPage=8 – 200 (524.47ms)
