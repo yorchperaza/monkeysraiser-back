@@ -70,14 +70,12 @@ final class ProjectAccessController
      *     ...
      *   ]
      * }
+     * @throws \JsonException
      */
     #[Route(methods: 'GET', path: '/me/access/requests')]
     public function listMyManagedAccessRequests(ServerRequestInterface $request): JsonResponse
     {
-        error_log('[ACCESS][MY_LIST] start');
-
         $actor = $this->requireAuthUser($request);
-        error_log('[ACCESS][MY_LIST] actor id=' . $actor->getId());
 
         // --------------------------------------------------
         // Collect projects where user is author or contributor
@@ -112,8 +110,6 @@ final class ProjectAccessController
                 $map[$pid]['isContributor'] = true;
             }
         }
-
-        error_log('[ACCESS][MY_LIST] candidate projects count=' . count($map));
 
         // --------------------------------------------------
         // Build response groups per project
@@ -174,8 +170,6 @@ final class ProjectAccessController
             ];
         }
 
-        error_log('[ACCESS][MY_LIST] result groups count=' . count($items));
-
         return new JsonResponse([
             'items' => $items,
         ], 200);
@@ -199,14 +193,8 @@ final class ProjectAccessController
     #[Route(methods: 'GET', path: '/projects/{hash}/access/me')]
     public function myAccess(ServerRequestInterface $request): JsonResponse
     {
-        error_log('[ACCESS][MY] start');
-
         $user    = $this->requireAuthUser($request);
-        error_log('[ACCESS][MY] user id=' . $user->getId());
-
         $project = $this->requireProjectByHash($request);
-        error_log('[ACCESS][MY] project id=' . $project->getId() . ' hash=' . $project->getHash());
-
         $hasAccess = $this->userHasAccess($project, $user);
         $latest    = $this->findLatestRequest($project, $user);
 
@@ -217,8 +205,6 @@ final class ProjectAccessController
         } else {
             $status = $latest->getStatus();
         }
-
-        error_log('[ACCESS][MY] status=' . $status . ' hasAccess=' . ($hasAccess ? '1' : '0'));
 
         return new JsonResponse([
             'projectId'   => $project->getId(),
@@ -252,18 +238,11 @@ final class ProjectAccessController
     #[Route(methods: 'POST', path: '/projects/{hash}/access/request')]
     public function requestAccess(ServerRequestInterface $request): JsonResponse
     {
-        error_log('[ACCESS][REQ] start');
-
         $investor = $this->requireAuthUser($request);
-        error_log('[ACCESS][REQ] investor id=' . $investor->getId());
-
         $project = $this->requireProjectByHash($request);
-        error_log('[ACCESS][REQ] project id=' . $project->getId() . ' hash=' . $project->getHash());
 
         // If user already has access, just return that
         if ($this->userHasAccess($project, $investor)) {
-            error_log('[ACCESS][REQ] user already has access, returning approved');
-
             $latest = $this->findLatestRequest($project, $investor);
 
             return new JsonResponse([
@@ -284,7 +263,6 @@ final class ProjectAccessController
 
         // If latest exists and is still "requested", just update message and return
         if ($latest instanceof ProjectAccessRequest && $latest->getStatus() === 'requested') {
-            error_log('[ACCESS][REQ] existing pending request id=' . $latest->getId() . ' -> updating message only');
 
             if ($message !== null && $message !== '') {
                 $latest->setMessage($message);
@@ -301,8 +279,6 @@ final class ProjectAccessController
         }
 
         // Otherwise create a brand-new request
-        error_log('[ACCESS][REQ] creating new access request');
-
         $req = new ProjectAccessRequest();
         $req->setProject($project);
         $req->setInvestor($investor);
@@ -310,8 +286,6 @@ final class ProjectAccessController
         $req->setMessage($message);
 
         $this->accessRequests->save($req);
-
-        error_log('[ACCESS][REQ] created request id=' . $req->getId());
 
         return new JsonResponse([
             'projectId'   => $project->getId(),
@@ -326,18 +300,13 @@ final class ProjectAccessController
      * GET /projects/{hash}/access/requests
      *
      * List access requests for a project (founder/admin only).
+     * @throws \JsonException
      */
     #[Route(methods: 'GET', path: '/projects/{hash}/access/requests')]
     public function listRequests(ServerRequestInterface $request): JsonResponse
     {
-        error_log('[ACCESS][LIST] start');
-
         $actor   = $this->requireAuthUser($request);
-        error_log('[ACCESS][LIST] actor id=' . $actor->getId());
-
         $project = $this->requireProjectByHash($request);
-        error_log('[ACCESS][LIST] project id=' . $project->getId() . ' hash=' . $project->getHash());
-
         $this->ensureCanManageAccess($actor, $project);
 
         $items = [];
@@ -360,8 +329,6 @@ final class ProjectAccessController
             ];
         }
 
-        error_log('[ACCESS][LIST] items count=' . count($items));
-
         return new JsonResponse([
             'projectId'   => $project->getId(),
             'projectHash' => $project->getHash(),
@@ -378,15 +345,13 @@ final class ProjectAccessController
      *  - at least one access request (any status), OR
      *  - direct access via Project::$access_investor (approved).
      * @throws \ReflectionException
+     * @throws \JsonException
      */
     #[Route(methods: 'GET', path: '/me/access/projects')]
     public function listMyInvestorProjects(ServerRequestInterface $request): JsonResponse
     {
-        error_log('[ACCESS][INV_LIST] start');
-
         $investor = $this->requireAuthUser($request);
         $investorId = $investor->getId();
-        error_log('[ACCESS][INV_LIST] investor id=' . $investorId);
 
         /** @var array<int, array{project: Project, latestReq: ?ProjectAccessRequest}> $map */
         $map = [];
@@ -398,7 +363,6 @@ final class ProjectAccessController
         // If your repository doesn't support findAll(), you can use findBy([]) instead.
         /** @var ProjectAccessRequest[] $allRequests */
         $allRequests = $this->accessRequests->findAll();
-        error_log('[ACCESS][INV_LIST] allRequests count=' . count($allRequests));
 
         foreach ($allRequests as $req) {
             if (!$req instanceof ProjectAccessRequest) {
@@ -439,7 +403,6 @@ final class ProjectAccessController
         // --------------------------------------------------
 
         $projectsWithAccess = $investor->getProjects_investor();
-        error_log('[ACCESS][INV_LIST] projects_investor count=' . count($projectsWithAccess));
 
         foreach ($projectsWithAccess as $project) {
             if (!$project instanceof Project) {
@@ -453,8 +416,6 @@ final class ProjectAccessController
                 ];
             }
         }
-
-        error_log('[ACCESS][INV_LIST] candidate projects count=' . count($map));
 
         // --------------------------------------------------
         // 3) Build response items
@@ -501,8 +462,6 @@ final class ProjectAccessController
             ];
         }
 
-        error_log('[ACCESS][INV_LIST] result items count=' . count($items));
-
         return new JsonResponse([
             'items' => $items,
         ], 200);
@@ -513,42 +472,31 @@ final class ProjectAccessController
      * POST /projects/{hash}/access/requests/{id}/approve
      *
      * Founder/admin approves a request and grants access.
+     * @throws \JsonException
      */
     #[Route(methods: 'POST', path: '/projects/{hash}/access/requests/{id}/approve')]
     public function approve(ServerRequestInterface $request): JsonResponse
     {
-        error_log('[ACCESS][APPROVE] start');
-
         $actor   = $this->requireAuthUser($request);
-        error_log('[ACCESS][APPROVE] actor id=' . $actor->getId());
-
         $project = $this->requireProjectByHash($request);
-        error_log('[ACCESS][APPROVE] project id=' . $project->getId() . ' hash=' . $project->getHash());
 
         $this->ensureCanManageAccess($actor, $project);
 
         $reqId = (int) $request->getAttribute('id');
-        error_log('[ACCESS][APPROVE] reqId=' . $reqId);
-
         if ($reqId <= 0) {
-            error_log('[ACCESS][APPROVE][ERR] invalid request id');
             throw new RuntimeException('Invalid request id', 400);
         }
 
         /** @var ProjectAccessRequest|null $req */
         $req = $this->accessRequests->find($reqId);
         if (!$req instanceof ProjectAccessRequest || $req->getProject()?->getId() !== $project->getId()) {
-            error_log('[ACCESS][APPROVE][ERR] request not found or not for this project');
             throw new RuntimeException('Request not found for this project', 404);
         }
 
         $investor = $req->getInvestor();
         if (!$investor instanceof User) {
-            error_log('[ACCESS][APPROVE][ERR] request has no investor associated');
             throw new RuntimeException('Request has no investor associated', 500);
         }
-
-        error_log('[ACCESS][APPROVE] approving request id=' . $req->getId() . ' investor id=' . $investor->getId());
 
         // Update status
         $req->setStatus('approved');
@@ -556,13 +504,10 @@ final class ProjectAccessController
 
         // Grant access (ManyToMany)
         if (!$this->userHasAccess($project, $investor)) {
-            error_log('[ACCESS][APPROVE] granting ManyToMany access');
             $project->addUserInvestorAccess($investor);
             $investor->addProjectInvestorAccess($project);
             $this->projects->save($project);
             $this->users->save($investor);
-        } else {
-            error_log('[ACCESS][APPROVE] user already had access, skipping grant');
         }
 
         return new JsonResponse([
@@ -578,36 +523,28 @@ final class ProjectAccessController
      * POST /projects/{hash}/access/requests/{id}/reject
      *
      * Founder/admin rejects a request (no access).
+     * @throws \ReflectionException
+     * @throws \JsonException
      */
     #[Route(methods: 'POST', path: '/projects/{hash}/access/requests/{id}/reject')]
     public function reject(ServerRequestInterface $request): JsonResponse
     {
-        error_log('[ACCESS][REJECT] start');
-
         $actor   = $this->requireAuthUser($request);
-        error_log('[ACCESS][REJECT] actor id=' . $actor->getId());
-
         $project = $this->requireProjectByHash($request);
-        error_log('[ACCESS][REJECT] project id=' . $project->getId() . ' hash=' . $project->getHash());
 
         $this->ensureCanManageAccess($actor, $project);
 
         $reqId = (int) $request->getAttribute('id');
-        error_log('[ACCESS][REJECT] reqId=' . $reqId);
 
         if ($reqId <= 0) {
-            error_log('[ACCESS][REJECT][ERR] invalid request id');
             throw new RuntimeException('Invalid request id', 400);
         }
 
         /** @var ProjectAccessRequest|null $req */
         $req = $this->accessRequests->find($reqId);
         if (!$req instanceof ProjectAccessRequest || $req->getProject()?->getId() !== $project->getId()) {
-            error_log('[ACCESS][REJECT][ERR] request not found for this project');
             throw new RuntimeException('Request not found for this project', 404);
         }
-
-        error_log('[ACCESS][REJECT] rejecting request id=' . $req->getId());
 
         $req->setStatus('rejected');
         $this->accessRequests->save($req);
@@ -625,20 +562,19 @@ final class ProjectAccessController
     // Helpers
     // --------------------------------------------------
 
+    /**
+     * @throws \ReflectionException
+     */
     private function requireAuthUser(ServerRequestInterface $request): User
     {
         $userId = (int) $request->getAttribute('user_id', 0);
-        error_log('[ACCESS][AUTH] user_id attribute=' . $userId);
-
         if ($userId <= 0) {
-            error_log('[ACCESS][AUTH][ERR] missing/invalid user_id');
             throw new RuntimeException('Unauthorized', 401);
         }
 
         /** @var User|null $user */
         $user = $this->users->find($userId);
         if (!$user instanceof User) {
-            error_log('[ACCESS][AUTH][ERR] user not found in repository id=' . $userId);
             throw new RuntimeException('Unauthorized', 401);
         }
 
@@ -650,18 +586,13 @@ final class ProjectAccessController
         $hash = (string) $request->getAttribute('hash');
         $hash = trim($hash);
 
-        $len = strlen($hash);
-        error_log('[ACCESS][PROJECT] incoming hash="' . $hash . '" len=' . $len);
-
         // 1) Basic non-empty check
         if ($hash === '') {
-            error_log('[ACCESS][PROJECT][ERR] empty project hash');
             throw new RuntimeException('Invalid project hash', 400);
         }
 
         // 2) Optional: still enforce hex, but DO NOT enforce 32 chars
         if (!ctype_xdigit($hash)) {
-            error_log('[ACCESS][PROJECT][ERR] hash is not hex');
             throw new RuntimeException('Invalid project hash', 400);
         }
 
@@ -669,11 +600,9 @@ final class ProjectAccessController
         $project = $this->projects->findOneBy(['hash' => $hash]);
 
         if (!$project instanceof Project) {
-            error_log('[ACCESS][PROJECT][ERR] project not found for hash');
             throw new RuntimeException('Project not found', 404);
         }
 
-        error_log('[ACCESS][PROJECT] resolved project id=' . $project->getId());
         return $project;
     }
 
@@ -702,21 +631,16 @@ final class ProjectAccessController
 
     private function ensureCanManageAccess(User $actor, Project $project): void
     {
-        error_log('[ACCESS][GUARD] ensureCanManageAccess actor=' . $actor->getId() . ' project=' . $project->getId());
-
         $author = $project->getAuthor();
 
         if ($author instanceof User && $author->getId() === $actor->getId()) {
-            error_log('[ACCESS][GUARD] actor is project author');
             return;
         }
 
         if ($this->isAdmin($actor)) {
-            error_log('[ACCESS][GUARD] actor is admin');
             return;
         }
 
-        error_log('[ACCESS][GUARD][ERR] forbidden actor=' . $actor->getId());
         throw new RuntimeException('Forbidden', 403);
     }
 
@@ -724,17 +648,14 @@ final class ProjectAccessController
     {
         foreach ($project->getAccess_investor() as $u) {
             if ($u instanceof User && $u->getId() === $user->getId()) {
-                error_log('[ACCESS][HAS] user ' . $user->getId() . ' has project access');
                 return true;
             }
         }
-        error_log('[ACCESS][HAS] user ' . $user->getId() . ' has NO project access');
         return false;
     }
 
     private function findLatestRequest(Project $project, User $investor): ?ProjectAccessRequest
     {
-        error_log('[ACCESS][FIND] findLatestRequest investor=' . $investor->getId() . ' project=' . $project->getId());
         $latest = null;
         foreach ($project->getAccessRequests() as $req) {
             if (!$req instanceof ProjectAccessRequest) {
@@ -752,12 +673,6 @@ final class ProjectAccessController
             }
         }
 
-        if ($latest) {
-            error_log('[ACCESS][FIND] latest request id=' . $latest->getId() . ' status=' . $latest->getStatus());
-        } else {
-            error_log('[ACCESS][FIND] no previous request found');
-        }
-
         return $latest;
     }
 
@@ -771,10 +686,7 @@ final class ProjectAccessController
         $ct     = strtolower($request->getHeaderLine('Content-Type') ?: '');
         $parsed = $request->getParsedBody();
 
-        error_log('[ACCESS][BODY] Content-Type="' . $ct . '" parsedType=' . gettype($parsed));
-
         if (is_array($parsed) && !empty($parsed)) {
-            error_log('[ACCESS][BODY] using parsedBody array with ' . count($parsed) . ' keys');
             return $parsed;
         }
 
@@ -788,32 +700,26 @@ final class ProjectAccessController
                     $rawBody = $bodyStream->getContents();
                 }
             } catch (\Throwable $e) {
-                error_log('[ACCESS][BODY][ERR] reading body stream: ' . $e->getMessage());
+                // ignore
             }
 
             if ($rawBody === '') {
                 $rawBody = @file_get_contents('php://input') ?: '';
             }
 
-            error_log('[ACCESS][BODY] raw JSON length=' . strlen($rawBody));
-
             if ($rawBody === '') {
                 return [];
             }
 
             $data = json_decode($rawBody, true, 512, JSON_THROW_ON_ERROR);
-            $count = is_array($data) ? count($data) : 0;
-            error_log('[ACCESS][BODY] decoded JSON keys=' . $count);
 
             return is_array($data) ? $data : [];
         }
 
         if (is_array($parsed)) {
-            error_log('[ACCESS][BODY] non-JSON, parsed array size=' . count($parsed));
             return $parsed;
         }
 
-        error_log('[ACCESS][BODY] no body data found, returning empty array');
         return [];
     }
 }

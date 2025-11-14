@@ -599,19 +599,6 @@ final class UserProfileController
         return $num;
     }
 
-    private function logUploadLimits(): void
-    {
-        $umf = $this->iniBytes('upload_max_filesize');
-        $pms = $this->iniBytes('post_max_size');
-        $mfu = ini_get('max_file_uploads');
-        error_log(sprintf(
-            '[USER][MEDIA][LIMITS] upload_max_filesize=%s post_max_size=%s max_file_uploads=%s',
-            $umf !== null ? $umf . 'B' : 'null',
-            $pms !== null ? $pms . 'B' : 'null',
-            $mfu !== false ? $mfu : 'false'
-        ));
-    }
-
     /**
      * @throws \DateMalformedStringException
      * @throws RandomException
