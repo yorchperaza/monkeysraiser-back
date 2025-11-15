@@ -8,7 +8,7 @@ Reset your MonkeysRaiser password
 
 <tr>
     <td align="center" style="padding:24px; background:linear-gradient(135deg,#0066CC,#003D7A);">
-        <img src="https://monkeysraiser.com/logo.svg"
+        <img src="https://back.monkeysraiser.com/logo.png"
              alt="MonkeysRaiser"
              width="140"
              style="display:block; margin-bottom:16px;">
