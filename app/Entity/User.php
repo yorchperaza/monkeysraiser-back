@@ -87,14 +87,16 @@ class User
     /** @var GroupCommentsProject[] */
     #[ManyToMany(targetEntity: GroupCommentsProject::class, mappedBy: 'recipients')]
     public array $groupCommentsProjectsRecipients = [];
-    
-     /** @var Project[] */
+    /** @var Project[] */
     #[ManyToMany(targetEntity: Project::class, mappedBy: 'access_investor')]
     public array $projects_investor = [];
-
     /** @var ProjectAccessRequest[] */
     #[OneToMany(targetEntity: ProjectAccessRequest::class, mappedBy: 'investor')]
     public array $projectAccessRequests = [];
+    
+     /** @var PasswordResetToken[] */
+    #[OneToMany(targetEntity: PasswordResetToken::class, mappedBy: 'user')]
+    public array $passwordResetTokens = [];
     
     /** @var CommentsProject[] */
     public function __construct()
@@ -110,6 +112,7 @@ class User
         $this->groupCommentsProjectsRecipients = [];
         $this->projects_investor = [];
         $this->projectAccessRequests = [];
+        $this->passwordResetTokens = [];
     }
 
     public function getId(): int
@@ -518,15 +521,29 @@ class User
 
     public function removeProjectAccessRequest(ProjectAccessRequest $req): self
     {
-        $this->projectAccessRequests = array_filter(
-            $this->projectAccessRequests,
-            fn($i) => $i !== $req
-        );
+        $this->projectAccessRequests = array_filter($this->projectAccessRequests, fn($i) => $i !== $req);
         return $this;
     }
 
     public function getProjectAccessRequests(): array
     {
         return $this->projectAccessRequests;
+    }
+
+    public function addPasswordResetToken(PasswordResetToken $item): self
+    {
+        $this->passwordResetTokens[] = $item;
+        return $this;
+    }
+
+    public function removePasswordResetToken(PasswordResetToken $item): self
+    {
+        $this->passwordResetTokens = array_filter($this->passwordResetTokens, fn($i) => $i !== $item);
+        return $this;
+    }
+
+    public function getPasswordResetTokens(): array
+    {
+        return $this->passwordResetTokens;
     }
 }
