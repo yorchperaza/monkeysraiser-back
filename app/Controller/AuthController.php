@@ -367,11 +367,9 @@ final class AuthController
     #[Route(methods: 'POST', path: '/auth/heartbeat')]
     public function heartbeat(ServerRequestInterface $request): JsonResponse
     {
-        error_log('[AUTH][HEARTBEAT] start');
 
         try {
             $userId = (int) $request->getAttribute('user_id', 0);
-            error_log("[AUTH][HEARTBEAT] user_id={$userId}");
 
             if ($userId > 0) {
                 $userRepo = $this->repos->getRepository(User::class);
@@ -383,30 +381,17 @@ final class AuthController
                     $prev = $user->getLastActivityAt();
                     $shouldWrite = !$prev || ($now->getTimestamp() - $prev->getTimestamp() >= 120);
 
-                    error_log(sprintf(
-                        "[AUTH][HEARTBEAT] user found id=%d shouldWrite=%s lastActivityAt=%s",
-                        $user->getId(),
-                        $shouldWrite ? 'true' : 'false',
-                        $prev ? $prev->format('Y-m-d H:i:s') : 'null'
-                    ));
-
                     if ($shouldWrite) {
                         $user->setLastActivityAt($now);
                         $userRepo->save($user);
-                        error_log("[AUTH][HEARTBEAT] updated lastActivityAt");
                     }
-                } else {
-                    error_log("[AUTH][HEARTBEAT] user not found in repo");
                 }
-            } else {
-                error_log("[AUTH][HEARTBEAT] missing user_id attribute");
             }
         } catch (\Throwable $e) {
             error_log("[AUTH][HEARTBEAT][ERR] " . $e->getMessage());
             error_log($e->getTraceAsString());
         }
 
-        error_log('[AUTH][HEARTBEAT] end');
         return new JsonResponse(null, 204);
     }
 
@@ -423,34 +408,23 @@ final class AuthController
     #[Route(methods: 'POST', path: '/auth/refresh')]
     public function refresh(ServerRequestInterface $request): JsonResponse
     {
-        error_log('[AUTH][REFRESH] start');
         $userId = (int) $request->getAttribute('user_id', 0);
-        error_log("[AUTH][REFRESH] attr user_id={$userId}");
 
         if ($userId <= 0) {
             $authz = $request->getHeaderLine('Authorization');
-            error_log("[AUTH][REFRESH] header Authorization={$authz}");
 
             if (!preg_match('/^Bearer\s+(.+)$/i', $authz, $m)) {
-                error_log('[AUTH][REFRESH] missing or invalid Bearer header');
                 throw new RuntimeException('Unauthorized', 401);
             }
-
             $accessToken = $m[1];
-            error_log('[AUTH][REFRESH] decoding access token');
-
             try {
                 $claims = $this->auth->decodeForRefresh($accessToken, 600);
-                error_log('[AUTH][REFRESH] decode success');
             } catch (\Throwable $e) {
-                error_log('[AUTH][REFRESH][DECODE_ERR] ' . $e->getMessage());
                 throw new RuntimeException('Unauthorized', 401, $e);
             }
 
             $userId = (int)($claims['sub'] ?? 0);
-            error_log("[AUTH][REFRESH] claims sub={$userId}");
             if ($userId <= 0) {
-                error_log('[AUTH][REFRESH] invalid sub in claims');
                 throw new RuntimeException('Unauthorized', 401);
             }
         }
