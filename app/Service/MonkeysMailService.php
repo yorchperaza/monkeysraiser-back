@@ -29,35 +29,37 @@ final class MonkeysMailService
     /**
      * Low-level send wrapper for POST /messages/send
      *
-     * $payload should follow the JSON spec in the docs:
-     *  - from: ["email" => "...", "name" => "..."]
-     *  - to / cc / bcc: string[]
-     *  - subject, text, html, reply_to, headers, tags, metadata, template_id, variables, attachments, etc.
-     *
      * @param array<string,mixed> $payload
      * @return array<string,mixed>
      */
     public function send(array $payload, bool $sync = false): array
     {
-        // You can set mode in body or as query param; here we set it in body.
         if ($sync) {
             $payload['mode'] = $payload['mode'] ?? 'sync';
         }
 
-        $url = $this->baseUrl . '/messages/send';
+        // Debug: log presence of attachments before sending
+        $attCount = isset($payload['attachments']) && is_array($payload['attachments'])
+            ? count($payload['attachments'])
+            : 0;
+        error_log('[MAIL][SEND] attachments count=' . $attCount);
+
+        $url  = $this->baseUrl . '/messages/send';
+        $json = json_encode($payload, JSON_THROW_ON_ERROR);
+
+        // Optional: log a truncated JSON preview (avoid huge logs)
+        error_log('[MAIL][SEND] payload preview=' . substr($json, 0, 1000));
 
         $ch = curl_init($url);
         if ($ch === false) {
             throw new RuntimeException('Unable to initialize cURL for MonkeysMailService');
         }
 
-        $json = json_encode($payload, JSON_THROW_ON_ERROR);
-
         curl_setopt_array($ch, [
             CURLOPT_POST           => true,
             CURLOPT_HTTPHEADER     => [
                 'Content-Type: application/json',
-                'X-API-Key: ' . $this->apiKey, // required auth header
+                'X-API-Key: ' . $this->apiKey,
             ],
             CURLOPT_POSTFIELDS     => $json,
             CURLOPT_RETURNTRANSFER => true,
@@ -80,6 +82,7 @@ final class MonkeysMailService
 
         if ($status < 200 || $status >= 300) {
             $msg = (string)($data['message'] ?? $data['error'] ?? 'Unknown error');
+            error_log('[MAIL][SEND][ERR] status=' . $status . ' message=' . $msg);
             throw new RuntimeException(
                 sprintf('MonkeysMail API error (%d): %s', $status, $msg),
                 $status
@@ -92,15 +95,11 @@ final class MonkeysMailService
 
     /**
      * Simple convenience for single-recipient sends.
-     */
-    /**
-     * Simple convenience for single-recipient sends.
      *
      * NOTE: Sender is ALWAYS:
      *   - email: no-reply@monkeysraiser.com
      *   - name:  MonkeysRaiser
      *
-     * $fromEmail and $fromName are ignored on purpose, kept only for BC.
      * @throws \JsonException
      */
     public function sendSimple(
@@ -108,12 +107,11 @@ final class MonkeysMailService
         string $subject,
         string $html,
         ?string $text = null,
-        ?string $fromEmail = null, // ignored
-        ?string $fromName = null,  // ignored
+        ?string $fromEmail = null,
+        ?string $fromName = null,
         bool $sync = false,
         array $extra = []
     ): array {
-        // Force the sender to the fixed identity
         $payload = array_merge($extra, [
             'from' => [
                 'email' => self::DEFAULT_FROM_EMAIL,
@@ -130,4 +128,5 @@ final class MonkeysMailService
 
         return $this->send($payload, $sync);
     }
+
 }
