@@ -18,6 +18,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Random\RandomException;
 use RuntimeException;
+use App\Service\MonkeysMailService;
+use MonkeysLegion\Template\Renderer;
 
 final class ConversationController
 {
@@ -29,6 +31,8 @@ final class ConversationController
 
     public function __construct(
         private RepositoryFactory $repos,
+        private MonkeysMailService $mail,
+        private Renderer $renderer,
     ) {
         $this->conversations = $this->repos->getRepository(Conversation::class);
         $this->messages      = $this->repos->getRepository(Message::class);
@@ -135,6 +139,8 @@ final class ConversationController
             if (!empty($notFoundEmails)) {
                 $payload['_warnings']['emails_not_found'] = array_values(array_unique($notFoundEmails));
             }
+
+            $this->sendConversationCreatedNotification($conv, $me);
 
             return new JsonResponse($payload, 201);
         } catch (\Throwable $e) {
@@ -501,6 +507,8 @@ final class ConversationController
                 $conv->setUpdatedAt(new DateTimeImmutable('now', new \DateTimeZone('UTC')));
             }
             $this->conversations->save($conv);
+
+            $this->sendNewConversationMessageNotification($conv, $msg);
 
             return new JsonResponse($this->serializeMessage($msg), 201);
         } catch (\Throwable $e) {
@@ -913,6 +921,231 @@ final class ConversationController
             ->count();
 
         return new JsonResponse(['unread' => (int)$count], 200);
+    }
+
+    /**
+     * Notify conversation participants by email when a new message is posted.
+     * Uses ML template: emails/new_message_notification.ml.php
+     */
+    private function sendNewConversationMessageNotification(Conversation $conv, Message $msg): void
+    {
+        $author = $msg->getAuthor();
+        $project = $conv->getProject();
+
+        if (!$author) {
+            return;
+        }
+
+        // ---- Collect participants (from conversation users) ----
+        $participants = [];
+        if (method_exists($conv, 'getUsers')) {
+            foreach ($conv->getUsers() as $u) {
+                if ($u instanceof User) {
+                    $participants[] = $u;
+                }
+            }
+        }
+
+        if (empty($participants)) {
+            return;
+        }
+
+        $authorId = (int)($author->getId() ?? 0);
+        $emails = [];
+
+        foreach ($participants as $u) {
+            if (!$u instanceof User) {
+                continue;
+            }
+            $uid   = (int)($u->getId() ?? 0);
+            $email = trim((string)($u->getEmail() ?? ''));
+
+            // exclude sender
+            if ($uid === $authorId) {
+                continue;
+            }
+            if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                continue;
+            }
+            $emails[$email] = true; // dedupe by key
+        }
+
+        if (empty($emails)) {
+            return;
+        }
+
+        // ---- Context for template ----
+        $frontendBase = rtrim(
+            (string)(getenv('FRONTEND_BASE_URL') ?: 'https://monkeysraiser.com'),
+            '/'
+        );
+
+        $projectName = $project ? (string)($project->getName() ?? 'a project') : 'a project';
+        $projectHash = $project ? (string)($project->getHash() ?? '') : '';
+        $conversationHash = (string)($conv->getHash() ?? '');
+
+        // Adjust this to your actual front-end route
+        // example: /dashboard/messages?c=<convHash>
+        $conversationUrl = $frontendBase . '/dashboard/messages?c=' . rawurlencode($conversationHash);
+
+        $authorName  = trim((string)($author->getFullName() ?? '')) ?: (string)($author->getEmail() ?? 'A MonkeysRaiser user');
+        $authorEmail = (string)($author->getEmail() ?? '');
+
+        $subjectText = $msg->getSubject() ?: '(no subject)';
+        $bodyText    = $msg->getMessage() ?: '';
+
+        // Snippet
+        $snippet = trim($bodyText);
+        if ($snippet === '') {
+            $snippet = '(No body text – only subject)';
+        } elseif (function_exists('mb_strlen') && mb_strlen($snippet) > 260) {
+            $snippet = mb_substr($snippet, 0, 260) . '…';
+        } elseif (!function_exists('mb_strlen') && strlen($snippet) > 260) {
+            $snippet = substr($snippet, 0, 260) . '…';
+        }
+
+        $emailSubject = sprintf(
+            'New message in %s conversation: %s',
+            $projectName,
+            $subjectText
+        );
+
+        // ---- Render & send ----
+        foreach (array_keys($emails) as $toEmail) {
+            try {
+                $html = $this->renderer->render('emails/new_message_notification', [
+                    'projectName'      => $projectName,
+                    'projectUrl'       => $conversationUrl,   // in this context: link to the conversation
+                    'authorName'       => $authorName,
+                    'authorEmail'      => $authorEmail,
+                    'subject'          => $subjectText,
+                    'snippet'          => $snippet,
+                    'recipientEmail'   => $toEmail,
+                ]);
+
+                $this->mail->sendSimple(
+                    $toEmail,
+                    $emailSubject,
+                    $html,
+                    null,
+                    null,
+                    null,
+                    false,
+                    [
+                        'tags' => ['conversation_message', 'projects'],
+                        'metadata' => [
+                            'conversationId'   => $conv->getId(),
+                            'conversationHash' => $conversationHash,
+                            'projectId'        => $project?->getId(),
+                            'projectHash'      => $projectHash,
+                            'messageId'        => $msg->getId(),
+                            'authorId'         => $authorId,
+                            'recipient'        => $toEmail,
+                        ],
+                    ]
+                );
+            } catch (\Throwable $e) {
+                error_log('[CONV][MSG][NOTIFY][ERR] ' . $e->getMessage());
+                // don't break loop; best-effort only
+            }
+        }
+    }
+
+    private function sendConversationCreatedNotification(Conversation $conv, User $creator): void
+    {
+        $project = $conv->getProject();
+        $creatorId = (int)($creator->getId() ?? 0);
+
+        // Participants
+        $participants = [];
+        if (method_exists($conv, 'getUsers')) {
+            foreach ($conv->getUsers() as $u) {
+                if ($u instanceof User) {
+                    $participants[] = $u;
+                }
+            }
+        }
+
+        if (empty($participants)) {
+            return;
+        }
+
+        $emails = [];
+        foreach ($participants as $u) {
+            if (!$u instanceof User) {
+                continue;
+            }
+            $uid   = (int)($u->getId() ?? 0);
+            $email = trim((string)($u->getEmail() ?? ''));
+
+            // Exclude creator
+            if ($uid === $creatorId) {
+                continue;
+            }
+            if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                continue;
+            }
+            $emails[$email] = true;
+        }
+
+        if (empty($emails)) {
+            return;
+        }
+
+        $frontendBase = rtrim(
+            (string)(getenv('FRONTEND_BASE_URL') ?: 'https://monkeysraiser.com'),
+            '/'
+        );
+
+        $projectName = $project ? (string)($project->getName() ?? 'a project') : 'a project';
+        $conversationHash = (string)($conv->getHash() ?? '');
+        $conversationUrl  = $frontendBase . '/dashboard/messages?c=' . rawurlencode($conversationHash);
+
+        $subject      = method_exists($conv, 'getSubject') ? ($conv->getSubject() ?? 'New conversation') : 'New conversation';
+        $creatorName  = trim((string)($creator->getFullName() ?? '')) ?: (string)($creator->getEmail() ?? 'A MonkeysRaiser user');
+        $creatorEmail = (string)($creator->getEmail() ?? '');
+
+        $emailSubject = sprintf(
+            '%s started a new conversation about %s',
+            $creatorName,
+            $projectName
+        );
+
+        foreach (array_keys($emails) as $toEmail) {
+            try {
+                $html = $this->renderer->render('emails/new_conversation_created', [
+                    'projectName'      => $projectName,
+                    'conversationUrl'  => $conversationUrl,
+                    'creatorName'      => $creatorName,
+                    'creatorEmail'     => $creatorEmail,
+                    'subject'          => $subject,
+                    'recipientEmail'   => $toEmail,
+                ]);
+
+                $this->mail->sendSimple(
+                    $toEmail,
+                    $emailSubject,
+                    $html,
+                    null,
+                    null,
+                    null,
+                    false,
+                    [
+                        'tags' => ['conversation_created', 'projects'],
+                        'metadata' => [
+                            'conversationId'   => $conv->getId(),
+                            'conversationHash' => $conversationHash,
+                            'projectId'        => $project?->getId(),
+                            'projectHash'      => $project?->getHash(),
+                            'creatorId'        => $creatorId,
+                            'recipient'        => $toEmail,
+                        ],
+                    ]
+                );
+            } catch (\Throwable $e) {
+                error_log('[CONV][CREATE][NOTIFY][ERR] ' . $e->getMessage());
+            }
+        }
     }
 
 }

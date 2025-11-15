@@ -14,6 +14,8 @@ use MonkeysLegion\Router\Attributes\Route;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use Stripe\StripeClient;
+use App\Service\MonkeysMailService;
+use MonkeysLegion\Template\Renderer;
 
 final class PlanController
 {
@@ -23,6 +25,8 @@ final class PlanController
 
     public function __construct(
         private RepositoryFactory $repos,
+        private MonkeysMailService $mail,
+        private Renderer $renderer,
     ) {
         $this->plans    = $this->repos->getRepository(Plan::class);
         $this->projects = $this->repos->getRepository(Project::class);
@@ -636,6 +640,8 @@ final class PlanController
      *   "projectHash"?: string,                  // optional; if omitted, purchase is recorded without attachment
      *   "stripe"?: { "checkoutSessionId"?: string }  // optional verification
      * }
+     * @throws \ReflectionException
+     * @throws \JsonException
      */
     #[Route(methods: 'POST', path: '/plans/{id}/purchase')]
     public function purchase(ServerRequestInterface $request): JsonResponse
@@ -718,8 +724,20 @@ final class PlanController
                 'id'     => $project->getId(),
                 'hash'   => method_exists($project, 'getHash') ? $project->getHash() : null,
                 'name'   => method_exists($project, 'getName') ? $project->getName() : null,
-                'status' => method_exists($project->getStatus()) ? $project->getStatus() : null,
+                'status' => method_exists($project, 'getStatus') ? $project->getStatus() : null,
             ];
+        }
+
+        // --- Send confirmation email to buyer (best-effort) ---
+        /** @var User|null $buyer */
+        $buyer = $this->users->find($uid);
+        if ($buyer instanceof User) {
+            $this->sendPlanPurchaseConfirmation($plan, $buyer, [
+                'flow'   => 'checkout',
+                'stripe' => [
+                    'checkoutSessionId' => $checkoutSid ?: null,
+                ],
+            ]);
         }
 
         // --- Respond ---
@@ -850,6 +868,7 @@ final class PlanController
      * Body (JSON): { "paymentIntentId": string, "projectHash"?: string }
      * Attaches buyer (user) to plan and optionally attaches project after client-side confirmation.
      * @throws \ReflectionException
+     * @throws \JsonException
      */
     #[Route(methods: 'POST', path: '/plans/{id}/finalize-intent')]
     public function finalizeIntent(ServerRequestInterface $request): JsonResponse
@@ -940,6 +959,21 @@ final class PlanController
                 'name'   => method_exists($project, 'getName') ? $project->getName() : null,
                 'status' => method_exists($project, 'getStatus') ? $project->getStatus() : null,
             ];
+        }
+
+        // --- Send confirmation email to buyer (best-effort) ---
+        /** @var User|null $buyer */
+        $buyer = $this->users->find($uid);
+        if ($buyer instanceof User) {
+            $this->sendPlanPurchaseConfirmation($plan, $buyer, [
+                'flow'   => 'payment_intent',
+                'stripe' => [
+                    'paymentIntentId' => (string)$pi->id,
+                    'status'          => (string)$pi->status,
+                    'amount'          => isset($pi->amount) ? (int)$pi->amount : null,
+                    'currency'        => isset($pi->currency) ? (string)$pi->currency : null,
+                ],
+            ]);
         }
 
         return new JsonResponse([
@@ -1135,5 +1169,89 @@ final class PlanController
         }
     }
 
+    private function getFrontendBaseUrl(): string
+    {
+        return rtrim(
+            (string)(getenv('FRONTEND_BASE_URL') ?: 'https://monkeysraiser.com'),
+            '/'
+        );
+    }
+
+    private function sendPlanPurchaseConfirmation(Plan $plan, User $buyer, array $stripeCtx = []): void
+    {
+        try {
+            $to = trim((string)($buyer->getEmail() ?? ''));
+            if ($to === '' || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
+                return;
+            }
+
+            $buyerName = trim((string)($buyer->getFullName() ?? ''));
+            if ($buyerName === '') {
+                $buyerName = $to;
+            }
+
+            $planName = trim((string)($plan->getName() ?? ''));
+            if ($planName === '') {
+                $planName = 'Your plan';
+            }
+
+            // Amount + currency (best-effort)
+            $amount      = null;
+            $currency    = null;
+            $formatted   = null;
+
+            try {
+                $ac = $this->resolveAmountCurrency($plan); // may throw
+                $amount   = $ac['amount'];
+                $currency = strtoupper($ac['currency']);
+                // assume 2 decimal places (OK for USD/EUR/CRC, etc.)
+                $formatted = number_format($amount / 100, 2) . ' ' . $currency;
+            } catch (\Throwable $e) {
+                error_log('[PLAN][PURCHASE_EMAIL] resolveAmountCurrency failed: ' . $e->getMessage());
+            }
+
+            $frontendBase = $this->getFrontendBaseUrl();
+            // Adjust if you have a different page for billing
+            $plansUrl = $frontendBase . '/dashboard/plans';
+
+            $subject = sprintf('Your MonkeysRaiser plan is active: %s', $planName);
+
+            $html = $this->renderer->render('emails/plan_purchase_confirmation', [
+                'buyerName'        => $buyerName,
+                'buyerEmail'       => $to,
+                'planName'         => $planName,
+                'planSlug'         => $plan->getSlug(),
+                'amount'           => $amount,
+                'currency'         => $currency,
+                'amountFormatted'  => $formatted,
+                'plansUrl'         => $plansUrl,
+                'stripeContext'    => $stripeCtx,
+            ]);
+
+            $this->mail->sendSimple(
+                $to,
+                $subject,
+                $html,
+                null,
+                null,
+                null,
+                false,
+                [
+                    'tags' => ['plan_purchase', 'billing'],
+                    'metadata' => [
+                        'planId'   => $plan->getId(),
+                        'planSlug' => $plan->getSlug(),
+                        'userId'   => $buyer->getId(),
+                        'flow'     => $stripeCtx['flow'] ?? null,
+                        'piId'     => $stripeCtx['stripe']['paymentIntentId'] ?? null,
+                        'csId'     => $stripeCtx['stripe']['checkoutSessionId'] ?? null,
+                    ],
+                ]
+            );
+        } catch (\Throwable $e) {
+            // Never break the purchase flow because of email issues.
+            error_log('[PLAN][PURCHASE_EMAIL][ERR] ' . $e->getMessage());
+        }
+    }
 
 }

@@ -16,6 +16,8 @@ use MonkeysLegion\Router\Attributes\Route;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use RuntimeException;
+use App\Service\MonkeysMailService;
+use MonkeysLegion\Template\Renderer;
 
 final class MessageController
 {
@@ -24,7 +26,11 @@ final class MessageController
     private EntityRepository $users;
     private EntityRepository $mediaRepo;
 
-    public function __construct(private RepositoryFactory $repos)
+    public function __construct(
+        private RepositoryFactory $repos,
+        private MonkeysMailService $mail,
+        private Renderer $renderer,
+    )
     {
         $this->messages  = $this->repos->getRepository(Message::class);
         $this->projects  = $this->repos->getRepository(Project::class);
@@ -96,6 +102,8 @@ final class MessageController
             $this->processAttachments($request, $msg, $author);
             $this->messages->save($msg);
         }
+
+        $this->sendNewMessageNotification($msg);
 
         return new JsonResponse($this->serializeMessage($msg), 201);
     }
@@ -543,4 +551,130 @@ final class MessageController
 
         return $media;
     }
+
+    /**
+     * Notify project members by email when a new message is created.
+     * Uses ML template: emails/new_message_notification.ml.php
+     */
+    private function sendNewMessageNotification(Message $msg): void
+    {
+        $project = $msg->getProject();
+        $author  = $msg->getAuthor();
+
+        if (!$project || !$author) {
+            return;
+        }
+
+        // ----- Collect recipients (project owner + contributors, excluding author) -----
+        $recipients = [];
+
+        // Try common "owner" accessors – adjust to your actual Project entity
+        if (method_exists($project, 'getOwner') && $project->getOwner() instanceof User) {
+            $recipients[] = $project->getOwner();
+        } elseif (method_exists($project, 'getAuthor') && $project->getAuthor() instanceof User) {
+            $recipients[] = $project->getAuthor();
+        } elseif (method_exists($project, 'getUser') && $project->getUser() instanceof User) {
+            $recipients[] = $project->getUser();
+        }
+
+        // Optional: contributors list
+        if (method_exists($project, 'getContributors')) {
+            foreach ($project->getContributors() as $u) {
+                if ($u instanceof User) {
+                    $recipients[] = $u;
+                }
+            }
+        }
+
+        // Deduplicate, exclude author, and extract emails
+        $emails = [];
+        $authorId = (int)($author->getId() ?? 0);
+
+        foreach ($recipients as $u) {
+            if (!$u instanceof User) {
+                continue;
+            }
+            $uid   = (int)($u->getId() ?? 0);
+            $email = trim((string)($u->getEmail() ?? ''));
+
+            if ($uid === $authorId) {
+                continue; // don't email the sender
+            }
+            if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                continue;
+            }
+            $emails[$email] = true; // use key for dedupe
+        }
+
+        if (empty($emails)) {
+            return;
+        }
+
+        // ----- Build template context -----
+        $frontendBase = rtrim(
+            (string)(getenv('FRONTEND_BASE_URL') ?: 'https://monkeysraiser.com'),
+            '/'
+        );
+
+        $projectName = (string)($project->getName() ?? 'a project');
+        $projectHash = (string)($project->getHash() ?? '');
+        $projectUrl  = $frontendBase . '/projects/' . rawurlencode($projectHash) . '?tab=messages';
+
+        $authorName  = trim((string)($author->getFullName() ?? '')) ?: (string)($author->getEmail() ?? 'A MonkeysRaiser user');
+        $authorEmail = (string)($author->getEmail() ?? '');
+
+        $subjectText = $msg->getSubject() ?: '(no subject)';
+        $bodyText    = $msg->getMessage() ?: '';
+
+        // Short snippet for email
+        $snippet = trim($bodyText);
+        if ($snippet === '') {
+            $snippet = '(No body text – only subject)';
+        } elseif (function_exists('mb_strlen') && mb_strlen($snippet) > 260) {
+            $snippet = mb_substr($snippet, 0, 260) . '…';
+        } elseif (!function_exists('mb_strlen') && strlen($snippet) > 260) {
+            $snippet = substr($snippet, 0, 260) . '…';
+        }
+
+        $subject = sprintf('New message on %s: %s', $projectName, $subjectText);
+
+        // ----- Render template & send -----
+        foreach (array_keys($emails) as $toEmail) {
+            try {
+                $html = $this->renderer->render('emails/new_message_notification', [
+                    'projectName'  => $projectName,
+                    'projectUrl'   => $projectUrl,
+                    'authorName'   => $authorName,
+                    'authorEmail'  => $authorEmail,
+                    'subject'      => $subjectText,
+                    'snippet'      => $snippet,
+                    'recipientEmail' => $toEmail,
+                ]);
+
+                $this->mail->sendSimple(
+                    $toEmail,
+                    $subject,
+                    $html,
+                    null,
+                    null,
+                    null,
+                    false,
+                    [
+                        'tags' => ['message_notification', 'projects'],
+                        'metadata' => [
+                            'projectId'   => $project->getId(),
+                            'projectHash' => $projectHash,
+                            'messageId'   => $msg->getId(),
+                            'authorId'    => $authorId,
+                            'recipient'   => $toEmail,
+                        ],
+                    ]
+                );
+            } catch (\Throwable $e) {
+                error_log('[MESSAGE][NOTIFY][ERR] ' . $e->getMessage());
+                // keep looping; don't break on one failure
+            }
+        }
+    }
+
 }

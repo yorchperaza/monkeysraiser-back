@@ -18,6 +18,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Random\RandomException;
 use RuntimeException;
+use App\Service\MonkeysMailService;
+use MonkeysLegion\Template\Renderer;
 
 final class ProjectController
 {
@@ -28,6 +30,8 @@ final class ProjectController
 
     public function __construct(
         private RepositoryFactory $repos,
+        private MonkeysMailService $mail,
+        private Renderer $renderer,
     ) {
         $this->projects = $this->repos->getRepository(Project::class);
         $this->users    = $this->repos->getRepository(User::class);
@@ -292,8 +296,6 @@ final class ProjectController
             $inviteEmails = array_values(array_unique($notFoundEmails));
             $invitesScheduled = false;
             if (!empty($inviteEmails)) {
-                // Plug your future invitation scheduling here:
-                // $invitesScheduled = $this->maybeScheduleContributorInvites($inviteEmails, $project, $author);
                 $invitesScheduled = $this->maybeScheduleContributorInvites($inviteEmails, $project, $author);
             }
 
@@ -538,8 +540,6 @@ final class ProjectController
         $inviteEmails = array_values(array_unique($notFoundEmails));
         $invitesScheduled = false;
         if (!empty($inviteEmails)) {
-            // Plug your future invitation scheduling here:
-            // $invitesScheduled = $this->maybeScheduleContributorInvites($inviteEmails, $project, $actor);
             $invitesScheduled = $this->maybeScheduleContributorInvites($inviteEmails, $project, $actor);
         }
 
@@ -1471,12 +1471,68 @@ final class ProjectController
      */
     private function maybeScheduleContributorInvites(array $emails, Project $project, User $inviter): bool
     {
-        // TODO: replace with real implementation:
-        // - create invite tokens
-        // - persist invitation rows (email, project_id, inviter_id, token, expires_at)
-        // - enqueue mail job
-        // - return true on success
-        return false;
+        // Normalize and validate
+        $valid = [];
+        foreach ($emails as $raw) {
+            $email = strtolower(trim((string)$raw));
+            if ($email && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $valid[$email] = true;
+            }
+        }
+        if (!$valid) return false;
+
+        // Context
+        $inviterName = trim((string)($inviter->getFullName() ?? '')) ?: ($inviter->getEmail() ?? 'A MonkeysRaiser user');
+        $projectName = (string)($project->getName() ?? 'a project');
+        $projectTagline = (string)($project->getTagline() ?? '');
+        $projectHash = (string)($project->getHash() ?? '');
+
+        $frontendBase = rtrim((string)(getenv('FRONTEND_BASE_URL') ?: 'https://monkeysraiser.com'), '/');
+        $projectUrl = $frontendBase . '/projects/' . rawurlencode($projectHash);
+
+        $subject = sprintf('%s invited you to collaborate on %s', $inviterName, $projectName);
+
+        $sentAny = false;
+
+        foreach (array_keys($valid) as $email) {
+            try {
+                // Render the email template via MonkeysLegion Renderer
+                $html = $this->renderer->render('emails.contributor_invite', [
+                    'projectName'    => $projectName,
+                    'projectTagline' => $projectTagline,
+                    'projectUrl'     => $projectUrl,
+                    'inviterName'    => $inviterName,
+                    'email'          => $email,
+                ]);
+
+                // Send with MonkeysMailService
+                $this->mail->sendSimple(
+                    $email,
+                    $subject,
+                    $html,
+                    null,
+                    null,
+                    null,
+                    false,
+                    [
+                        'tags' => ['contributor_invite', 'projects'],
+                        'metadata' => [
+                            'projectId'   => $project->getId(),
+                            'projectHash' => $projectHash,
+                            'inviterId'   => $inviter->getId(),
+                            'email'       => $email,
+                        ],
+                    ]
+                );
+
+                $sentAny = true;
+
+            } catch (\Throwable $e) {
+                error_log('[CONTRIB_INVITE] Failed for '.$email.': '.$e->getMessage());
+            }
+        }
+
+        return $sentAny;
     }
 
     /**

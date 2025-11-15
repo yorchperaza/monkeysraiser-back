@@ -18,6 +18,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Random\RandomException;
 use RuntimeException;
+use App\Service\MonkeysMailService;
+use MonkeysLegion\Template\Renderer;
 
 final class GroupCommentsProjectController
 {
@@ -27,7 +29,11 @@ final class GroupCommentsProjectController
     private EntityRepository $users;
     private EntityRepository $mediaRepo;
 
-    public function __construct(private RepositoryFactory $repos)
+    public function __construct(
+        private RepositoryFactory $repos,
+        private MonkeysMailService $mail,
+        private Renderer $renderer,
+    )
     {
         $this->groups   = $this->repos->getRepository(GroupCommentsProject::class);
         $this->comments = $this->repos->getRepository(CommentsProject::class);
@@ -124,6 +130,8 @@ final class GroupCommentsProjectController
             }
 
             $this->groups->save($group);
+
+            $this->sendGroupCreatedNotification($group, $me);
 
             $payload = $this->serializeGroup($group, includeRecipients: true, includePreview: true);
             if (!empty($notFound)) {
@@ -472,6 +480,8 @@ final class GroupCommentsProjectController
             $grp->setUpdateAt($now)->setLastMessageAt($now);
             $this->groups->save($grp);
 
+            $this->sendNewGroupCommentNotification($grp, $comment);
+
             return new JsonResponse($this->serializeComment($comment), 201);
         } catch (\Throwable $e) {
             error_log('[GCP-COMMENT][CREATE][FATAL] '.get_class($e).' '.$e->getMessage().' @ '.$e->getFile().':'.$e->getLine());
@@ -725,5 +735,222 @@ final class GroupCommentsProjectController
             ->setHash($mediaHash);
 
         return $media;
+    }
+
+    private function getFrontendBaseUrl(): string
+    {
+        return rtrim(
+            (string)(getenv('FRONTEND_BASE_URL') ?: 'https://monkeysraiser.com'),
+            '/'
+        );
+    }
+
+    /**
+     * Notify group recipients when a new group is created.
+     */
+    private function sendGroupCreatedNotification(GroupCommentsProject $group, User $creator): void
+    {
+        $project = $group->getProject();
+        $creatorId = (int)($creator->getId() ?? 0);
+
+        // Collect recipients from relation
+        $recipients = [];
+        if (method_exists($group, 'getRecipients')) {
+            foreach ($group->getRecipients() as $u) {
+                if ($u instanceof User) {
+                    $recipients[] = $u;
+                }
+            }
+        }
+
+        if (empty($recipients)) {
+            return;
+        }
+
+        // Unique emails, exclude creator
+        $emails = [];
+        foreach ($recipients as $u) {
+            if (!$u instanceof User) {
+                continue;
+            }
+            $uid   = (int)($u->getId() ?? 0);
+            $email = trim((string)($u->getEmail() ?? ''));
+
+            if ($uid === $creatorId) {
+                continue;
+            }
+            if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                continue;
+            }
+            $emails[$email] = true;
+        }
+
+        if (empty($emails)) {
+            return;
+        }
+
+        $frontendBase = $this->getFrontendBaseUrl();
+        $projectName  = $project ? (string)($project->getName() ?? 'a project') : 'a project';
+        $projectHash  = $project ? (string)($project->getHash() ?? '') : '';
+        $groupHash    = (string)($group->getHash() ?? '');
+
+        // 🔗 Adjust this URL to your actual frontend route for the review page
+        $groupUrl = $frontendBase . '/dashboard/projects/' . rawurlencode($projectHash) . '/comments?g=' . rawurlencode($groupHash);
+
+        $creatorName  = trim((string)($creator->getFullName() ?? '')) ?: (string)($creator->getEmail() ?? 'A MonkeysRaiser user');
+        $creatorEmail = (string)($creator->getEmail() ?? '');
+
+        $emailSubject = sprintf(
+            '%s started a new review thread for %s',
+            $creatorName,
+            $projectName
+        );
+
+        foreach (array_keys($emails) as $toEmail) {
+            try {
+                $html = $this->renderer->render('emails/project_comments_group_created', [
+                    'projectName'    => $projectName,
+                    'projectHash'    => $projectHash,
+                    'groupHash'      => $groupHash,
+                    'groupUrl'       => $groupUrl,
+                    'creatorName'    => $creatorName,
+                    'creatorEmail'   => $creatorEmail,
+                    'recipientEmail' => $toEmail,
+                ]);
+
+                $this->mail->sendSimple(
+                    $toEmail,
+                    $emailSubject,
+                    $html,
+                    null,
+                    null,
+                    null,
+                    false,
+                    [
+                        'tags' => ['project_comments_group_created', 'projects'],
+                        'metadata' => [
+                            'projectId'   => $project?->getId(),
+                            'projectHash' => $projectHash,
+                            'groupId'     => $group->getId(),
+                            'groupHash'   => $groupHash,
+                            'creatorId'   => $creatorId,
+                            'recipient'   => $toEmail,
+                        ],
+                    ]
+                );
+            } catch (\Throwable $e) {
+                error_log('[GCP-GROUP][NOTIFY][ERR] ' . $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Notify group recipients when a new comment is posted.
+     */
+    private function sendNewGroupCommentNotification(GroupCommentsProject $group, CommentsProject $comment): void
+    {
+        $project = $group->getProject();
+        $author  = $comment->getAuthor();
+        $authorId = (int)($author?->getId() ?? 0);
+
+        // Collect recipients from relation
+        $recipients = [];
+        if (method_exists($group, 'getRecipients')) {
+            foreach ($group->getRecipients() as $u) {
+                if ($u instanceof User) {
+                    $recipients[] = $u;
+                }
+            }
+        }
+
+        if (empty($recipients)) {
+            return;
+        }
+
+        // Unique emails, exclude author
+        $emails = [];
+        foreach ($recipients as $u) {
+            if (!$u instanceof User) {
+                continue;
+            }
+            $uid   = (int)($u->getId() ?? 0);
+            $email = trim((string)($u->getEmail() ?? ''));
+
+            if ($uid === $authorId) {
+                continue;
+            }
+            if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                continue;
+            }
+            $emails[$email] = true;
+        }
+
+        if (empty($emails)) {
+            return;
+        }
+
+        $frontendBase = $this->getFrontendBaseUrl();
+        $projectName  = $project ? (string)($project->getName() ?? 'a project') : 'a project';
+        $projectHash  = $project ? (string)($project->getHash() ?? '') : '';
+        $groupHash    = (string)($group->getHash() ?? '');
+
+        // 🔗 Same URL as above
+        $groupUrl = $frontendBase . '/dashboard/projects/' . rawurlencode($projectHash) . '/comments?g=' . rawurlencode($groupHash);
+
+        $authorName  = $author
+            ? (trim((string)($author->getFullName() ?? '')) ?: (string)($author->getEmail() ?? 'A MonkeysRaiser user'))
+            : 'A MonkeysRaiser user';
+        $authorEmail = $author ? (string)($author->getEmail() ?? '') : '';
+
+        $previewSubject = (string)($comment->getSubject() ?? '');
+        $previewBody    = (string)($comment->getMessage() ?? '');
+        $previewSnippet = $previewBody !== '' ? mb_substr($previewBody, 0, 200) : '';
+
+        $emailSubject = sprintf(
+            'New comment on %s',
+            $projectName
+        );
+
+        foreach (array_keys($emails) as $toEmail) {
+            try {
+                $html = $this->renderer->render('emails/project_comments_group_new_comment', [
+                    'projectName'     => $projectName,
+                    'projectHash'     => $projectHash,
+                    'groupHash'       => $groupHash,
+                    'groupUrl'        => $groupUrl,
+                    'authorName'      => $authorName,
+                    'authorEmail'     => $authorEmail,
+                    'previewSubject'  => $previewSubject,
+                    'previewBody'     => $previewBody,
+                    'previewSnippet'  => $previewSnippet,
+                    'recipientEmail'  => $toEmail,
+                ]);
+
+                $this->mail->sendSimple(
+                    $toEmail,
+                    $emailSubject,
+                    $html,
+                    null,
+                    null,
+                    null,
+                    false,
+                    [
+                        'tags' => ['project_comments_new_comment', 'projects'],
+                        'metadata' => [
+                            'projectId'    => $project?->getId(),
+                            'projectHash'  => $projectHash,
+                            'groupId'      => $group->getId(),
+                            'groupHash'    => $groupHash,
+                            'commentId'    => $comment->getId(),
+                            'commentSlug'  => $comment->getSlug(),
+                            'authorId'     => $authorId,
+                            'recipient'    => $toEmail,
+                        ],
+                    ]
+                );
+            } catch (\Throwable $e) {
+                error_log('[GCP-COMMENT][NOTIFY][ERR] ' . $e->getMessage());
+            }
+        }
     }
 }

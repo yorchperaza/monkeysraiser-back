@@ -19,6 +19,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use MonkeysLegion\Mlc\Config as MlcConfig;
 use MonkeysLegion\Auth\JwtService;
+use App\Service\MonkeysMailService;
+use MonkeysLegion\Template\Renderer;
 
 /**
  * MonkeysRaiser auth endpoints
@@ -41,6 +43,8 @@ final class AuthController
         private AuthService $auth,
         private MlcConfig $config,
         private JwtService $jwt,
+        private MonkeysMailService $mail,
+        private Renderer $renderer,
     ) {
         $this->users = $this->repos->getRepository(User::class);
         $this->founder = $this->repos->getRepository(Founder::class);
@@ -130,6 +134,8 @@ final class AuthController
             ->setSubscribedAt(new \DateTimeImmutable('now', new \DateTimeZone('UTC')));
 
         $this->newsletter->save($newsletter);
+
+        $this->sendWelcomeEmail($user, $roleSlug);
 
         // Minimal response including the chosen role
         return new JsonResponse([
@@ -491,4 +497,51 @@ final class AuthController
         return ['hasProfile' => false, 'profileType' => null, 'profileHash' => null];
     }
 
+    private function sendWelcomeEmail(User $user, string $roleSlug): void
+    {
+        $email = $user->getEmail();
+        if (!$email) {
+            return;
+        }
+
+        $fullName = $user->getFullName() ?? '';
+        $roleSlug = strtolower($roleSlug);
+
+        $frontendBase = rtrim(
+            (string)(getenv('FRONTEND_BASE_URL') ?: 'https://monkeysraiser.com'),
+            '/'
+        );
+
+        $primaryUrl = $frontendBase . '/dashboard/profile/create';
+
+        $subject = 'Welcome to MonkeysRaiser';
+
+        try {
+            $html = $this->renderer->render('emails/welcome', [
+                'fullName'  => $fullName,
+                'role'      => $roleSlug,
+                'primaryUrl'=> $primaryUrl,
+            ]);
+
+            $this->mail->sendSimple(
+                $email,
+                $subject,
+                $html,
+                null,
+                null,
+                null,
+                false,
+                [
+                    'tags' => ['welcome', 'auth'],
+                    'metadata' => [
+                        'userId' => $user->getId(),
+                        'role'   => $roleSlug,
+                    ],
+                ]
+            );
+        } catch (\Throwable $e) {
+            error_log('[AUTH][WELCOME_EMAIL][ERR] ' . $e->getMessage());
+            // don't block registration on email failure
+        }
+    }
 }

@@ -11,20 +11,19 @@ final class MonkeysMailService
     private string $apiKey;
     private string $baseUrl;
 
+    private const DEFAULT_FROM_EMAIL = 'no-reply@monkeysraiser.com';
+    private const DEFAULT_FROM_NAME  = 'MonkeysRaiser';
+
     public function __construct(?string $apiKey = null, ?string $baseUrl = null)
     {
         // Read from DI or env
-        $this->apiKey  = $apiKey  ?: (string) getenv('MONKEYSMAIL_API_KEY');
+        $this->apiKey  = "cad2b3f669cfb3db.bde36023da34fdf6bac5f4a541ba5f2dcddb44a4c7420e7d6aee7b2f974efd94";
         $this->baseUrl = rtrim(
             $baseUrl
                 ?: (string) getenv('MONKEYSMAIL_API_BASE')
                 ?: 'https://smtp.monkeysmail.com',
             '/'
         );
-
-        if ($this->apiKey === '') {
-            throw new RuntimeException('Missing MONKEYSMAIL_API_KEY for MonkeysMailService');
-        }
     }
 
     /**
@@ -94,23 +93,31 @@ final class MonkeysMailService
     /**
      * Simple convenience for single-recipient sends.
      */
+    /**
+     * Simple convenience for single-recipient sends.
+     *
+     * NOTE: Sender is ALWAYS:
+     *   - email: no-reply@monkeysraiser.com
+     *   - name:  MonkeysRaiser
+     *
+     * $fromEmail and $fromName are ignored on purpose, kept only for BC.
+     * @throws \JsonException
+     */
     public function sendSimple(
         string $to,
         string $subject,
         string $html,
         ?string $text = null,
-        ?string $fromEmail = null,
-        ?string $fromName = null,
+        ?string $fromEmail = null, // ignored
+        ?string $fromName = null,  // ignored
         bool $sync = false,
         array $extra = []
     ): array {
-        $fromEmail ??= (string) getenv('MONKEYSMAIL_FROM_EMAIL');
-        $fromName  ??= (string) getenv('MONKEYSMAIL_FROM_NAME') ?: 'MonkeysRaiser';
-
+        // Force the sender to the fixed identity
         $payload = array_merge($extra, [
             'from' => [
-                'email' => $fromEmail,
-                'name'  => $fromName,
+                'email' => self::DEFAULT_FROM_EMAIL,
+                'name'  => self::DEFAULT_FROM_NAME,
             ],
             'to'      => [$to],
             'subject' => $subject,
