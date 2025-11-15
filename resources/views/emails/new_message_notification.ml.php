@@ -1,7 +1,7 @@
 @extends('layouts.email')
 
 @section('title')
-New message on {{ $projectName }}
+New message on <?= htmlspecialchars($projectName ?? '', ENT_QUOTES, 'UTF-8') ?>
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@ New message on {{ $projectName }}
             New message
         </div>
         <div style="color:#FFFFFF; font-size:22px; font-weight:800; margin-top:6px;">
-            New activity on {{ $projectName }}
+            New activity on <?= htmlspecialchars($projectName ?? '', ENT_QUOTES, 'UTF-8') ?>
         </div>
     </td>
 </tr>
@@ -28,11 +28,12 @@ New message on {{ $projectName }}
         </p>
 
         <p style="margin:0 0 14px; font-size:14px; color:#111827; line-height:1.5;">
-            <strong>{{ $authorName }}</strong>
-            @if (!empty($authorEmail))
-            ({{ $authorEmail }})
-            @endif
-            sent a new message in a conversation related to <strong>{{ $projectName }}</strong>.
+            <strong><?= htmlspecialchars($authorName ?? '', ENT_QUOTES, 'UTF-8') ?></strong>
+            <?php if (!empty($authorEmail)) { ?>
+                (<?= htmlspecialchars($authorEmail, ENT_QUOTES, 'UTF-8') ?>)
+            <?php } ?>
+            sent a new message in a conversation related to
+            <strong><?= htmlspecialchars($projectName ?? '', ENT_QUOTES, 'UTF-8') ?></strong>.
         </p>
 
         <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 14px; width:100%; border-collapse:collapse;">
@@ -43,7 +44,7 @@ New message on {{ $projectName }}
             </tr>
             <tr>
                 <td style="font-size:14px; color:#111827; font-weight:600; padding:0 0 10px;">
-                    {{ $subject }}
+                    <?= htmlspecialchars($subject ?? '', ENT_QUOTES, 'UTF-8') ?>
                 </td>
             </tr>
             <tr>
@@ -53,7 +54,7 @@ New message on {{ $projectName }}
             </tr>
             <tr>
                 <td style="font-size:13px; color:#4B5563; line-height:1.6; padding:0 0 10px;">
-                    {{ $snippet }}
+                    <?= htmlspecialchars($snippet ?? '', ENT_QUOTES, 'UTF-8') ?>
                 </td>
             </tr>
         </table>
@@ -61,7 +62,7 @@ New message on {{ $projectName }}
         <table role="presentation" cellpadding="0" cellspacing="0" style="margin:10px 0 20px;">
             <tr>
                 <td>
-                    <a href="{{ $projectUrl }}"
+                    <a href="<?= htmlspecialchars($projectUrl ?? '#', ENT_QUOTES, 'UTF-8') ?>"
                        style="display:inline-block; padding:10px 20px; color:#FFFFFF; background:#0066CC; text-decoration:none; font-size:14px; font-weight:600; border-radius:999px;">
                         View conversation
                     </a>

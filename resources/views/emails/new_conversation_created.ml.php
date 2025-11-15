@@ -1,7 +1,7 @@
 @extends('layouts.email')
 
 @section('title')
-New conversation about {{ $projectName }}
+New conversation about <?= htmlspecialchars($projectName ?? '', ENT_QUOTES, 'UTF-8') ?>
 @endsection
 
 @section('content')
@@ -28,11 +28,12 @@ New conversation about {{ $projectName }}
         </p>
 
         <p style="margin:0 0 14px; font-size:14px; color:#111827; line-height:1.5;">
-            <strong>{{ $creatorName }}</strong>
-            @if (!empty($creatorEmail))
-            ({{ $creatorEmail }})
-            @endif
-            started a new conversation related to <strong>{{ $projectName }}</strong>.
+            <strong><?= htmlspecialchars($creatorName ?? '', ENT_QUOTES, 'UTF-8') ?></strong>
+            <?php if (!empty($creatorEmail)) { ?>
+                (<?= htmlspecialchars($creatorEmail, ENT_QUOTES, 'UTF-8') ?>)
+            <?php } ?>
+            started a new conversation related to
+            <strong><?= htmlspecialchars($projectName ?? '', ENT_QUOTES, 'UTF-8') ?></strong>.
         </p>
 
         <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 14px; width:100%; border-collapse:collapse;">
@@ -43,7 +44,7 @@ New conversation about {{ $projectName }}
             </tr>
             <tr>
                 <td style="font-size:14px; color:#111827; font-weight:600; padding:0 0 10px;">
-                    {{ $subject }}
+                    <?= htmlspecialchars($subject ?? '', ENT_QUOTES, 'UTF-8') ?>
                 </td>
             </tr>
         </table>
@@ -51,7 +52,7 @@ New conversation about {{ $projectName }}
         <table role="presentation" cellpadding="0" cellspacing="0" style="margin:10px 0 20px;">
             <tr>
                 <td>
-                    <a href="{{ $conversationUrl }}"
+                    <a href="<?= htmlspecialchars($conversationUrl ?? '#', ENT_QUOTES, 'UTF-8') ?>"
                        style="display:inline-block; padding:10px 20px; color:#FFFFFF; background:#0066CC; text-decoration:none; font-size:14px; font-weight:600; border-radius:999px;">
                         Open conversation
                     </a>
