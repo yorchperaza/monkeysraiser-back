@@ -7,8 +7,10 @@ namespace App\Controller;
 use App\Entity\Founder;
 use App\Entity\Investor;
 use App\Entity\Newsletter;
+use App\Entity\PasswordResetToken;
 use App\Entity\Role;
 use App\Entity\User;
+use DateTimeInterface;
 use MonkeysLegion\Auth\AuthService;
 use MonkeysLegion\Auth\PasswordHasher;
 use MonkeysLegion\Http\Message\JsonResponse;
@@ -16,6 +18,7 @@ use MonkeysLegion\Repository\EntityRepository;
 use MonkeysLegion\Repository\RepositoryFactory;
 use MonkeysLegion\Router\Attributes\Route;
 use Psr\Http\Message\ServerRequestInterface;
+use Random\RandomException;
 use RuntimeException;
 use MonkeysLegion\Mlc\Config as MlcConfig;
 use MonkeysLegion\Auth\JwtService;
@@ -36,6 +39,7 @@ final class AuthController
     private EntityRepository $investor;
     private EntityRepository $role;
     private EntityRepository $newsletter;
+    private EntityRepository $passwordResets;
 
     public function __construct(
         private RepositoryFactory $repos,
@@ -51,6 +55,7 @@ final class AuthController
         $this->investor = $this->repos->getRepository(Investor::class);
         $this->role = $this->repos->getRepository(Role::class);
         $this->newsletter = $this->repos->getRepository(Newsletter::class);
+        $this->passwordResets = $this->repos->getRepository(PasswordResetToken::class);
     }
 
     /**
@@ -517,5 +522,195 @@ final class AuthController
             error_log('[AUTH][WELCOME_EMAIL][ERR] ' . $e->getMessage());
             // don't block registration on email failure
         }
+    }
+
+    /**
+     * @throws \DateMalformedStringException
+     * @throws RandomException
+     * @throws \JsonException
+     */
+    #[Route(methods: 'POST', path: '/auth/password/forgot')]
+    public function forgot(ServerRequestInterface $request): JsonResponse
+    {
+        $data  = json_decode((string)$request->getBody(), true, JSON_THROW_ON_ERROR);
+        $email = strtolower(trim((string)($data['email'] ?? '')));
+        if ($email === '') {
+            throw new RuntimeException('Email is required', 400);
+        }
+
+        /** @var ?User $user */
+        $user = $this->users->findOneBy(['email' => $email]);
+
+        // Always 202 (enumeration safe)
+        if (!$user) {
+            return new JsonResponse(['status' => 'ok'], 202);
+        }
+
+        // Create token pair
+        [$rawToken, $tokenHash] = $this->generateResetTokenPair();
+        $now    = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $expiry = $now->modify('+60 minutes');
+
+        // Persist a PasswordResetToken row
+        /** @var PasswordResetToken $row */
+        $row = new PasswordResetToken();
+        $row->setEmail($email)
+            ->setTokenHash($tokenHash)
+            ->setCreatedAt($now)
+            ->setExpiresAt($expiry)
+            ->setUsedAt(null);
+        $this->passwordResets->save($row);
+
+        // Build token-only link
+        // You can switch this to FRONTEND_BASE_URL if you prefer, like in sendWelcomeEmail
+        $base = rtrim(
+            (string)($_ENV['FRONTEND_BASE_URL'] ?? getenv('FRONTEND_BASE_URL') ?: 'https://monkeysraiser.com'),
+            '/'
+        );
+        $resetUrl = $base . '/reset-password?token=' . urlencode($rawToken);
+
+        // --- Send reset email (best-effort, non-fatal) ---
+        try {
+            $fullName = $user->getFullName() ?? '';
+
+            $html = $this->renderer->render('emails/password-forgot', [
+                'fullName'   => $fullName,
+                'email'      => $email,
+                'resetUrl'   => $resetUrl,
+                'ttlMinutes' => 60, // keep in sync with +60 minutes above
+            ]);
+
+            $this->mail->sendSimple(
+                $email,
+                'Reset your MonkeysRaiser password',
+                $html,
+                null,
+                null,
+                null,
+                false,
+                [
+                    'tags'     => ['password', 'reset', 'auth'],
+                    'metadata' => [
+                        'userId' => $user->getId(),
+                    ],
+                ]
+            );
+        } catch (\Throwable $e) {
+            error_log('[AUTH][PW_FORGOT_EMAIL][ERR] ' . $e->getMessage());
+            // Do NOT change response; we still return 202 so the endpoint is enumeration-safe
+        }
+
+        return new JsonResponse(['status' => 'ok'], 202);
+    }
+
+
+    /* ---------------------------------------------------------------------
+     * POST /auth/password/reset
+     * Body: { "email": "user@example.com", "token": "...", "password": "newPass" }
+     * - Validates token (exists, not expired, not used, hash matches)
+     * - Updates password, marks token used, optionally revokes sessions
+     * ------------------------------------------------------------------- */
+    /**
+     * @throws \ReflectionException
+     * @throws \DateMalformedStringException
+     * @throws \JsonException
+     */
+    #[Route(methods: 'POST', path: '/auth/password/reset')]
+    public function passwordReset(ServerRequestInterface $request): JsonResponse
+    {
+        $data     = json_decode((string)$request->getBody(), true, JSON_THROW_ON_ERROR);
+        $token    = (string)($data['token'] ?? '');
+        $password = (string)($data['password'] ?? '');
+
+        if ($token === '' || $password === '') {
+            throw new RuntimeException('token and password are required', 400);
+        }
+        if (strlen($password) < 8) {
+            throw new RuntimeException('Password must be at least 8 characters', 400);
+        }
+
+        /** @var PasswordResetToken[] $rows */
+        $rows = $this->passwordResets->findBy([], orderBy: ['id' => 'DESC']);
+        $now  = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+
+        $match = null;
+        foreach ($rows as $row) {
+            if ($row->getUsedAt()) continue;
+            if ($row->getExpiresAt() && $row->getExpiresAt() < $now) continue;
+            if (password_verify($token, (string)$row->getTokenHash())) { $match = $row; break; }
+        }
+
+        if (!$match) throw new RuntimeException('Invalid or expired token', 400);
+
+        $email = strtolower((string)$match->getEmail());
+        /** @var ?User $user */
+        $user = $this->users->findOneBy(['email' => $email]);
+        if (!$user) return new JsonResponse(['status' => 'ok'], 200);
+
+        // Update password
+        $user->setPasswordHash($this->hasher->hash($password));
+        $this->users->save($user);
+
+        // Mark token used
+        $match->setUsedAt($now);
+        $this->passwordResets->save($match);
+
+        return new JsonResponse(['status' => 'ok'], 200);
+    }
+
+    /**
+     * Returns [rawToken, tokenHash]
+     * - rawToken: 43-char URL-safe (32 bytes b64url)
+     * - tokenHash: bcrypt hash to store in DB
+     * @throws RandomException
+     */
+    private function generateResetTokenPair(): array
+    {
+        $bytes    = random_bytes(32);
+        $raw      = rtrim(strtr(base64_encode($bytes), '+/', '-_'), '='); // URL-safe
+        $hash     = password_hash($raw, PASSWORD_BCRYPT, ['cost' => 12]);
+        return [$raw, $hash];
+    }
+
+    /**
+     * @throws \ReflectionException
+     * @throws \DateMalformedStringException
+     * @throws \JsonException
+     */
+    #[Route(methods: 'GET', path: '/auth/password/token-info')]
+    public function tokenInfo(ServerRequestInterface $request): JsonResponse
+    {
+        $token = trim((string)($request->getQueryParams()['token'] ?? ''));
+        if ($token === '') throw new RuntimeException('Missing token', 400);
+
+        /** @var PasswordResetToken[] $rows */
+        $rows = $this->passwordResets->findBy([], orderBy: ['id' => 'DESC']); // you can optimize with an index/lookup
+        $now  = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+
+        foreach ($rows as $row) {
+            if ($row->getUsedAt()) continue;
+            if ($row->getExpiresAt() && $row->getExpiresAt() < $now) continue;
+            if (password_verify($token, (string)$row->getTokenHash())) {
+                $email = (string)$row->getEmail();
+                return new JsonResponse([
+                    'email'      => $email,
+                    'emailMask'  => $this->maskEmail($email),
+                    'expiresAt'  => $row->getExpiresAt()?->format(DateTimeInterface::ATOM),
+                    'ttlMin'     => $row->getExpiresAt() ? max(0, (int)ceil(($row->getExpiresAt()->getTimestamp() - $now->getTimestamp())/60)) : null,
+                ], 200);
+            }
+        }
+
+        // Invalid/expired
+        return new JsonResponse(['message' => 'Invalid or expired token'], 400);
+    }
+
+    private function maskEmail(string $email): string
+    {
+        // simple mask: jo***@domain.com
+        if (!str_contains($email, '@')) return $email;
+        [$local, $domain] = explode('@', $email, 2);
+        $keep = max(1, min(3, (int)floor(strlen($local)/2)));
+        return substr($local, 0, $keep) . str_repeat('*', max(1, strlen($local)-$keep)) . '@' . $domain;
     }
 }
