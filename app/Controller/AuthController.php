@@ -11,8 +11,9 @@ use App\Entity\PasswordResetToken;
 use App\Entity\Role;
 use App\Entity\User;
 use DateTimeInterface;
-use MonkeysLegion\Auth\AuthService;
-use MonkeysLegion\Auth\PasswordHasher;
+use MonkeysLegion\Auth\Service\AuthService;
+use MonkeysLegion\Auth\Service\PasswordHasher;
+use MonkeysLegion\Auth\Service\JwtService;
 use MonkeysLegion\Http\Message\JsonResponse;
 use MonkeysLegion\Repository\EntityRepository;
 use MonkeysLegion\Repository\RepositoryFactory;
@@ -21,7 +22,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Random\RandomException;
 use RuntimeException;
 use MonkeysLegion\Mlc\Config as MlcConfig;
-use MonkeysLegion\Auth\JwtService;
+
 use App\Service\MonkeysMailService;
 use MonkeysLegion\Template\Renderer;
 
@@ -185,9 +186,23 @@ final class AuthController
             throw new RuntimeException('Email and password are required', 400);
         }
 
-        $token = $this->auth->login($email, $password);
+        $result = $this->auth->login($email, $password);
 
-        // optional: bump lastLoginAt (left as you had it)
+        if ($result->requires2FA) {
+            return new JsonResponse([
+                'requires_2fa'    => true,
+                'challenge_token' => $result->challengeToken,
+            ], 200);
+        }
+
+        if (!$result->success || !$result->tokens) {
+            throw new RuntimeException('Invalid credentials', 401);
+        }
+
+        $token = $result->tokens->accessToken;
+        $exp   = $result->tokens->accessExpiresAt;
+
+        // optional: bump lastLoginAt
         /** @var User|null $user */
         $user = $this->users->findOneBy(['email' => $email]);
         if ($user) {
@@ -196,14 +211,12 @@ final class AuthController
             $this->users->save($user);
         }
 
-        // Use the token's real exp to avoid clock drift
-        $exp = $this->jwt->getExpFrom($token);
         $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
             || ((int)($_SERVER['SERVER_PORT'] ?? 0) === 443);
 
         // HttpOnly cookie aligned to token exp
         setcookie('token', $token, [
-            'expires'  => $exp > 0 ? $exp : time() + $this->jwt->getTtl(),
+            'expires'  => $exp > 0 ? $exp : time() + $this->jwt->getAccessTtl(),
             'path'     => '/',
             'secure'   => $secure,
             'httponly' => true,
@@ -215,9 +228,8 @@ final class AuthController
         return new JsonResponse([
             'token'       => $token,
             'exp'         => $exp,
-            'ttl'         => $this->jwt->getTtl(),
+            'ttl'         => $this->jwt->getAccessTtl(),
             'leeway'      => $this->jwt->getLeeway(),
-            'nbfSkew'     => $this->jwt->getNbfSkew(),
             'hasProfile'  => $profile['hasProfile'],
             'profileType' => $profile['profileType'],
             'profileHash' => $profile['profileHash'],
@@ -423,7 +435,8 @@ final class AuthController
             }
             $accessToken = $m[1];
             try {
-                $claims = $this->auth->decodeForRefresh($accessToken, 600);
+                // Use decodeWithLeeway to support sliding window
+                $claims = $this->jwt->decodeWithLeeway($accessToken, 600);
             } catch (\Throwable $e) {
                 throw new RuntimeException('Unauthorized', 401, $e);
             }
@@ -434,14 +447,22 @@ final class AuthController
             }
         }
 
-        $newToken = $this->auth->refreshAccessForUser($userId);
-        $exp = $this->jwt->getExpFrom($newToken);
+        /** @var ?User $user */
+        $user = $this->users->find($userId);
+        if (!$user) {
+            throw new RuntimeException('User not found', 401);
+        }
+
+        // Issue new pair
+        $tokens = $this->auth->issueTokenPair($user);
+        $newToken = $tokens->accessToken;
+        $exp      = $tokens->accessExpiresAt;
 
         $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
             || ((int)($_SERVER['SERVER_PORT'] ?? 0) === 443);
 
         setcookie('token', $newToken, [
-            'expires'  => $exp > 0 ? $exp : time() + $this->jwt->getTtl(),
+            'expires'  => $exp > 0 ? $exp : time() + $this->jwt->getAccessTtl(),
             'path'     => '/',
             'secure'   => $secure,
             'httponly' => true,
@@ -451,9 +472,8 @@ final class AuthController
         return new JsonResponse([
             'token'    => $newToken,
             'exp'      => $exp,
-            'ttl'      => $this->jwt->getTtl(),
+            'ttl'      => $this->jwt->getAccessTtl(),
             'leeway'   => $this->jwt->getLeeway(),
-            'nbfSkew'  => $this->jwt->getNbfSkew(),
         ], 200);
     }
 

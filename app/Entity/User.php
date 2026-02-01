@@ -12,8 +12,10 @@ use MonkeysLegion\Entity\Attributes\ManyToOne;
 use MonkeysLegion\Entity\Attributes\ManyToMany;
 use MonkeysLegion\Entity\Attributes\JoinTable;
 
+use MonkeysLegion\Auth\Contract\AuthenticatableInterface;
+
 #[Entity]
-class User
+class User implements AuthenticatableInterface
 {
     #[Field(type: 'integer')]
     public int $id;
@@ -34,12 +36,12 @@ class User
     public ?string $longBio = null;
 
     #[Field(type: 'json', nullable: true)]
-    public ?array $social = null;
+    public ?string $social = null;
     #[Field(type: 'string', nullable: true)]
     public ?string $timeZone = null;
 
     #[Field(type: 'json', nullable: true)]
-    public ?array $location = null;
+    public ?string $location = null;
     #[OneToOne(targetEntity: Media::class, inversedBy: 'userPicture')]
     public ?Media $picture = null;
 
@@ -63,7 +65,7 @@ class User
     public ?Message $authorMessage = null;
 
     #[Field(type: 'datetime', nullable: true)]
-    public ?\DateTimeImmutable $lastLoginAt = null;
+    public $lastLoginAt = null;
     #[OneToOne(targetEntity: Media::class, mappedBy: 'authorUser')]
     public ?Media $mediaUser = null;
     /** @var Project[] */
@@ -80,7 +82,7 @@ class User
     public array $plans = [];
 
     #[Field(type: 'datetime', nullable: true)]
-    public ?\DateTimeImmutable $lastActivityAt = null;
+    public $lastActivityAt = null;
     /** @var CommentsProject[] */
     #[OneToMany(targetEntity: CommentsProject::class, mappedBy: 'author')]
     public array $authorCommentsProject = [];
@@ -98,6 +100,38 @@ class User
     #[OneToMany(targetEntity: PasswordResetToken::class, mappedBy: 'user')]
     public array $passwordResetTokens = [];
     
+
+    public function getAuthIdentifier(): int|string
+    {
+        return $this->id;
+    }
+
+    public function getAuthIdentifierName(): string
+    {
+        return 'id';
+    }
+
+    public function getAuthPassword(): string
+    {
+        return $this->passwordHash;
+    }
+
+    public function getTokenVersion(): int
+    {
+        // default 0 if not stored
+        return 0;
+    }
+
+    public function hasTwoFactorEnabled(): bool
+    {
+        return false; // Not implemented yet
+    }
+
+    public function getTwoFactorSecret(): ?string
+    {
+        return null;
+    }
+
     /** @var CommentsProject[] */
     public function __construct()
     {
@@ -188,12 +222,16 @@ class User
 
     public function getSocial(): ?array
     {
-        return $this->social;
+        if (is_string($this->social)) {
+            $data = json_decode($this->social, true);
+            return is_array($data) ? $data : null;
+        }
+        return null;
     }
 
     public function setSocial(?array $social): self
     {
-        $this->social = $social;
+        $this->social = $social ? json_encode($social) : null;
         return $this;
     }
 
@@ -210,12 +248,16 @@ class User
 
     public function getLocation(): ?array
     {
-        return $this->location;
+        if (is_string($this->location)) {
+            $data = json_decode($this->location, true);
+            return is_array($data) ? $data : null;
+        }
+        return null; 
     }
 
     public function setLocation(?array $location): self
     {
-        $this->location = $location;
+        $this->location = $location ? json_encode($location) : null;
         return $this;
     }
 
@@ -357,7 +399,17 @@ class User
 
     public function getLastLoginAt(): ?\DateTimeImmutable
     {
-        return $this->lastLoginAt;
+        if ($this->lastLoginAt instanceof \DateTimeImmutable) {
+            return $this->lastLoginAt;
+        }
+        if (is_string($this->lastLoginAt)) {
+             try {
+                 return new \DateTimeImmutable($this->lastLoginAt);
+             } catch (\Exception $e) {
+                 return null;
+             }
+        }
+        return null;
     }
 
     public function setLastLoginAt(?\DateTimeImmutable $lastLoginAt): self
@@ -453,7 +505,17 @@ class User
 
     public function getLastActivityAt(): ?\DateTimeImmutable
     {
-        return $this->lastActivityAt;
+        if ($this->lastActivityAt instanceof \DateTimeImmutable) {
+            return $this->lastActivityAt;
+        }
+        if (is_string($this->lastActivityAt)) {
+             try {
+                 return new \DateTimeImmutable($this->lastActivityAt);
+             } catch (\Exception $e) {
+                 return null;
+             }
+        }
+        return null;
     }
 
     public function setLastActivityAt(?\DateTimeImmutable $lastActivityAt): self

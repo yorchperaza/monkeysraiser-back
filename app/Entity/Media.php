@@ -46,6 +46,9 @@ class Media
     #[OneToOne(targetEntity: User::class, inversedBy: 'mediaUser')]
     public ?User $authorUser = null;
 
+    #[OneToOne(targetEntity: OpenVcInvestor::class, mappedBy: 'logo')]
+    public ?OpenVcInvestor $openVcInvestorLogo = null;
+
     #[Field(type: 'datetime', nullable: true)]
     public ?\DateTimeImmutable $created = null;
     #[ManyToOne(targetEntity: Message::class, inversedBy: 'media')]
@@ -230,6 +233,17 @@ class Media
     public function removeAuthorUser(): self
     {
         $this->authorUser = null;
+        return $this;
+    }
+
+    public function getOpenVcInvestorLogo(): ?OpenVcInvestor
+    {
+        return $this->openVcInvestorLogo;
+    }
+
+    public function setOpenVcInvestorLogo(?OpenVcInvestor $openVcInvestorLogo): self
+    {
+        $this->openVcInvestorLogo = $openVcInvestorLogo;
         return $this;
     }
 

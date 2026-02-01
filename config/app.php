@@ -24,5 +24,15 @@ return [
     //         $c->get(MonkeysLegion\Database\MySQL\Connection::class)
     //     ),
 
-    // Add your overrides below:
+    // Custom User Provider to handle JSON hydration
+    MonkeysLegion\Auth\Contract\UserProviderInterface::class => static function ($c) {
+        /** @var MonkeysLegion\Mlc\Types\MlcConfig $mlc */
+        $mlc = $c->get(\MonkeysLegion\Mlc\MlcConfig::class);
+
+        return new \App\Auth\AppUserProvider(
+            connection: $c->get(MonkeysLegion\Database\Contracts\ConnectionInterface::class),
+            table: $mlc->get('auth.users.table', 'user'),
+            modelClass: $mlc->get('auth.users.model', 'App\\Entity\\User'),
+        );
+    },
 ];

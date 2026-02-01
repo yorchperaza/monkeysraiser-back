@@ -566,14 +566,25 @@ final class ProjectController
     public function show(ServerRequestInterface $request): JsonResponse
     {
         $idAttr = $request->getAttribute('id');
-        $id = (int)$idAttr;
 
-        if ($id <= 0) {
-            throw new RuntimeException('Invalid project id', 400);
+        // Check if strictly numeric ID
+        if (is_numeric($idAttr) && (string)(int)$idAttr === (string)$idAttr) {
+            $id = (int)$idAttr;
+            if ($id <= 0) {
+                 throw new RuntimeException('Invalid project id', 400);
+            }
+            /** @var ?Project $project */
+            $project = $this->projects->find($id);
+        } else {
+            // Assume it's a hash
+            $hash = (string)$idAttr;
+            if ($hash === '') {
+                throw new RuntimeException('Invalid project identifier', 400);
+            }
+             /** @var ?Project $project */
+            $project = $this->projects->findOneBy(['hash' => $hash]);
         }
 
-        /** @var ?Project $project */
-        $project = $this->projects->find($id);
         if (!$project) {
             throw new RuntimeException('Project not found', 404);
         }
