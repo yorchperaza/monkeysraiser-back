@@ -1,0 +1,59 @@
+# Vendor dependencies
+/vendor/
+
+# Composer
+composer.lock
+composer.phar
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Cache and logs
+/var/cache/
+/var/log/
+/var/sessions/
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.phpstorm.meta.php
+_ide_helper.php
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# PHPUnit
+.phpunit.result.cache
+phpunit.xml
+
+# PHP CS Fixer
+.php-cs-fixer.cache
+.php_cs.cache
+
+# Uploads and media (optional - uncomment if needed)
+# /public/uploads/
+# /public/media/
+
+# Security
+*.pem
+*.key
+*.crt
+
+# SQLite databases (if used)
+*.sqlite
+*.sqlite3
+*.db
+
+# Docker
+docker-compose.override.yml
+
+# Misc
+*.bak
+*.tmp
