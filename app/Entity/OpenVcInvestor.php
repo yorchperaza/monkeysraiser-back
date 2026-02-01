@@ -66,8 +66,7 @@ class OpenVcInvestor
     #[Field(type: 'datetime', nullable: true)]
     public ?string $updated = null;
 
-    /** @var int|null FK to Media for logo - persisted directly */
-    #[Field(type: 'bigint', nullable: true)]
+    #[Field(type: 'int', nullable: true)]
     public ?int $logo_id = null;
 
     public function __construct()
