@@ -31,6 +31,38 @@ class ImportOpenVcCommand extends Command
 
         $logoBaseDir = base_path('fundraisingimport');
         
+        // Check for --fresh flag
+        $fresh = in_array('--fresh', $_SERVER['argv'] ?? []);
+        
+        if ($fresh) {
+            $this->info("🗑️  Fresh import: Deleting all existing investors and logos...");
+            
+            // Get all investor logo IDs first
+            $investors = $this->repo->findAll();
+            $logoIds = [];
+            foreach ($investors as $inv) {
+                if ($inv->logo_id) {
+                    $logoIds[] = $inv->logo_id;
+                }
+            }
+            
+            // Delete all investors
+            foreach ($investors as $inv) {
+                $this->repo->delete($inv);
+            }
+            $this->info("   Deleted " . count($investors) . " investors.");
+            
+            // Delete related media (logos)
+            foreach ($logoIds as $logoId) {
+                $media = $this->mediaRepo->find($logoId);
+                if ($media) {
+                    $this->mediaRepo->delete($media);
+                }
+            }
+            $this->info("   Deleted " . count($logoIds) . " logo media entries.");
+            $this->info("");
+        }
+        
         $handle = fopen($csvPath, 'r');
         if ($handle === false) {
             $this->error("Could not open CSV file.");
@@ -126,6 +158,10 @@ class ImportOpenVcCommand extends Command
             $stagesRaw = $row[16] ?? null;
             if ($stagesRaw && $stagesRaw !== 'N/A') {
                 $stages = array_map('trim', explode(';', $stagesRaw));
+                // Remove leading numbers like "4. Scaling" -> "Scaling"
+                $stages = array_map(function($stage) {
+                    return preg_replace('/^\d+\.\s*/', '', $stage);
+                }, $stages);
                 $investor->setFundingStages($stages);
             }
 
