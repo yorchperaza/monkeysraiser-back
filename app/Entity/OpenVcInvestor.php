@@ -157,19 +157,24 @@ class OpenVcInvestor
     public function setFirmType(array|string|null $firmType): self
     {
         if (is_string($firmType)) {
-            // Assume it's already a JSON string or a simple string we want to wrap?
-            // User requested firmType is JSON. The CSV has "Firm type" as "VC", "Family office", etc.
-            // It might be a single string in CSV, but we want to store it as JSON (maybe ["VC"]).
-            // Or maybe the user implies it CAN handle multiple values?
-            // For safety, let's encode whatever we get if it's an array, 
-            // but if it's a string, we might want to decode it first to check if it's valid JSON?
-            // Actually, if we pass a raw string "VC", and field is JSON, we should probably encode it as ["VC"] or "VC"?
-            // Standard JSON field practice: store as json string.
-            // If the input is "VC", storing it as "\"VC\"" is valid JSON.
-            // I'll stick to array input for setter to force structure.
-            $this->firmType = $firmType; // Dangerous if it's not JSON.
+            $firmType = trim($firmType);
+            if ($firmType === '') {
+                $this->firmType = null;
+            } else {
+                // If it looks like JSON array, store as-is
+                $decoded = json_decode($firmType, true);
+                if (is_array($decoded)) {
+                    $this->firmType = $firmType;
+                } elseif (strpos($firmType, ';') !== false) {
+                    // Semicolon-delimited: convert to JSON array
+                    $this->firmType = json_encode(array_map('trim', explode(';', $firmType)));
+                } else {
+                    // Single value: wrap in array
+                    $this->firmType = json_encode([$firmType]);
+                }
+            }
         } elseif (is_array($firmType)) {
-            $this->firmType = json_encode($firmType);
+            $this->firmType = !empty($firmType) ? json_encode($firmType) : null;
         } else {
             $this->firmType = null;
         }
@@ -196,9 +201,30 @@ class OpenVcInvestor
         return null;
     }
 
-    public function setFundingStages(?array $fundingStages): self
+    public function setFundingStages(array|string|null $fundingStages): self
     {
-        $this->fundingStages = $fundingStages ? json_encode($fundingStages) : null;
+        if (is_string($fundingStages)) {
+            $fundingStages = trim($fundingStages);
+            if ($fundingStages === '') {
+                $this->fundingStages = null;
+            } else {
+                // If it looks like JSON array, store as-is
+                $decoded = json_decode($fundingStages, true);
+                if (is_array($decoded)) {
+                    $this->fundingStages = $fundingStages;
+                } elseif (strpos($fundingStages, ';') !== false) {
+                    // Semicolon-delimited: convert to JSON array
+                    $this->fundingStages = json_encode(array_map('trim', explode(';', $fundingStages)));
+                } else {
+                    // Single value: wrap in array
+                    $this->fundingStages = json_encode([$fundingStages]);
+                }
+            }
+        } elseif (is_array($fundingStages)) {
+            $this->fundingStages = !empty($fundingStages) ? json_encode($fundingStages) : null;
+        } else {
+            $this->fundingStages = null;
+        }
         return $this;
     }
 
@@ -233,9 +259,30 @@ class OpenVcInvestor
         return null;
     }
 
-    public function setTargetCountries(?array $targetCountries): self
+    public function setTargetCountries(array|string|null $targetCountries): self
     {
-        $this->targetCountries = $targetCountries ? json_encode($targetCountries) : null;
+        if (is_string($targetCountries)) {
+            $targetCountries = trim($targetCountries);
+            if ($targetCountries === '') {
+                $this->targetCountries = null;
+            } else {
+                // If it looks like JSON array, store as-is
+                $decoded = json_decode($targetCountries, true);
+                if (is_array($decoded)) {
+                    $this->targetCountries = $targetCountries;
+                } elseif (strpos($targetCountries, ';') !== false) {
+                    // Semicolon-delimited: convert to JSON array
+                    $this->targetCountries = json_encode(array_map('trim', explode(';', $targetCountries)));
+                } else {
+                    // Single value: wrap in array
+                    $this->targetCountries = json_encode([$targetCountries]);
+                }
+            }
+        } elseif (is_array($targetCountries)) {
+            $this->targetCountries = !empty($targetCountries) ? json_encode($targetCountries) : null;
+        } else {
+            $this->targetCountries = null;
+        }
         return $this;
     }
 
@@ -269,6 +316,7 @@ class OpenVcInvestor
     public function setLogo(?Media $logo): self
     {
         $this->logo = $logo;
+        $this->logo_id = $logo?->getId();
         return $this;
     }
 }

@@ -73,7 +73,6 @@ class OpenVcInvestorRepository extends EntityRepository
         $qb->orderBy('id', 'ASC');
 
         $rows = $qb->fetchAll();
-        error_log("OpenVcInvestorRepository::search - Found " . count($rows) . " rows.");
         
         /** @var OpenVcInvestor[] $items */
         $items = [];

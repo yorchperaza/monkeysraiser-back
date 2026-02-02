@@ -58,32 +58,29 @@ final class OpenVcInvestorController
         if (isset($data['team'])) $investor->setTeam($data['team']);
         if (isset($data['sourcePage'])) $investor->setSourcePage($data['sourcePage']);
 
-        // JSON fields
+        // JSON fields - entity setters now handle both strings and arrays
         if (isset($data['firmType'])) $investor->setFirmType($data['firmType']);
         if (isset($data['fundingStages'])) $investor->setFundingStages($data['fundingStages']);
         if (isset($data['targetCountries'])) $investor->setTargetCountries($data['targetCountries']);
 
-        // Handle Logo Upload
+        // Save investor first to get ID
+        $this->repository->save($investor);
+
+        // Handle Logo Upload (after investor has ID)
         if (is_array($uploadedFiles) && isset($uploadedFiles['logo'])) {
             $expanded = $this->expandFileArray($uploadedFiles['logo']);
             if (!empty($expanded)) {
                 $norm = $this->normalizeUploadedFile($expanded[0]);
                 if ((int)$norm['error'] === UPLOAD_ERR_OK) {
-                    $media = $this->createMediaFromNormalizedFile($norm, null); // null author for now or strict?
-                    // Note: OpenVcInvestor doesn't enforce authorUser on Media, but Media might.
-                    // If Media.authorUser is nullable, we are fine. 
-                    // OpenVcInvestor.logo is OneToOne.
-                    
-                    // Assign inverse side if needed, or just persist media
+                    $media = $this->createMediaFromNormalizedFile($norm, null);
                     $media->setOpenVcInvestorLogo($investor);
                     $this->mediaRepo->save($media);
                     
                     $investor->setLogo($media);
+                    $this->repository->save($investor);
                 }
             }
         }
-
-        $this->repository->save($investor);
 
         return new JsonResponse(['id' => $investor->getId()], 201);
     }
@@ -186,6 +183,91 @@ final class OpenVcInvestorController
     }
 
     /**
+     * POST /admin/open-vc-investors/{id}
+     * Admin endpoint to update an investor
+     */
+    #[Route(methods: 'POST', path: '/admin/open-vc-investors/{id}')]
+    public function adminUpdate(ServerRequestInterface $request): JsonResponse
+    {
+        $id = $request->getAttribute('id');
+        if (!$id) {
+            throw new RuntimeException('ID required', 400);
+        }
+
+        /** @var ?OpenVcInvestor $entity */
+        $entity = $this->repository->find($id);
+        if (!$entity) {
+            throw new RuntimeException('Investor not found', 404);
+        }
+
+        [$data, $uploadedFiles] = $this->parseData($request);
+        if (!is_array($data)) {
+            $data = [];
+        }
+
+        // Update fields
+        if (isset($data['fundName'])) $entity->setFundName($data['fundName']);
+        if (array_key_exists('verified', $data)) $entity->setVerified((bool)$data['verified']);
+        if (array_key_exists('linkedin', $data)) $entity->setLinkedin($data['linkedin'] ?: null);
+        if (array_key_exists('website', $data)) $entity->setWebsite($data['website'] ?: null);
+        if (array_key_exists('description', $data)) $entity->setDescription($data['description'] ?: null);
+        if (array_key_exists('valueAdd', $data)) $entity->setValueAdd($data['valueAdd'] ?: null);
+        if (array_key_exists('globalHq', $data)) $entity->setGlobalHq($data['globalHq'] ?: null);
+        if (array_key_exists('checkSizeMin', $data)) $entity->setCheckSizeMin($data['checkSizeMin'] !== null ? (int)$data['checkSizeMin'] : null);
+        if (array_key_exists('checkSizeMax', $data)) $entity->setCheckSizeMax($data['checkSizeMax'] !== null ? (int)$data['checkSizeMax'] : null);
+        if (array_key_exists('team', $data)) $entity->setTeam($data['team'] ?: null);
+        if (array_key_exists('sourcePage', $data)) $entity->setSourcePage($data['sourcePage'] ?: null);
+
+        // JSON fields - use setters which handle both strings and arrays
+        if (array_key_exists('firmType', $data)) {
+            $entity->setFirmType($data['firmType'] ?: null);
+        }
+        if (array_key_exists('fundingStages', $data)) {
+            $entity->setFundingStages($data['fundingStages'] ?: null);
+        }
+        if (array_key_exists('targetCountries', $data)) {
+            $entity->setTargetCountries($data['targetCountries'] ?: null);
+        }
+
+        // Handle logo removal
+        if (!empty($data['removeLogo'])) {
+            $oldLogo = $entity->getLogo();
+            if ($oldLogo) {
+                $this->mediaRepo->delete($oldLogo);
+                $entity->setLogo(null);
+                $entity->logo_id = null;
+            }
+        }
+
+        // Handle new logo upload
+        if (is_array($uploadedFiles) && isset($uploadedFiles['logo'])) {
+            $expanded = $this->expandFileArray($uploadedFiles['logo']);
+            if (!empty($expanded)) {
+                $norm = $this->normalizeUploadedFile($expanded[0]);
+                if ((int)$norm['error'] === UPLOAD_ERR_OK) {
+                    // Remove old logo first
+                    $oldLogo = $entity->getLogo();
+                    if ($oldLogo) {
+                        $this->mediaRepo->delete($oldLogo);
+                    }
+
+                    $media = $this->createMediaFromNormalizedFile($norm, null);
+                    $media->setOpenVcInvestorLogo($entity);
+                    $this->mediaRepo->save($media);
+                    $entity->setLogo($media);
+                }
+            }
+        }
+
+        // Update timestamp
+        $entity->updated = (new \DateTimeImmutable())->format('Y-m-d H:i:s');
+
+        $this->repository->save($entity);
+
+        return new JsonResponse(['success' => true, 'id' => $entity->getId()], 200);
+    }
+
+    /**
      * GET /open-vc-investors
      */
     #[Route(methods: 'GET', path: '/open-vc-investors')]
@@ -213,7 +295,6 @@ final class OpenVcInvestorController
         }
 
         try {
-            error_log("OpenVcInvestorController::search - Calling repository search. Page: $page, Limit: $limit");
             $result = $this->repository->search($page, $limit, $filters);
         } catch (\Throwable $e) {
             error_log("OpenVcInvestorController::search - Exception: " . $e->getMessage());
@@ -298,29 +379,34 @@ final class OpenVcInvestorController
                 $raw  = (string)($parsed['data'] ?? '');
                 $data = json_decode($raw ?: "{}", true);
                 if (!is_array($data)) $data = [];
-                return [$data, is_array($files) ? $files : []];
+                // Use PSR-7 files if available, otherwise fall back to $_FILES
+                $filesOut = is_array($files) && !empty($files) ? $files : [];
+                if (empty($filesOut) && isset($_FILES) && is_array($_FILES)) {
+                    foreach ($_FILES as $name => $info) {
+                        $filesOut[$name] = $info;
+                    }
+                }
+                return [$data, $filesOut];
             }
 
             $data = [];
-            // Some clients might send fields directly without 'data' wrapper
-            if (is_array($parsed)) {
-                $data = $parsed; 
-            }
             // If there's a specific 'data' field that is json
             if (isset($_POST['data'])) {
                 $raw = (string)$_POST['data'];
                 $decoded = json_decode($raw ?: "{}", true);
                 if (is_array($decoded)) {
-                     // Merge or replace? Let's treat 'data' as primary if present and valid JSON
-                     $data = array_merge($data, $decoded);
+                    $data = $decoded;
                 }
             }
 
-            $filesOut = [];
-            if (isset($_FILES) && is_array($_FILES)) {
-                // Should rely on PSR-7 $files mostly, but if empty/legacy:
+            // Use PSR-7 files if available, otherwise fall back to $_FILES
+            $filesOut = is_array($files) && !empty($files) ? $files : [];
+            if (empty($filesOut) && isset($_FILES) && is_array($_FILES)) {
+                foreach ($_FILES as $name => $info) {
+                    $filesOut[$name] = $info;
+                }
             }
-            return [$data, $files]; // Using PSR-7 files
+            return [$data, $filesOut];
         }
 
         if (is_array($parsed) && !empty($parsed)) {
