@@ -42,10 +42,10 @@ class OpenVcInvestor
     #[Field(type: 'json', nullable: true)]
     public ?string $fundingStages = null;
 
-    #[Field(type: 'int', nullable: true)]
+    #[Field(type: 'bigInt', nullable: true)]
     public ?int $checkSizeMin = null;
 
-    #[Field(type: 'int', nullable: true)]
+    #[Field(type: 'bigInt', nullable: true)]
     public ?int $checkSizeMax = null;
 
     #[Field(type: 'json', nullable: true)]
