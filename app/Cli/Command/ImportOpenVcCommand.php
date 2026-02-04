@@ -120,13 +120,35 @@ class ImportOpenVcCommand extends Command
                         // Create new Media
                         $media = new Media();
                         $uploadDir = base_path('public/uploads/logos');
+                        
+                        // Ensure directory exists
                         if (!is_dir($uploadDir)) {
-                            mkdir($uploadDir, 0777, true);
+                            // Check if parent is writable
+                            $parent = dirname($uploadDir);
+                            if (!is_writable($parent)) {
+                                $this->error("Permission denied: Cannot create directory '$uploadDir'. The parent directory '$parent' is not writable.");
+                                return self::FAILURE; // Exit with error
+                            }
+                            
+                            if (!mkdir($uploadDir, 0777, true) && !is_dir($uploadDir)) {
+                                $this->error("Failed to create directory '$uploadDir'. Check permissions.");
+                                return self::FAILURE; 
+                            }
                         }
+
+                        // Ensure directory is writable
+                        if (!is_writable($uploadDir)) {
+                             $this->error("Permission denied: Directory '$uploadDir' is not writable. Please run: chmod 777 $uploadDir");
+                             return self::FAILURE;
+                        }
+
                         $targetPath = $uploadDir . '/' . $filename;
                         
                         if (!file_exists($targetPath)) {
-                            copy($fullLogoPath, $targetPath);
+                            if (!copy($fullLogoPath, $targetPath)) {
+                                $this->error("Failed to copy logo to '$targetPath'.");
+                                // We can continue or exit, let's continue but log it
+                            }
                         }
                         
                         $media->setUrl($publicUrl);
@@ -166,9 +188,19 @@ class ImportOpenVcCommand extends Command
             }
 
             $min = isset($row[18]) && is_numeric($row[18]) ? (int)$row[18] : null;
-            $max = isset($row[19]) && is_numeric($row[19]) ? (int)$row[19] : null;
-            $investor->setCheckSizeMin($min);
-            $investor->setCheckSizeMax($max);
+            $max = isset($row[19]) && is_numeric($row[19]) ? (float)$row[19] : null; // Use float for initial parse of potential huge numbers
+
+            // Max int limit (2,147,483,647) logic
+            if ($min !== null && $min > 2147483647) {
+                $min = 0;
+            }
+            if ($max !== null && $max > 2147483647) {
+                $max = 0;
+            }
+
+            // Cast back to int/null for setter
+            $investor->setCheckSizeMin($min !== null ? (int)$min : null);
+            $investor->setCheckSizeMax($max !== null ? (int)$max : null);
 
             $countriesRaw = $row[21] ?? null;
              if ($countriesRaw && $countriesRaw !== 'N/A') {
